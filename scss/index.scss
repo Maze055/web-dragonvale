@@ -1,0 +1,103 @@
+@import 'common';
+@import 'mixins';
+
+$image-margin-right: 5px;
+
+body {
+	@extend .text-center;
+	font-family: Helvetica, sans-serif;
+}
+
+header {
+	h1 {
+		@extend .small-caps;
+	}
+}
+
+form {
+
+	/* Menu grid */
+	> div:first-of-type {
+		@extend .pull-center-h;
+		@include grid-with-inner-spacing(7px);
+		width: 50%;
+
+		label {
+			@extend .pull-bottom;
+			box-sizing: border-box;
+			width: 33%;
+		}
+
+		/* Checkboxes row */
+		> div:last-of-type > label {
+			@extend .pull-center-v;
+			@extend .no-newlines;
+
+			> * {
+				@extend .pull-center-v;
+			}
+
+			> span {
+				@extend .same-line;
+				@extend .newlines;
+				width: 80%;
+			}
+		}
+	}
+}
+
+.chosen {
+	@extend .new-line;
+	@extend .pull-center-h;
+}
+
+button[name="submit"] {
+	@extend .new-line;
+	@extend .pull-center-h;
+	@extend .small-caps;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	border: none;
+	border-radius: 15px;
+	padding: 10px 30px;
+	font-size: 150%;
+}
+
+table {
+	@extend .pull-center-h;
+	margin-top: 10px;
+	margin-bottom: 10px;
+
+	> thead {
+		@extend .small-caps;
+	}
+
+	th, td {
+		@extend .pull-center-v;
+		padding: 10px 20px;
+
+		* {
+			@extend .pull-center-v;
+		}
+	}
+
+	td {
+		img {
+			margin-right: 5px;
+		}
+
+		/* Dragon name cell */
+		&:first-of-type {
+			img {
+				height: 60px;
+			}
+		}
+
+		/* Element cells */
+		&:nth-of-type(3), &:nth-of-type(4), &:nth-of-type(5), &:nth-of-type(6) {
+			img {
+				height: 40px;
+			}
+		}
+	}
+}
