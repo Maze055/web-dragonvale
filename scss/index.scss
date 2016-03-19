@@ -15,33 +15,35 @@ header {
 }
 
 form {
+	@extend .pull-center-h;
+	width: 50%;
 
 	/* Menu grid */
 	> div:first-of-type {
-		@extend .pull-center-h;
 		@include grid-with-inner-spacing(7px);
-		width: 50%;
+		width: 100%;
 
 		label {
 			@extend .pull-bottom;
 			box-sizing: border-box;
 			width: 33%;
 		}
+	}
 
-		/* Checkboxes row */
-		> div:last-of-type > label {
-			@extend .pull-center-v;
-			@extend .no-newlines;
+	/* Checkboxes row */
+	> div:last-of-type {
+		@extend .flex-row;
+		@extend .flex-single;
+		@extend .flex-center-main;
+		@extend .flex-center-cross;
+		margin-top: 15px;
 
-			> * {
-				@extend .pull-center-v;
-			}
+		input[type="checkbox"] {
+			flex: 1 0px;
+		}
 
-			> span {
-				@extend .same-line;
-				@extend .newlines;
-				width: 80%;
-			}
+		label {
+			flex: 4 0px;
 		}
 	}
 }

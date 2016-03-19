@@ -6,6 +6,7 @@ require_once 'footer.php';
 
 $dragonvaleDB = DragonvaleDB::getInstance();
 $elems = makeOptions(array_column($dragonvaleDB -> allElements(), 1, 0), true);
+$parents = makeOptions(array_column($dragonvaleDB -> allParents(), 1, 0), true);
 
 ?>
 
@@ -69,14 +70,14 @@ $elems = makeOptions(array_column($dragonvaleDB -> allElements(), 1, 0), true);
 							<?php echo $elems; ?>
 						</select>
 					</label>
-				</div>
-				<div>
 					<label>Elemento 2:
 						<select name="elem2">
 							<option value="0">Non specificato</option>
 							<?php echo $elems; ?>
 						</select>
 					</label>
+				</div>
+				<div>
 					<label>Elemento 3:
 						<select name="elem3">
 							<option value="0">Non specificato</option>
@@ -89,18 +90,27 @@ $elems = makeOptions(array_column($dragonvaleDB -> allElements(), 1, 0), true);
 							<?php echo $elems; ?>
 						</select>
 					</label>
-				</div>
-				<div>
-					<label>
-						<input type="checkbox" name="reduced" value="1"><span>Tempi di incubazione ridotti</span>
+					<label>Genitore:
+						<select name="parent1">
+							<option value="0">Non specificato</option>
+							<?php echo $parents; ?>
+						</select>
 					</label>
-					<label>
-						<input type="checkbox" name="displayDays" value="1"><span>Visualizza i giorni nei tempi di incubazione</span>
-						</label>
-					<label>
-						<input type="checkbox" name="strictOrder" value="1"><span>Considera l'ordine degli elementi</span>
+					<label>Genitore:
+						<select name="parent2">
+							<option value="0">Non specificato</option>
+							<?php echo $parents; ?>
+						</select>
 					</label>
 				</div>
+			</div>
+			<div>
+				<input id="reduced" type="checkbox" name="reduced" value="1">
+				<label for="reduced">Tempi di incubazione ridotti</label>
+				<input id="display-days" type="checkbox" name="displayDays" value="1">
+				<label for="display-days">Visualizza i giorni nei tempi di incubazione</label>
+				<input id="strict-order" type="checkbox" name="strictOrder" value="1">
+				<label for="strict-order">Considera l'ordine degli elementi</label>
 			</div>
 			<button formnovalidate type="submit" name="submit">Cerca</button>
 		</form>
@@ -123,7 +133,7 @@ $elems = makeOptions(array_column($dragonvaleDB -> allElements(), 1, 0), true);
 			</tbody>
 		</table>
 	</main>
-	<?php footer('dragonvale', '1.0', 'moment', 'sprintf', 'chosen', 'tooltipster', 'cryptojs'); ?>
+	<?php footer('dragonvale', '2.0', 'moment', 'sprintf', 'chosen', 'tooltipster', 'cryptojs'); ?>
 </body>
 
 </html>

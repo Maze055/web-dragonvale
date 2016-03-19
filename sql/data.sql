@@ -4,9 +4,12 @@
 CREATE DATABASE IF NOT EXISTS `dragonvale` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 USE `dragonvale`;
 
+-- --------------------------------------------------------
+
 --
 -- Stand-in structure for view `breedingPool`
 --
+DROP VIEW IF EXISTS `breedingPool`;
 CREATE TABLE `breedingPool` (
 `dragonId` bigint(20) unsigned
 ,`elem` bigint(20) unsigned
@@ -17,6 +20,7 @@ CREATE TABLE `breedingPool` (
 --
 -- Stand-in structure for view `canBreed`
 --
+DROP VIEW IF EXISTS `canBreed`;
 CREATE TABLE `canBreed` (
 `id` smallint(5) unsigned
 ,`canBreed` int(1)
@@ -28,6 +32,7 @@ CREATE TABLE `canBreed` (
 -- Table structure for table `coins`
 --
 
+DROP TABLE IF EXISTS `coins`;
 CREATE TABLE `coins` (
   `dragon` smallint(5) UNSIGNED NOT NULL,
   `level1` smallint(3) UNSIGNED NOT NULL,
@@ -59,6 +64,7 @@ CREATE TABLE `coins` (
 -- Table structure for table `dragons`
 --
 
+DROP TABLE IF EXISTS `dragons`;
 CREATE TABLE `dragons` (
   `id` smallint(5) UNSIGNED NOT NULL,
   `en` varchar(40) CHARACTER SET utf8mb4 NOT NULL,
@@ -354,7 +360,8 @@ INSERT INTO `dragons` (`id`, `en`, `time`, `elem1`, `elem2`, `elem3`, `elem4`, `
 (272, 'Lacewing', '41:20:00', 26, NULL, NULL, NULL, 271, 274, NULL, NULL, NULL, NULL),
 (273, 'Swallowtail', '41:20:00', 26, NULL, NULL, NULL, 274, 270, NULL, NULL, NULL, NULL),
 (274, 'Marbletail', '50:40:00', 26, NULL, NULL, NULL, 272, 273, NULL, NULL, NULL, NULL),
-(275, 'Quartz', '30:00:00', 23, NULL, NULL, NULL, 67, 16, NULL, NULL, NULL, NULL);
+(275, 'Quartz', '30:00:00', 23, NULL, NULL, NULL, 67, 16, NULL, NULL, NULL, NULL),
+(276, 'Monolith 6', '24:00:00', 21, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -362,6 +369,7 @@ INSERT INTO `dragons` (`id`, `en`, `time`, `elem1`, `elem2`, `elem3`, `elem4`, `
 -- Table structure for table `elements`
 --
 
+DROP TABLE IF EXISTS `elements`;
 CREATE TABLE `elements` (
   `id` tinyint(3) UNSIGNED NOT NULL,
   `opposite` tinyint(3) UNSIGNED DEFAULT NULL,
@@ -456,7 +464,7 @@ ALTER TABLE `coins`
 -- AUTO_INCREMENT for table `dragons`
 --
 ALTER TABLE `dragons`
-  MODIFY `id` smallint(5) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=276;
+  MODIFY `id` smallint(5) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=277;
 --
 -- AUTO_INCREMENT for table `elements`
 --

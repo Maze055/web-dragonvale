@@ -96,7 +96,7 @@ var checkBoxes = $('input[type="checkbox"]');
 var idReqparams = id.add(checkBoxes);
 var time = $('select[name="time"]');
 var genericReqParams = time.add(checkBoxes)
-		.add('select[name^="elem"]');
+		.add('select[name^="elem"], select[name^="parent"]');
 var reduced = $('input[name="reduced"]');
 var displayDays = $('input[name="displayDays"]');
 var paramTimes;

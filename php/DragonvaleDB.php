@@ -1,7 +1,6 @@
 <?php
 
 use Maze\db\MySQLConn;
-use Maze\db\ParamSQLBuilder;
 
 require_once 'autoload.php';
 
@@ -136,6 +135,25 @@ class DragonValeDB {
 	public function allElements() {
 		return $this -> conn -> query(MySQLConn::NUMERIC, null,
 				'select id, en from elements order by en');
+	}
+
+	/**
+	 * Fetches all names and ids of dragons
+	 * that can breed, sorted by name.
+	 *
+	 * @return mixed[][] A numeric bidimensional array having id and name of every dragon that can breed as first and second element respectively.
+	 */
+	public function allParents() {
+		return $this -> conn -> query(MySQLConn::NUMERIC, null, <<<BOUND
+select d.id, d.en
+from dragons d
+	join canBreed cb
+		on d.id = cb.id
+where
+	cb.canBreed is true
+order by d.en
+BOUND
+);
 	}
 
 	/**
