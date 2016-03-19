@@ -23,56 +23,19 @@ class DragonValeDB {
 	private static $instance = 0;
 
 	/**
+	 * @var mysqli_stmt getDragons method underlying prepared statement.
+	 */
+	private static $getDragonsQuery = 0;
+
+	/**
+	 * @var mysqli_stmt allTimes method underlying prepared statement.
+	 */
+	private static $allTimesQuery = 0;
+
+	/**
 	 * @var \Maze\db\MySQLConn MySQLConn instance
 	 */
 	private $conn = 0;
-
-	/**
-	 * Returns MySQL code to transform and display times
-	 * as specified.
-	 *
-	 * @param boolean $reduced If set, reduces times by 20%.
-	 * @param boolean $displayDays If set, will display the number of days when there's at least one.
-	 * @return string MySQL code to transform and display time according to specifications.
-	 */
-	private static function makeSQLTime($reduced, $displayDays) {
-		$time = $reduced ? 'sec_to_time(truncate(time_to_sec(time) * 0.8, 0))'
-				: 'time';
-		return !$displayDays ? $time : <<<BOUND
-concat_ws(':',
-	if (hour($time) < 24, null, lpad(hour($time) div 24, 2, '0')),
-    lpad(hour($time) % 24, 2, '0'),
-    right($time, 5))
-BOUND;
-	}
-
-	/**
-	 * Checks whether the argument is strictly a positive integer.
-	 *
-	 * @param mixed $number The value to be checked.
-	 * @return boolean True when the argument is a strictly positive integer.
-	 */
-	private static function isPositive($number) {
-		return is_int($number) && $number > 0;
-	}
-
-	/**
-	 * Checks whether the argument is a valid MySQL time string.
-	 *
-	 * @param mixes $time The value that will be checked.
-	 * @return boolean True when the argument is a valid MySQL time string.
-	 */
-	private static function isTime($time) {
-
-		/*
-			As of MySQL specifications, hours must have at
-			least two digit and can range from -838 to 838,
-			thus having a maximum of three digits.
-		*/
-		return is_string($time)
-				&& preg_match('/^(\d{2,3}):(\d{2}):(\d{2})$/', $time, $matches)
-				&& abs($matches[1]) < 839 && $matches[2] < 60 && $matches[3] < 60;
-	}
 
 	/**
 	 * Creates the MySQLConn instance with
@@ -80,6 +43,22 @@ BOUND;
 	 */
 	private function __construct() {
 		$this -> conn = new MySQLConn('localhost', 'dragonvale', 'dragonvale', 'dragonvale');
+	}
+
+	/**
+	 * Closes prepared statements declared as static members.
+	 * This is appropriate since this class is a singleton,
+	 * so when the instance is destructed nothing can use
+	 * statements anymore
+	 */
+	public function __destruct() {
+		if (self::$getDragonsQuery instanceof mysqli_stmt)
+			if (!self::$getDragonsQuery -> close())
+				echo '$getDragonsQuery closing failed due to: ' . self::$getDragonsQuery -> error . '\n';
+
+		if (self::$allTimesQuery instanceof mysqli_stmt)
+			if (!self::$allTimesQuery -> close())
+				echo '$allTimesQuery closing failed due to: ' . self::$allTimesQuery -> error . '\n';
 	}
 
 	/**
@@ -104,70 +83,39 @@ BOUND;
 	 * All criteria are optional, and are ignored if either not
 	 * set or not valid.
 	 *
-	 * @param int $id The dragon's id, valid when positive. If valid, causes all the other criteria to be ignored.
-	 * @param string $time The hatching time, valid as MySQL time string.
-	 * @param int $elem1 The first element, or just one of them when $strictOrder is not set.
-	 * @param int $elem2 The second element, or just one of them when $strictOrder is not set.
-	 * @param int $elem3 The third element, or just one of them when $strictOrder is not set.
-	 * @param int $elem4 The fourth element, or just one of them when $strictOrder is not set.
+	 * @param int $id Dragon's id, valid when positive. If valid, causes all the other criteria to be ignored.
+	 * @param string $time Hatching time, valid as MySQL time string.
+	 * @param int $elem1 First element, or just one of them when $strictOrder is not set.
+	 * @param int $elem2 second element, or just one of them when $strictOrder is not set.
+	 * @param int $elem3 Third element, or just one of them when $strictOrder is not set.
+	 * @param int $elem4 fourth element, or just one of them when $strictOrder is not set.
+	 * @param int $parent1 Id of one of the parents.
+	 * @param int $parent2 Id of one of the parents.
 	 * @param int $rowsCount Maximum number of rows that will be fetched.
 	 * @param int $startRow Zero-based index of the first row that will be returned.
 	 * @param boolean $strictOrder When set, forces elements to be matched in order.
 	 * @param boolean $reduced When set, hatching times will be reduced by 20%.
 	 * @param boolean $displayDays When set, will display the number of days when there's at least one.
 	 * @return mixed[][] A bidimensional array having dragons' data as associative arrays, whose keys are: 'name', 'time', 'elem1', 'elem2', 'elem3' and 'elem4'.
-	 *
-	 * @uses \Maze\db\ParamSQLbuilder to construct the MySQL statement.
 	 */
-	public function getDragons($id, $time, $elem1, $elem2, $elem3, $elem4, $rowsCount,
-			$startRow, $strictOrder = false, $reduced = false, $displayDays = false) {
-		$query = new ParamSQLBuilder('select d.en as name, '
-				. self::makeSQLTime($reduced, $displayDays)
-				. <<<BOUND
- as time, e1.en as elem1, e2.en as elem2, e3.en as elem3, e4.en as elem4
-from dragons d
-	join elements e1
-		on d.elem1 = e1.id
-	left join elements e2
-		on d.elem2 = e2.id
-	left join elements e3
-		on d.elem3 = e3.id
-	left join elements e4
-		on d.elem4 = e4.id
-BOUND
-);
-		if (self::isPositive($id)) {
-			$query -> addPiece('d.id = ?', [$id]);
-		}
-		else {
-			if (self::isTime($time))
-				$query -> addPiece('time = ?', [$time]);
-			if (self::isPositive($elem1))
-				$query -> addPiece($strictOrder ? 'elem1 = ?' :
-						'? in (elem1, elem2, elem3, elem4)', [$elem1]);
-			if (self::isPositive($elem2))
-				$query -> addPiece($strictOrder ? 'elem2 = ?' :
-						'? in (elem1, elem2, elem3, elem4)', [$elem2]);
-			if (self::isPositive($elem3))
-				$query -> addPiece($strictOrder ? 'elem3 = ?' :
-						'? in (elem1, elem2, elem3, elem4)', [$elem3]);
-			if (self::isPositive($elem4))
-				$query -> addPiece($strictOrder ? 'elem4 = ?' :
-						'? in (elem1, elem2, elem3, elem4)', [$elem4]);
+	public function getDragons($id, $time, $elem1, $elem2, $elem3, $elem4,
+			$parent1, $parent2, $rowsCount, $startRow, $strictOrder = false,
+			$reduced = false, $displayDays = false) {
+		if (!(self::$getDragonsQuery instanceof mysqli_stmt)) {
+			self::$getDragonsQuery = $this -> conn -> prepare(
+					'call getDragons(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)');
+			if (!self::$getDragonsQuery)
+				die("\$getDragonsQuery preparation failed due to: {$this -> conn -> error}\n");
 		}
 
-		if ($query -> hasPieces()) {
-			$query -> addSQL('where');
-			$query -> concatPieces('and');
-		}
-
-		$query -> addSQL('order by d.en');
-		$query -> addRowsCount($rowsCount, $startRow);
-
-		$params = $query -> getParams();
-		if (isset($params))
-			return $this -> conn -> query(MySQLConn::ASSOC, null, $query -> getSQL(), ...$params);
-		return $this -> conn -> query(MySQLConn::ASSOC, null, $query -> getSQL());
+		/*
+			Must convert booleans to integer since prepared
+			statements don't handle the former. Moreover,
+			'b' in types string stands for 'blob'.
+		*/
+		return $this -> conn -> prepQuery(MySQLConn::ASSOC, null, self::$getDragonsQuery, $id,
+				$time, $elem1, $elem2, $elem3, $elem4, $parent1, $parent2, $rowsCount,
+				$startRow, (int) $strictOrder, (int) $reduced, (int) $displayDays);
 	}
 
 	/**
@@ -199,9 +147,20 @@ BOUND
 	 * @return mixed[][] A numeric bidimensional array having standard and formatted times as first and second element respectively.
 	 */
 	public function allTimes($reduced = false, $displayDays = false) {
-		return $this -> conn -> query(MySQLConn::NUMERIC, null, 'select distinct time, '
-				. self::makeSQLTime($reduced, $displayDays)
-				. ' from dragons order by time');
+		if (!(self::$allTimesQuery instanceof mysqli_stmt)) {
+			self::$allTimesQuery = $this -> conn -> prepare(
+					'select distinct time, formatTime(time, ?, ?) from dragons order by time');
+			if (!self::$allTimesQuery)
+				die("\$allTimesQuery preparation failed due to: {$this -> conn -> error}\n");
+		}
+
+		/*
+			Must convert booleans to integer since prepared
+			statements don't handle the former. Moreover,
+			'b' in types string stands for 'blob'.
+		*/
+		return $this -> conn -> prepQuery(MySQLConn::NUMERIC, null,
+				self::$allTimesQuery, (int) $reduced, (int) $displayDays);
 	}
 
 }

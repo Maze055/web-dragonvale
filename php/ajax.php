@@ -21,8 +21,9 @@ switch ($request) {
 
 	case 'dragons':
 		$result = $dragonvaleDB -> getDragons((int) $id, $time, (int) $elem1,
-				(int) $elem2, (int) $elem3, (int) $elem4, (int) $pageLength,
-				($page - 1) * $pageLength, $strictOrder, $reduced, $displayDays);
+				(int) $elem2, (int) $elem3, (int) $elem4, (int) $parent1,
+				(int) $parent2, (int) $pageLength, ($page - 1) * $pageLength,
+				(bool) $strictOrder, (bool) $reduced, (bool) $displayDays);
 		break;
 
 	default:
