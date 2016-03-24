@@ -10,7 +10,12 @@ DELIMITER $$
 --
 DROP PROCEDURE IF EXISTS `getDragons`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getDragons` (`_id` INT, `_time` TIME, `_elem1` INT, `_elem2` INT, `_elem3` INT, `_elem4` INT, `_parent1` INT, `_parent2` INT, `rowsCount` INT, `startRow` INT, `strictOrder` INT, `reduced` INT, `displayDays` INT)  READS SQL DATA
-begin
+body: begin
+	if _parent1 > 0 and _parent1 = getOppositeDragon(_parent2) then
+		select null;
+		leave body;
+	end if;
+
 	if _id > 0 then
 		create temporary table resultSet as
 		select d.id, d.en, d.time, d.elem1, d.elem2, d.elem3, d.elem4
@@ -20,63 +25,65 @@ begin
 		create temporary table common.resultSet as
 		select d.id, d.en, d.time, d.elem1, d.elem2, d.elem3, d.elem4
 		from dragons d
-		where ((_parent1 < 1 and _parent2 < 1) or ( 				d.id = 126 or 				( 					d.parent1 is not null and d.parent2 is not null and
+		where ((_parent1 < 1 and _parent2 < 1) or (
+				d.id = 126 -- Motley
+				or ( -- Two parents
+					d.parent1 is not null and d.parent2 is not null and
 					(_parent1, _parent2) in ((d.parent1, d.parent2), (d.parent2, d.parent1))
-				) or ( 					d.parent1 is not null and d.parent2 is null and
+				) or ( -- Single parent + element
+					d.parent1 is not null and d.parent2 is null and
 					d.parent1 in (_parent1, _parent2) and
-					(d.elemBreed1 is not null) + (d.elemBreed2 is not null) +
-							(d.elemBreed3 is not null) + (d.elemBreed4 is not null) = (
+					1 + (d.elemBreed2 is not null) + (d.elemBreed3 is not null)
+							+ (d.elemBreed4 is not null) = (
 						select count(distinct bp.elem)
 						from breedingPool bp
 						where bp.dragonId in (_parent1, _parent2)
-							and bp.elem in (d.elemBreed1, d.elemBreed2,
-									d.elemBreed3, d.elemBreed4)
-					) and ( 						(d.elem1, d.elem2) not in (select e.id, e.opposite
-												   from elements e
-												   where e.opposite is not null) or
-						2 < (select count(distinct bp.elem)
-							 from breedingPool bp
-							 where bp.dragonId in (_parent1, _parent2)
-						)
+							and ifnull(bp.elem in (d.elemBreed1, d.elemBreed2,
+									d.elemBreed3, d.elemBreed4), false)
 					)
-				) or ( 					coalesce(d.parent1, d.parent2) is null and
-					coalesce(d.elemBreed1, d.elemBreed2, d.elemBreed3, d.elemBreed4) is not null and
-					(d.elemBreed1 is not null) + (d.elemBreed2 is not null) +
-							(d.elemBreed3 is not null) + (d.elemBreed4 is not null) = (
+				) or ( -- Elements only (mostly epic)
+					d.parent1 is null and d.parent2 is null and
+					d.elemBreed1 is not null and
+					1 + (d.elemBreed2 is not null) + (d.elemBreed3 is not null)
+							+ (d.elemBreed4 is not null) = (
 						select count(distinct bp.elem)
 						from breedingPool bp
 						where bp.dragonId in (_parent1, _parent2)
-							and bp.elem in (d.elemBreed1, d.elemBreed2,
-									d.elemBreed3, d.elemBreed4)
-					) and ( 						d.id <> 173 or
+							and ifnull(bp.elem in (d.elemBreed1, d.elemBreed2,
+									d.elemBreed3, d.elemBreed4), false)
+					) and ( -- Dream (needs two addictional elements other than light and dark)
+						d.id <> 173 or
 						2 = (select count(distinct bp.elem)
 							 from breedingPool bp
 							 where bp.dragonId in (_parent1, _parent2)
 								and bp.elem not in (9, 10)
 						)
 					)
-				) or ( 					d.id in (155, 166, 188, 213, 266, 268) and
+				) or ( -- 4 different elements
+					d.id in (155, 166, 188, 213, 266, 268) and
 					3 < (select count(distinct bp.elem)
 						 from breedingPool bp
 						 where bp.dragonId in (_parent1, _parent2))
-				) or ( 					22 in (d.elem1, d.elem2, d.elem3, d.elem4) and d.id in (_parent1, _parent2) and
+				) or ( -- Galaxy
+					22 in (d.elem1, d.elem2, d.elem3, d.elem4) and
+					d.id in (_parent1, _parent2) and
 					1 < (select count(*)
-							from breedingPool bp
-								join elements e
-									on bp.elem = e.id
-							where bp.dragonId in (_parent1, _parent2)
-								and (e.id = 22 or e.isEpic is true)
+						 from breedingPool bp
+							join elements e
+								on bp.elem = e.id
+						 where bp.dragonId in (_parent1, _parent2)
+							and (e.id = 22 or e.isEpic is true)
 					)
-				) or ( 					(d.elem1 <> coalesce(d.elem2, d.elem3, d.elem4, d.elem1) or 							d.elem1 in (select e.id
-										from elements e
-										where e.isEpic is true or e.id = 22)
-					) and coalesce(d.parent1, d.parent2, d.elemBreed1, d.elemBreed2,
+				) or ( -- Basic breedign rule
+					not isPrimary(d.id) and
+					coalesce(d.parent1, d.parent2, d.elemBreed1, d.elemBreed2,
 							d.elemBreed3, d.elemBreed4) is null and
 					1 + (d.elem2 is not null) + (d.elem3 is not null) + (d.elem4 is not null) = (
 						select count(distinct bp.elem)
 						from breedingPool bp
 						where bp.dragonId in (_parent1, _parent2)
-							and bp.elem in (d.elem1, d.elem2, d.elem3, d.elem4)
+							and ifnull(bp.elem in (d.elem1, d.elem2,
+									d.elem3, d.elem4), false)
 					)
 				)));
 		if (select count(*) from common.resultSet rs) < 2 then
@@ -114,7 +121,7 @@ begin
 		left join elements e4
 			on rs.elem4 = e4.id
 	order by rs.en;
-end$$
+end body$$
 
 --
 -- Functions
@@ -131,3 +138,26 @@ CREATE DEFINER=`root`@`localhost` FUNCTION `formatTime` (`time` TIME, `reduced` 
 			@time
 		);
 end$$
+
+DROP FUNCTION IF EXISTS `isPrimary`$$
+CREATE DEFINER=`root`@`localhost` FUNCTION `isPrimary` (`id` int) RETURNS tinyint(1)
+	return (select count(*) > 0
+		   from dragons d
+				join elements e1
+					on d.elem1 = e1.id
+		   where d.id = id
+				and e1.isEpic is not true and e1.id <> 22
+				and coalesce(d.elem2, d.elem3, d.elem4) is null)$$
+
+DROP FUNCTION IF EXISTS `getOppositeDragon`$$
+CREATE DEFINER=`root`@`localhost` FUNCTION `getOppositeDragon` (`id` int) RETURNS int
+	return if (not isPrimary(id), 0,
+			(select opp.id
+		    from dragons d
+				join elements e1
+					on d.elem1 = e1.id
+				join dragons opp
+					on opp.elem1 = e1.opposite
+		    where d.id = id
+				and isPrimary(opp.id))
+	)$$
