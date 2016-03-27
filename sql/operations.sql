@@ -151,7 +151,7 @@ CREATE DEFINER=`root`@`localhost` FUNCTION `isPrimary` (`id` int) RETURNS tinyin
 
 DROP FUNCTION IF EXISTS `getOppositeDragon`$$
 CREATE DEFINER=`root`@`localhost` FUNCTION `getOppositeDragon` (`id` int) RETURNS int
-	return if (not isPrimary(id), 0,
+	return if (not isPrimary(id), null,
 			(select opp.id
 		    from dragons d
 				join elements e1

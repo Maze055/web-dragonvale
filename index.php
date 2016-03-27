@@ -6,7 +6,10 @@ require_once 'footer.php';
 
 $dragonvaleDB = DragonvaleDB::getInstance();
 $elems = makeOptions(array_column($dragonvaleDB -> allElements(), 1, 0), true);
-$parents = makeOptions(array_column($dragonvaleDB -> allParents(), 1, 0), true);
+
+// array_columns changes returned indexes into html attributes
+$parents = makeOptions(array_columns($dragonvaleDB -> allParents(),
+		['id', 'name', 'opposite'], ['value', 'text', 'data-opposite-id']));
 
 ?>
 

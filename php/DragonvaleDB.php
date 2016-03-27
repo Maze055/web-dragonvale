@@ -138,14 +138,14 @@ class DragonValeDB {
 	}
 
 	/**
-	 * Fetches all names and ids of dragons
-	 * that can breed, sorted by name.
+	 * Fetches all ids, names and, if any, the opposite of
+	 * dragons that can breed, sorted by name.
 	 *
-	 * @return mixed[][] A numeric bidimensional array having id and name of every dragon that can breed as first and second element respectively.
+	 * @return mixed[][] A bidimensional array having said data as an associative array whose key are: 'id', 'name', 'opposite'.
 	 */
 	public function allParents() {
-		return $this -> conn -> query(MySQLConn::NUMERIC, null, <<<BOUND
-select d.id, d.en
+		return $this -> conn -> query(MySQLConn::ASSOC, null, <<<BOUND
+select d.id as id, d.en as name, getOppositeDragon(d.id) as opposite
 from dragons d
 	join canBreed cb
 		on d.id = cb.id
