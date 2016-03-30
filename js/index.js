@@ -81,6 +81,29 @@ var changeTimes = function(timesList, nextTime, currTime, putDays, makeDuration)
 	}
 };
 
+/**
+ * This function handles disablement/enablement of
+ * opposite dragon options in parents menus. When
+ * the selected dragon in thisParents has an opposite,
+ * disables that in otherParents, enabling back any
+ * other disabled dragons.
+ *
+ * @summary Handles disablement of opposite dragons.
+ *
+ * @param {jQuery} thisParents - The parents menu the selected option is got from.
+ * @param {jQuery} otherParents - The parents menu that will have its options disabled.
+ */
+var disableOpposite = function(thisParents, otherParents) {
+	otherParents.find(':disabled').prop('disabled', false);
+
+	var oppositeId = thisParents.find(':selected').data('oppositeId');
+	if (oppositeId)
+		otherParents.find('[value="' + oppositeId + '"]')
+				.prop('disabled', true);
+
+	otherParents.trigger('chosen:updated');
+};
+
 /****************************************
 
 OnLoad
@@ -101,6 +124,8 @@ var reduced = $('input[name="reduced"]');
 var displayDays = $('input[name="displayDays"]');
 var paramTimes;
 var chosenTargets = $('select');
+var parent1 = $('select[name="parent1"]');
+var parent2 = $('select[name="parent2"]');
 
 /****************************************
 
@@ -201,9 +226,19 @@ displayDays.change(function() {
 	changeTimes(resultTimes, nextTime, currTime, putDays, moment.duration);
 });
 
+// Handles disablement of parent2 opposite
+parent1.change(function() {
+	disableOpposite(parent1, parent2);
+});
+
+// Handles disablement of parent1 opposite
+parent2.change(function() {
+	disableOpposite(parent2, parent1);
+});
+
 /****************************************
 
-Plugin initialization stuff
+Plugins initialization
 
 ****************************************/
 
@@ -213,6 +248,12 @@ chosenTargets.chosen({
 	inherit_select_classes: true,
 	no_results_text: 'Niente che inizi con '
 });
+
+/****************************************
+
+Initialization stuff
+
+****************************************/
 
 var initParams = {
 	request: 'init',
@@ -226,6 +267,14 @@ $.getJSON('./php/ajax.php', initParams, function(data) {
 	time.trigger('chosen:updated');
 	paramTimes = time.children('option:gt(0)');
 });
+
+/*
+	When a selection on any of the parents menus
+	is cached, if it has an opposite it must be
+	disabled
+*/
+parent1.change();
+parent2.change();
 
 });
 
