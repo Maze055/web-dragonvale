@@ -136,7 +136,7 @@ $parents = makeOptions(array_columns($dragonvaleDB -> allParents(),
 			</tbody>
 		</table>
 	</main>
-	<?php footer('dragonvale', '2.0', 'moment', 'sprintf', 'chosen', 'tooltipster', 'cryptojs'); ?>
+	<?php footer('dragonvale', '2.0.1', 'moment', 'sprintf', 'chosen', 'tooltipster', 'cryptojs'); ?>
 </body>
 
 </html>
