@@ -361,7 +361,8 @@ INSERT INTO `dragons` (`id`, `en`, `time`, `elem1`, `elem2`, `elem3`, `elem4`, `
 (273, 'Swallowtail', '41:20:00', 26, NULL, NULL, NULL, 274, 270, NULL, NULL, NULL, NULL),
 (274, 'Marbletail', '50:40:00', 26, NULL, NULL, NULL, 272, 273, NULL, NULL, NULL, NULL),
 (275, 'Quartz', '30:00:00', 23, NULL, NULL, NULL, 67, 16, NULL, NULL, NULL, NULL),
-(276, 'Monolith 6', '24:00:00', 21, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+(276, 'Monolith 6', '24:00:00', 21, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(277, 'Tempest', '08:00:00', 5, 4, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 

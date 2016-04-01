@@ -65,20 +65,23 @@ body: begin
 						 from breedingPool bp
 						 where bp.dragonId in (_parent1, _parent2))
 				) or ( -- Galaxy
-					22 in (d.elem1, d.elem2, d.elem3, d.elem4) and
-					d.id in (_parent1, _parent2) and
-					1 < (select count(*)
-						 from breedingPool bp
-							join elements e
-								on bp.elem = e.id
-						 where bp.dragonId in (_parent1, _parent2)
-							and (e.id = 22 or e.isEpic is true)
-					)
+					ifnull(22 in (d.elem1, d.elem2, d.elem3, d.elem4), false) and
+					d.parent1 in (_parent1, _parent2) and (
+						-- Twice the right Galaxy Dragon would count
+						-- one row only in the following query
+						_parent1 = _parent2 or
+						1 < (select count(*)
+							 from breedingPool bp
+								join elements e
+									on bp.elem = e.id
+							 where bp.dragonId in (_parent1, _parent2)
+								and (e.id = 22 or e.isEpic is true)))
 				) or ( -- Basic breedign rule
 					not isPrimary(d.id) and
 					coalesce(d.parent1, d.parent2, d.elemBreed1, d.elemBreed2,
 							d.elemBreed3, d.elemBreed4) is null and
-					1 + (d.elem2 is not null) + (d.elem3 is not null) + (d.elem4 is not null) = (
+					1 + (d.elem2 is not null) + (d.elem3 is not null)
+							+ (d.elem4 is not null) = (
 						select count(distinct bp.elem)
 						from breedingPool bp
 						where bp.dragonId in (_parent1, _parent2)
@@ -153,11 +156,11 @@ DROP FUNCTION IF EXISTS `getOppositeDragon`$$
 CREATE DEFINER=`root`@`localhost` FUNCTION `getOppositeDragon` (`id` int) RETURNS int
 	return if (not isPrimary(id), null,
 			(select opp.id
-		    from dragons d
+		     from dragons d
 				join elements e1
 					on d.elem1 = e1.id
 				join dragons opp
 					on opp.elem1 = e1.opposite
-		    where d.id = id
+		     where d.id = id
 				and isPrimary(opp.id))
 	)$$

@@ -144,8 +144,8 @@ var makeElemCell = function(elem) {
 		return $('<td></td>', {text: 'Nessuno'});
 
 	var elemCell = $('<td></td>', {text: elem});
-	return elemCell.prepend($('<img />', {src: getDragonvaleWikiImg('Icon_'
-				+ elem + '.png')}));
+	return elemCell.prepend($('<img />', {src: getDragonvaleWikiImg(elem
+				+ '_Flag.png')}));
 };
 
 /**
