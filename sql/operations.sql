@@ -175,7 +175,7 @@ end body$$
 -- Functions
 --
 DROP FUNCTION IF EXISTS `formatTime`$$
-CREATE DEFINER=`root`@`localhost` FUNCTION `formatTime` (`time` TIME, `reduced` TINYINT, `displayDays` TINYINT) RETURNS VARCHAR(11) CHARSET utf8mb4 begin
+CREATE DEFINER=`root`@`localhost` FUNCTION `formatTime` (`time` TIME, `reduced` TINYINT, `displayDays` TINYINT) RETURNS VARCHAR(11) CHARSET utf8mb4 DETERMINISTIC begin
 	set @time = if(reduced, sec_to_time(truncate(time_to_sec(time) * 0.8, 0)), time);
 	return if (displayDays,
 			concat_ws(':',
