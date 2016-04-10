@@ -26,31 +26,44 @@ body: begin
 		select d.id, d.en, d.time, d.elem1, d.elem2, d.elem3, d.elem4
 		from dragons d
 		where ((_parent1 < 1 and _parent2 < 1) or (
-				d.id = 126 -- Motley
+					d.id = _parent1 and not isPrimary(_parent1) -- First parent
+				or
+					d.id = _parent2 and not isPrimary(_parent2) -- Second parent
+				or
+					d.id = 126 -- Motley
 				or ( -- Two parents
 					d.parent1 is not null and d.parent2 is not null and
-					(_parent1, _parent2) in ((d.parent1, d.parent2), (d.parent2, d.parent1))
+					(d.parent1, d.parent2) in ((_parent1, _parent2), (_parent2, _parent1))
 				) or ( -- Single parent + element
 					d.parent1 is not null and d.parent2 is null and
 					d.parent1 in (_parent1, _parent2) and
-					1 + (d.elemBreed2 is not null) + (d.elemBreed3 is not null)
-							+ (d.elemBreed4 is not null) = (
-						select count(distinct bp.elem)
-						from breedingPool bp
-						where bp.dragonId in (_parent1, _parent2)
-							and ifnull(bp.elem in (d.elemBreed1, d.elemBreed2,
-									d.elemBreed3, d.elemBreed4), false)
-					)
+					d.elemBreed1 in (select bp.elem
+									 from breedingPool bp
+									 where bp.id in (_parent1, _parent2)) and
+					d.elemBreed2 in (select bp.elem
+									 from breedingPool bp
+									 where bp.id in (_parent1, _parent2)) and
+					d.elemBreed3 in (select bp.elem
+									 from breedingPool bp
+									 where bp.id in (_parent1, _parent2)) and
+					d.elemBreed4 in (select bp.elem
+									 from breedingPool bp
+									 where bp.id in (_parent1, _parent2))
 				) or ( -- Elements only (mostly epic)
 					d.parent1 is null and d.parent2 is null and
 					d.elemBreed1 is not null and
-					1 + (d.elemBreed2 is not null) + (d.elemBreed3 is not null)
-							+ (d.elemBreed4 is not null) = (
-						select count(distinct bp.elem)
-						from breedingPool bp
-						where bp.dragonId in (_parent1, _parent2)
-							and ifnull(bp.elem in (d.elemBreed1, d.elemBreed2,
-									d.elemBreed3, d.elemBreed4), false)
+					d.elemBreed1 in (select bp.elem
+									 from breedingPool bp
+									 where bp.id in (_parent1, _parent2)) and
+					d.elemBreed2 in (select bp.elem
+									 from breedingPool bp
+									 where bp.id in (_parent1, _parent2)) and
+					d.elemBreed3 in (select bp.elem
+									 from breedingPool bp
+									 where bp.id in (_parent1, _parent2)) and
+					d.elemBreed4 in (select bp.elem
+									 from breedingPool bp
+									 where bp.id in (_parent1, _parent2))
 					) and ( -- Dream (needs two addictional elements other than light and dark)
 						d.id <> 173 or
 						2 = (select count(distinct bp.elem)
@@ -76,17 +89,39 @@ body: begin
 									on bp.elem = e.id
 							 where bp.dragonId in (_parent1, _parent2)
 								and (e.id = 22 or e.isEpic is true)))
+				) or ( -- Primary
+					isPrimary(d.id) and (
+						d.id in (_parent1, _parent2) or
+						getOppositeDragon(d.id) in (_parent1, _parent2)
+					) and ((d.id, getOppositeDragon(d.id)),
+								(getOppositeDragon(d.id), d.id)) in (
+						select d1.id, d2.id
+						from dragons dd
+							join dragons d1
+								on dd.elem1 = d1.elem1 and isPrimary(d1.id)
+							join dragons d2
+								on dd.elem2 = d2.elem2 and isPrimary(d2.id)
+						where (dd.elem1, dd.elem2) in (select e.id, e.opposite
+													   from elements e
+													   where e.opposite is not null)
+							and dd.id in (_parent1, _parent2)
+					)
 				) or ( -- Basic breedign rule
 					not isPrimary(d.id) and
 					coalesce(d.parent1, d.parent2, d.elemBreed1, d.elemBreed2,
 							d.elemBreed3, d.elemBreed4) is null and
-					1 + (d.elem2 is not null) + (d.elem3 is not null)
-							+ (d.elem4 is not null) = (
-						select count(distinct bp.elem)
-						from breedingPool bp
-						where bp.dragonId in (_parent1, _parent2)
-							and ifnull(bp.elem in (d.elem1, d.elem2,
-									d.elem3, d.elem4), false)
+					d.elem1 in (select bp.elem
+								from breedingPool bp
+								where bp.id in (_parent1, _parent2)) and
+					d.elem2 in (select bp.elem
+								from breedingPool bp
+								where bp.id in (_parent1, _parent2)) and
+					d.elem3 in (select bp.elem
+								from breedingPool bp
+								where bp.id in (_parent1, _parent2)) and
+					d.elem4 in (select bp.elem
+								from breedingPool bp
+								where bp.id in (_parent1, _parent2))
 					)
 				)));
 		if (select count(*) from common.resultSet rs) < 2 then
@@ -144,13 +179,13 @@ end$$
 
 DROP FUNCTION IF EXISTS `isPrimary`$$
 CREATE DEFINER=`root`@`localhost` FUNCTION `isPrimary` (`id` int) RETURNS tinyint(1)
-	return (select count(*) > 0
-		   from dragons d
-				join elements e1
-					on d.elem1 = e1.id
-		   where d.id = id
-				and e1.isEpic is not true and e1.id <> 22
-				and coalesce(d.elem2, d.elem3, d.elem4) is null)$$
+	return exists (select *
+				   from dragons d
+						join elements e1
+							on d.elem1 = e1.id
+				   where d.id = id
+						and e1.isEpic is not true and e1.id <> 22
+						and coalesce(d.elem2, d.elem3, d.elem4) is null)$$
 
 DROP FUNCTION IF EXISTS `getOppositeDragon`$$
 CREATE DEFINER=`root`@`localhost` FUNCTION `getOppositeDragon` (`id` int) RETURNS int
