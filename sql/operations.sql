@@ -11,7 +11,9 @@ DELIMITER $$
 DROP PROCEDURE IF EXISTS `getDragons`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getDragons` (`_id` INT, `_time` TIME, `_elem1` INT, `_elem2` INT, `_elem3` INT, `_elem4` INT, `_parent1` INT, `_parent2` INT, `rowsCount` INT, `startRow` INT, `strictOrder` INT, `reduced` INT, `displayDays` INT) READS SQL DATA
 body: begin
-	if _parent1 > 0 and _parent1 = getOppositeDragon(_parent2) then
+	if _parent1 not in (select cb.id from canBreed cb where cb.canBreed is true)
+			or _parent2 not in (select cb.id from canBreed cb where cb.canBreed is true)
+			or (_parent1 > 0 and _parent1 = getOppositeDragon(_parent2)) then
 		select null;
 		leave body;
 	end if;
@@ -32,129 +34,126 @@ body: begin
 		create temporary table common.resultSet as
 		select d.id, d.en, d.time, d.elem1, d.elem2, d.elem3, d.elem4
 		from dragons d
-		where ((_parent1 < 1 and _parent2 < 1) or (
-					d.id = _parent1 and not isPrimary(_parent1) -- First parent
-				or
-					d.id = _parent2 and not isPrimary(_parent2) -- Second parent
-				or
-					d.id = 126 -- Motley
-				or ( -- Two parents
-						d.parent1 is not null and d.parent2 is not null
-					and
-						(d.parent1, d.parent2) in ((_parent1, _parent2), (_parent2, _parent1))
-				) or ( -- Single parent + element
-						d.parent1 is not null and d.parent2 is null
-					and
-						d.parent1 in (_parent1, _parent2)
-					and
-						d.elemBreed1 in (select * from breedingTypes)
-					and (
-						d.elemBreed2 is null or
-						d.elemBreed2 in (select * from breedingTypes)
-					) and (
-						d.elemBreed3 is null or
-						d.elemBreed3 in (select * from breedingTypes)
-					) and (
-						d.elemBreed4 is null or
-						d.elemBreed4 in (select * from breedingTypes)
+		where ( -- Time and elements filters
+					(time(_time) = '00:00:00' or _time = d.time)
+				and
+					if (strictOrder,
+						(_elem1 < 1 or elem1 = _elem1) and
+						(_elem2 < 1 or elem2 = _elem2) and
+						(_elem3 < 1 or elem3 = _elem3) and
+						(_elem4 < 1 or elem4 = _elem4)
+					,
+						(_elem1 < 1 or ifnull(_elem1 in (elem1, elem2, elem3, elem4), false)) and
+						(_elem2 < 1 or ifnull(_elem2 in (elem1, elem2, elem3, elem4), false)) and
+						(_elem3 < 1 or ifnull(_elem3 in (elem1, elem2, elem3, elem4), false)) and
+						(_elem4 < 1 or ifnull(_elem4 in (elem1, elem2, elem3, elem4), false))
 					)
-				) or ( -- Elements only (mostly epic)
-						d.parent1 is null and d.parent2 is null
-					and
-						d.elemBreed1 is not null
-					and
-						d.elemBreed1 in (select * from breedingTypes)
-					and -- no null check, it's sensless to require no parents and only one element
-						d.elemBreed2 in (select * from breedingTypes)
-					and (
-						d.elemBreed3 is null or
-						d.elemBreed3 in (select * from breedingTypes)
-					) and (
-						d.elemBreed4 is null or
-						d.elemBreed4 in (select * from breedingTypes)
-					) and ( -- Dream (needs two additional elements other than light and dark)
-							d.id <> 173
-						or
-							2 = (select count(distinct bp.elem)
+			) and ( -- Parents filters
+				(_parent1 < 1 and _parent2 < 1) or (
+						d.id = _parent1 and not isPrimary(_parent1) -- First parent
+					or
+						d.id = _parent2 and not isPrimary(_parent2) -- Second parent
+					or
+						d.id = 126 -- Motley
+					or ( -- Two parents
+							d.parent1 is not null and d.parent2 is not null
+						and
+							(d.parent1, d.parent2) in ((_parent1, _parent2), (_parent2, _parent1))
+					) or ( -- Single parent + element
+							d.parent1 is not null and d.parent2 is null
+						and
+							d.parent1 in (_parent1, _parent2)
+						and
+							d.elemBreed1 in (select * from breedingTypes)
+						and (
+							d.elemBreed2 is null or
+							d.elemBreed2 in (select * from breedingTypes)
+						) and (
+							d.elemBreed3 is null or
+							d.elemBreed3 in (select * from breedingTypes)
+						) and (
+							d.elemBreed4 is null or
+							d.elemBreed4 in (select * from breedingTypes)
+						)
+					) or ( -- Elements only (mostly epic)
+							d.parent1 is null and d.parent2 is null
+						and
+							d.elemBreed1 is not null
+						and
+							d.elemBreed1 in (select * from breedingTypes)
+						and -- no null check, it's sensless to require no parents and only one element
+							d.elemBreed2 in (select * from breedingTypes)
+						and (
+							d.elemBreed3 is null or
+							d.elemBreed3 in (select * from breedingTypes)
+						) and (
+							d.elemBreed4 is null or
+							d.elemBreed4 in (select * from breedingTypes)
+						) and ( -- Dream (needs two additional elements other than light and dark)
+								d.id <> 173
+							or
+								2 = (select count(distinct bp.elem)
+									 from breedingPool bp
+									 where bp.dragonId in (_parent1, _parent2)
+										and bp.elem not in (9, 10)
+								)
+						)
+					) or ( -- 4 different elements
+							d.id in (155, 166, 188, 213, 266, 268)
+						and
+							3 < (select count(distinct bp.elem)
 								 from breedingPool bp
+								 where bp.dragonId in (_parent1, _parent2))
+					) or ( -- Galaxy
+							ifnull(22 in (d.elem1, d.elem2, d.elem3, d.elem4), false)
+						and
+							d.parent1 in (_parent1, _parent2)
+						and (
+							-- Twice the right Galaxy Dragon would count
+							-- one row only in the following query
+							_parent1 = _parent2 or
+							1 < (select count(*)
+								 from breedingPool bp
+									join elements e
+										on bp.elem = e.id
 								 where bp.dragonId in (_parent1, _parent2)
-									and bp.elem not in (9, 10)
-							)
+									and (e.id = 22 or e.isEpic is true))
+						)
+					) or ( -- Primary
+							isPrimary(d.id)
+						and (
+								d.id in (_parent1, _parent2)
+							or
+								getOppositeDragon(d.id) in (_parent1, _parent2)
+						) and (
+								select group_concat(concat('-', d1.elem1, '-', d1.elem2, '-'))
+								from dragons d1
+								where d1.id in (_parent1, _parent2) and
+									(d1.elem1, d1.elem2) in (select e.id, e.opposite
+															 from elements e
+															 where e.opposite is not null)
+							) like concat('%-', d.elem1, '-%')
+					) or ( -- Basic breedign rule
+							not isPrimary(d.id)
+						and
+							coalesce(d.parent1, d.parent2, d.elemBreed1, d.elemBreed2,
+									d.elemBreed3, d.elemBreed4) is null
+						and
+							d.elem1 in (select * from breedingTypes)
+						and (
+							d.elem2 is null or
+							d.elem2 in (select * from breedingTypes)
+						) and (
+							d.elem3 is null or
+							d.elem3 in (select * from breedingTypes)
+						) and (
+							d.elem4 is null or
+							d.elem4 in (select * from breedingTypes)
+						)
 					)
-				) or ( -- 4 different elements
-						d.id in (155, 166, 188, 213, 266, 268)
-					and
-						3 < (select count(distinct bp.elem)
-							 from breedingPool bp
-							 where bp.dragonId in (_parent1, _parent2))
-				) or ( -- Galaxy
-						ifnull(22 in (d.elem1, d.elem2, d.elem3, d.elem4), false)
-					and
-						d.parent1 in (_parent1, _parent2)
-					and (
-						-- Twice the right Galaxy Dragon would count
-						-- one row only in the following query
-						_parent1 = _parent2 or
-						1 < (select count(*)
-							 from breedingPool bp
-								join elements e
-									on bp.elem = e.id
-							 where bp.dragonId in (_parent1, _parent2)
-								and (e.id = 22 or e.isEpic is true))
-					)
-				) or ( -- Primary
-						isPrimary(d.id)
-					and (
-							d.id in (_parent1, _parent2)
-						or
-							getOppositeDragon(d.id) in (_parent1, _parent2)
-					) and (
-							select group_concat(concat('-', d1.elem1, '-', d1.elem2, '-'))
-							from dragons d1
-							where d1.id in (_parent1, _parent2) and
-								(d1.elem1, d1.elem2) in (select e.id, e.opposite
-														 from elements e
-														 where e.opposite is not null)
-						) like concat('%-', d.elem1, '-%')
-				) or ( -- Basic breedign rule
-						not isPrimary(d.id)
-					and
-						coalesce(d.parent1, d.parent2, d.elemBreed1, d.elemBreed2,
-								d.elemBreed3, d.elemBreed4) is null
-					and
-						d.elem1 in (select * from breedingTypes)
-					and (
-						d.elem2 is null or
-						d.elem2 in (select * from breedingTypes)
-					) and (
-						d.elem3 is null or
-						d.elem3 in (select * from breedingTypes)
-					) and (
-						d.elem4 is null or
-						d.elem4 in (select * from breedingTypes)
-					))
-				));
-		drop table if exists breedingTypes;
-		if (select count(*) from common.resultSet rs) < 2 then
-			insert into common.resultSet
-			select d.id, d.en, d.time, d.elem1, d.elem2, d.elem3, d.elem4
-			from dragons d
-			where d.id in (_parent1, _parent2);
-		end if;
-		delete
-		from common.resultSet
-		where (time(_time) <> '00:00:00' and _time <> `time`) or
-			if(strictOrder,
-				(_elem1 > 0 and elem1 <> _elem1) or
-				(_elem2 > 0 and elem2 <> _elem2) or
-				(_elem3 > 0 and elem3 <> _elem3) or
-				(_elem4 > 0 and elem4 <> _elem4)
-			,
-				(_elem1 > 0 and ifnull(_elem1 not in (elem1, elem2, elem3, elem4), true)) or
-				(_elem2 > 0 and ifnull(_elem2 not in (elem1, elem2, elem3, elem4), true)) or
-				(_elem3 > 0 and ifnull(_elem3 not in (elem1, elem2, elem3, elem4), true)) or
-				(_elem4 > 0 and ifnull(_elem4 not in (elem1, elem2, elem3, elem4), true))
+				)
 			);
+		drop table if exists breedingTypes;
 		call common.limitResultSet(rowsCount, startRow, 'en');
 		alter table common.limitedResultSet rename resultSet;
 	end if;
