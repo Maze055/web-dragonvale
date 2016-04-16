@@ -118,6 +118,37 @@ class DragonValeDB {
 	}
 
 	/**
+	 * Fetches breeding data about a dragon.
+	 *
+	 * This method returns a bidimensional array holding
+	 * all non-null data from a dragon and its eventual
+	 * parents, adding a note for those dragons that don't
+	 * have a standard breeding mechanism. Moreover, it
+	 * formats hatching times as specified.
+	 *
+	 * @param int $id The id of the dragon which data will be retrieved.
+	 * @param boolean $reduced When set, hatching times will be reduced by 20%.
+	 * @param boolean $displayDays When set, will display the number of days when there's at least one.
+	 * @return mixed[][] A bidimensional array having all dragons' non-null data as associative arrays, with an additional 'notes' key
+	 */
+	public function breedingHint($id, $reduced = false, $displayDays = false) {
+		if (!(self::$breedingHintQuery instanceof mysqli_stmt)) {
+			self::$breedingHintQuery = $this -> conn -> prepare('call breedingHint(?, ?, ?)');
+			if (!self::$breedingHintQuery)
+				die("\$breedingHintQuery preparation failed due to: {$this -> conn -> error}\n");
+		}
+
+		/*
+			Must convert booleans to integer since prepared
+			statements don't handle the former. Moreover,
+			'b' in types string stands for 'blob'.
+		*/
+		return $this -> conn -> prepQuery(MySQLConn::ASSOC, function($dragon) {
+					return array_filter($dragon, 'isset');
+				}, self::$breedingHintQuery, $id, (int) $reduced, (int) $displayDays);
+	}
+
+	/**
 	 * Fetches all dragons' names and ids, sorted by name.
 	 *
 	 * @return mixed[][] A numeric bidimensional array having id and name of every dragon as first and second element respectively.

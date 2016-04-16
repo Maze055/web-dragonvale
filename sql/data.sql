@@ -1,91 +1,91 @@
 --
--- Database: `dragonvale`
+-- Database: dragonvale
 --
-CREATE DATABASE IF NOT EXISTS `dragonvale` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-USE `dragonvale`;
+CREATE DATABasE IF NOT EXISTS dragonvale DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+USE dragonvale;
 
 -- --------------------------------------------------------
 
 --
--- Stand-in structure for view `breedingPool`
+-- Stand-in structure for view breedingPool
 --
-DROP VIEW IF EXISTS `breedingPool`;
-CREATE TABLE `breedingPool` (
-`dragonId` bigint(20) unsigned
-,`elem` bigint(20) unsigned
+DROP VIEW IF EXISTS breedingPool;
+CREATE TABLE breedingPool (
+dragonId smallint(20) unsigned,
+elem tinyint(20) unsigned
 );
 
 -- --------------------------------------------------------
 
 --
--- Stand-in structure for view `canBreed`
+-- Stand-in structure for view canBreed
 --
-DROP VIEW IF EXISTS `canBreed`;
-CREATE TABLE `canBreed` (
-`id` smallint(5) unsigned
-,`canBreed` int(1)
+DROP VIEW IF EXISTS canBreed;
+CREATE TABLE canBreed (
+id smallint(5) unsigned,
+canBreed tinyint(1)
 );
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `coins`
+-- Table structure for table coins
 --
 
-DROP TABLE IF EXISTS `coins`;
-CREATE TABLE `coins` (
-  `dragon` smallint(5) UNSIGNED NOT NULL,
-  `level1` smallint(3) UNSIGNED NOT NULL,
-  `level2` smallint(3) UNSIGNED NOT NULL,
-  `level3` smallint(3) UNSIGNED NOT NULL,
-  `level4` smallint(3) UNSIGNED NOT NULL,
-  `level5` smallint(3) UNSIGNED NOT NULL,
-  `level6` smallint(3) UNSIGNED NOT NULL,
-  `level7` smallint(3) UNSIGNED NOT NULL,
-  `level8` smallint(3) UNSIGNED NOT NULL,
-  `level9` smallint(3) UNSIGNED NOT NULL,
-  `level10` smallint(3) UNSIGNED NOT NULL,
-  `leve111` smallint(3) UNSIGNED DEFAULT NULL,
-  `level12` smallint(3) UNSIGNED DEFAULT NULL,
-  `level13` smallint(3) UNSIGNED DEFAULT NULL,
-  `level14` smallint(3) UNSIGNED DEFAULT NULL,
-  `level15` smallint(3) UNSIGNED DEFAULT NULL,
-  `level16` smallint(3) UNSIGNED DEFAULT NULL,
-  `level17` smallint(3) UNSIGNED DEFAULT NULL,
-  `level18` smallint(3) UNSIGNED DEFAULT NULL,
-  `level19` smallint(3) UNSIGNED DEFAULT NULL,
-  `level20` smallint(3) UNSIGNED DEFAULT NULL,
-  `level21` smallint(3) UNSIGNED DEFAULT NULL
+DROP TABLE IF EXISTS coins;
+CREATE TABLE coins (
+  dragon smallint(5) UNSIGNED NOT NULL,
+  level1 smallint(3) UNSIGNED NOT NULL,
+  level2 smallint(3) UNSIGNED NOT NULL,
+  level3 smallint(3) UNSIGNED NOT NULL,
+  level4 smallint(3) UNSIGNED NOT NULL,
+  level5 smallint(3) UNSIGNED NOT NULL,
+  level6 smallint(3) UNSIGNED NOT NULL,
+  level7 smallint(3) UNSIGNED NOT NULL,
+  level8 smallint(3) UNSIGNED NOT NULL,
+  level9 smallint(3) UNSIGNED NOT NULL,
+  level10 smallint(3) UNSIGNED NOT NULL,
+  leve111 smallint(3) UNSIGNED DEFAULT NULL,
+  level12 smallint(3) UNSIGNED DEFAULT NULL,
+  level13 smallint(3) UNSIGNED DEFAULT NULL,
+  level14 smallint(3) UNSIGNED DEFAULT NULL,
+  level15 smallint(3) UNSIGNED DEFAULT NULL,
+  level16 smallint(3) UNSIGNED DEFAULT NULL,
+  level17 smallint(3) UNSIGNED DEFAULT NULL,
+  level18 smallint(3) UNSIGNED DEFAULT NULL,
+  level19 smallint(3) UNSIGNED DEFAULT NULL,
+  level20 smallint(3) UNSIGNED DEFAULT NULL,
+  level21 smallint(3) UNSIGNED DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `dragons`
+-- Table structure for table dragons
 --
 
-DROP TABLE IF EXISTS `dragons`;
-CREATE TABLE `dragons` (
-  `id` smallint(5) UNSIGNED NOT NULL,
-  `en` varchar(40) CHARACTER SET utf8mb4 NOT NULL,
-  `time` time NOT NULL,
-  `elem1` tinyint(3) UNSIGNED NOT NULL,
-  `elem2` tinyint(3) UNSIGNED DEFAULT NULL,
-  `elem3` tinyint(3) UNSIGNED DEFAULT NULL,
-  `elem4` tinyint(3) UNSIGNED DEFAULT NULL,
-  `parent1` smallint(5) UNSIGNED DEFAULT NULL,
-  `parent2` smallint(5) UNSIGNED DEFAULT NULL,
-  `elemBreed1` tinyint(3) UNSIGNED DEFAULT NULL,
-  `elemBreed2` tinyint(3) UNSIGNED DEFAULT NULL,
-  `elemBreed3` tinyint(3) UNSIGNED DEFAULT NULL,
-  `elemBreed4` tinyint(3) UNSIGNED DEFAULT NULL
+DROP TABLE IF EXISTS dragons;
+CREATE TABLE dragons (
+  id smallint(5) UNSIGNED NOT NULL,
+  en varchar(40) CHARACTER SET utf8mb4 NOT NULL,
+  time time NOT NULL,
+  elem1 tinyint(3) UNSIGNED NOT NULL,
+  elem2 tinyint(3) UNSIGNED DEFAULT NULL,
+  elem3 tinyint(3) UNSIGNED DEFAULT NULL,
+  elem4 tinyint(3) UNSIGNED DEFAULT NULL,
+  parent1 smallint(5) UNSIGNED DEFAULT NULL,
+  parent2 smallint(5) UNSIGNED DEFAULT NULL,
+  elemBreed1 tinyint(3) UNSIGNED DEFAULT NULL,
+  elemBreed2 tinyint(3) UNSIGNED DEFAULT NULL,
+  elemBreed3 tinyint(3) UNSIGNED DEFAULT NULL,
+  elemBreed4 tinyint(3) UNSIGNED DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `dragons`
+-- Dumping data for table dragons
 --
 
-INSERT INTO `dragons` (`id`, `en`, `time`, `elem1`, `elem2`, `elem3`, `elem4`, `parent1`, `parent2`, `elemBreed1`, `elemBreed2`, `elemBreed3`, `elemBreed4`) VALUES
+INSERT INTO dragons (id, en, time, elem1, elem2, elem3, elem4, parent1, parent2, elemBreed1, elemBreed2, elemBreed3, elemBreed4) VALUES
 (1, 'Plant', '00:00:05', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 (2, 'Fire', '00:05:00', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 (3, 'Earth', '02:00:00', 3, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
@@ -362,29 +362,30 @@ INSERT INTO `dragons` (`id`, `en`, `time`, `elem1`, `elem2`, `elem3`, `elem4`, `
 (274, 'Marbletail', '50:40:00', 26, NULL, NULL, NULL, 272, 273, NULL, NULL, NULL, NULL),
 (275, 'Quartz', '30:00:00', 23, NULL, NULL, NULL, 67, 16, NULL, NULL, NULL, NULL),
 (276, 'Monolith 6', '24:00:00', 21, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(277, 'Tempest', '08:00:00', 5, 4, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+(277, 'Tempest', '08:00:00', 5, 4, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL)
+(278, 'Wavelyte', '36:00:00', 23, NULL, NULL, NULL, 77, 18, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `elements`
+-- Table structure for table elements
 --
 
-DROP TABLE IF EXISTS `elements`;
-CREATE TABLE `elements` (
-  `id` tinyint(3) UNSIGNED NOT NULL,
-  `opposite` tinyint(3) UNSIGNED DEFAULT NULL,
-  `isEpic` tinyint(1) UNSIGNED NOT NULL DEFAULT '1',
-  `canBreed` tinyint(1) UNSIGNED NOT NULL DEFAULT '1',
-  `en` varchar(15) CHARACTER SET utf8mb4 NOT NULL,
-  `it` varchar(15) CHARACTER SET utf8mb4 NOT NULL
+DROP TABLE IF EXISTS elements;
+CREATE TABLE elements (
+  id tinyint(3) UNSIGNED NOT NULL,
+  opposite tinyint(3) UNSIGNED DEFAULT NULL,
+  isEpic tinyint(1) UNSIGNED NOT NULL DEFAULT '1',
+  canBreed tinyint(1) UNSIGNED NOT NULL DEFAULT '1',
+  en varchar(15) CHARACTER SET utf8mb4 NOT NULL,
+  it varchar(15) CHARACTER SET utf8mb4 NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table `elements`
+-- Dumping data for table elements
 --
 
-INSERT INTO `elements` (`id`, `opposite`, `isEpic`, `canBreed`, `en`, `it`) VALUES
+INSERT INTO elements (id, opposite, isEpic, canBreed, en, it) VALUES
 (1, 8, 0, 1, 'Plant', 'Vegetale'),
 (2, 4, 0, 1, 'Fire', 'Fuoco'),
 (3, 7, 0, 1, 'Earth', 'Terra'),
@@ -415,59 +416,233 @@ INSERT INTO `elements` (`id`, `opposite`, `isEpic`, `canBreed`, `en`, `it`) VALU
 -- --------------------------------------------------------
 
 --
--- Structure for view `breedingPool`
+-- Structure for view breedingPool
 --
-DROP TABLE IF EXISTS `breedingPool`;
-
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `breedingPool`  AS  select `dragons`.`id` AS `dragonId`,`dragons`.`elem1` AS `elem` from `dragons` where `dragons`.`id` in (select `cb`.`id` from `canBreed` `cb` where (`cb`.`canBreed` is true)) union select `dragons`.`id` AS `id`,`dragons`.`elem2` AS `elem2` from `dragons` where ((`dragons`.`elem2` is not null) and `dragons`.`id` in (select `cb`.`id` from `canBreed` `cb` where (`cb`.`canBreed` is true))) union select `dragons`.`id` AS `id`,`dragons`.`elem3` AS `elem3` from `dragons` where ((`dragons`.`elem3` is not null) and `dragons`.`id` in (select `cb`.`id` from `canBreed` `cb` where (`cb`.`canBreed` is true))) union select `dragons`.`id` AS `id`,`dragons`.`elem4` AS `elem4` from `dragons` where ((`dragons`.`elem4` is not null) and `dragons`.`id` in (select `cb`.`id` from `canBreed` `cb` where (`cb`.`canBreed` is true))) union select `dragons`.`id` AS `id`,`dragons`.`elemBreed1` AS `elemBreed1` from `dragons` where ((`dragons`.`elemBreed1` is not null) and `dragons`.`id` in (select `cb`.`id` from `canBreed` `cb` where (`cb`.`canBreed` is true))) union select `dragons`.`id` AS `id`,`dragons`.`elemBreed2` AS `elemBreed2` from `dragons` where ((`dragons`.`elemBreed2` is not null) and `dragons`.`id` in (select `cb`.`id` from `canBreed` `cb` where (`cb`.`canBreed` is true))) union select `dragons`.`id` AS `id`,`dragons`.`elemBreed3` AS `elemBreed3` from `dragons` where ((`dragons`.`elemBreed3` is not null) and `dragons`.`id` in (select `cb`.`id` from `canBreed` `cb` where (`cb`.`canBreed` is true)) and (`dragons`.`id` <> 156)) union select `dragons`.`id` AS `id`,`dragons`.`elemBreed4` AS `elemBreed4` from `dragons` where ((`dragons`.`elemBreed4` is not null) and `dragons`.`id` in (select `cb`.`id` from `canBreed` `cb` where (`cb`.`canBreed` is true))) union select `d`.`id` AS `id`,`p`.`elem1` AS `elem1` from (`dragons` `d` join `dragons` `p` on((`d`.`parent1` = `p`.`id`))) where `d`.`id` in (select `cb`.`id` from `canBreed` `cb` where (`cb`.`canBreed` is true)) union select `d`.`id` AS `id`,`p`.`elem2` AS `elem2` from (`dragons` `d` join `dragons` `p` on((`d`.`parent1` = `p`.`id`))) where ((`p`.`elem2` is not null) and `d`.`id` in (select `cb`.`id` from `canBreed` `cb` where (`cb`.`canBreed` is true))) union select `d`.`id` AS `id`,`p`.`elem3` AS `elem3` from (`dragons` `d` join `dragons` `p` on((`d`.`parent1` = `p`.`id`))) where ((`p`.`elem3` is not null) and `d`.`id` in (select `cb`.`id` from `canBreed` `cb` where (`cb`.`canBreed` is true))) union select `d`.`id` AS `id`,`p`.`elem4` AS `elem4` from (`dragons` `d` join `dragons` `p` on((`d`.`parent1` = `p`.`id`))) where ((`p`.`elem4` is not null) and `d`.`id` in (select `cb`.`id` from `canBreed` `cb` where (`cb`.`canBreed` is true))) union select `d`.`id` AS `id`,`p`.`elem1` AS `elem1` from (`dragons` `d` join `dragons` `p` on((`d`.`parent2` = `p`.`id`))) where `d`.`id` in (select `cb`.`id` from `canBreed` `cb` where (`cb`.`canBreed` is true)) union select `d`.`id` AS `id`,`p`.`elem2` AS `elem2` from (`dragons` `d` join `dragons` `p` on((`d`.`parent2` = `p`.`id`))) where ((`p`.`elem2` is not null) and `d`.`id` in (select `cb`.`id` from `canBreed` `cb` where (`cb`.`canBreed` is true))) union select `d`.`id` AS `id`,`p`.`elem3` AS `elem3` from (`dragons` `d` join `dragons` `p` on((`d`.`parent2` = `p`.`id`))) where ((`p`.`elem3` is not null) and `d`.`id` in (select `cb`.`id` from `canBreed` `cb` where (`cb`.`canBreed` is true))) union select `d`.`id` AS `id`,`p`.`elem4` AS `elem4` from (`dragons` `d` join `dragons` `p` on((`d`.`parent2` = `p`.`id`))) where ((`p`.`elem4` is not null) and `d`.`id` in (select `cb`.`id` from `canBreed` `cb` where (`cb`.`canBreed` is true))) union select `d`.`id` AS `dragonId`,`e`.`id` AS `elem` from (`dragons` `d` join `elements` `e`) where ((`d`.`id` in (155,166,188,213,173)) and (`e`.`isEpic` is false) and (`e`.`canBreed` is true)) union select 177 AS `177`,4 AS `4` union select 177 AS `177`,6 AS `6` union select 177 AS `177`,7 AS `7` union select 178 AS `178`,4 AS `4` union select 178 AS `178`,5 AS `5` union select 178 AS `178`,6 AS `6` union select 179 AS `179`,2 AS `2` union select 179 AS `179`,4 AS `4` union select 179 AS `179`,6 AS `6` union select 180 AS `180`,4 AS `4` union select 180 AS `180`,6 AS `6` union select 180 AS `180`,9 AS `9` union select 181 AS `181`,1 AS `1` union select 181 AS `181`,4 AS `4` union select 181 AS `181`,6 AS `6` union select 182 AS `182`,1 AS `1` union select 182 AS `182`,3 AS `3` union select 182 AS `182`,6 AS `6` union select 183 AS `183`,2 AS `2` union select 183 AS `183`,3 AS `3` union select 183 AS `183`,6 AS `6` union select 184 AS `184`,3 AS `3` union select 184 AS `184`,4 AS `4` union select 184 AS `184`,6 AS `6` union select 185 AS `185`,3 AS `3` union select 185 AS `185`,5 AS `5` union select 185 AS `185`,6 AS `6` union select 186 AS `186`,3 AS `3` union select 186 AS `186`,6 AS `6` union select 186 AS `186`,7 AS `7` union select 245 AS `245`,2 AS `2` union select 245 AS `245`,3 AS `3` union select 245 AS `245`,5 AS `5` union select 245 AS `245`,9 AS `9` union select 246 AS `246`,2 AS `2` union select 246 AS `246`,3 AS `3` union select 246 AS `246`,7 AS `7` union select 246 AS `246`,10 AS `10` union select 247 AS `247`,4 AS `4` union select 247 AS `247`,5 AS `5` union select 247 AS `247`,7 AS `7` union select 247 AS `247`,10 AS `10` union select 248 AS `248`,4 AS `4` union select 248 AS `248`,6 AS `6` union select 248 AS `248`,7 AS `7` union select 248 AS `248`,9 AS `9` union select 249 AS `249`,1 AS `1` union select 249 AS `249`,6 AS `6` union select 249 AS `249`,8 AS `8` union select 249 AS `249`,9 AS `9` union select 250 AS `250`,1 AS `1` union select 250 AS `250`,2 AS `2` union select 250 AS `250`,3 AS `3` union select 250 AS `250`,4 AS `4` union select 251 AS `251`,1 AS `1` union select 251 AS `251`,5 AS `5` union select 251 AS `251`,6 AS `6` union select 251 AS `251`,8 AS `8` union select 252 AS `252`,2 AS `2` union select 252 AS `252`,3 AS `3` union select 252 AS `252`,4 AS `4` union select 252 AS `252`,8 AS `8` union select 253 AS `253`,1 AS `1` union select 253 AS `253`,3 AS `3` union select 253 AS `253`,4 AS `4` union select 253 AS `253`,9 AS `9` ;
+DROP TABLE IF EXISTS breedingPool;
+CREATE ALGORITHM=UNDEFINED DEFINER=root@localhost SQL SECURITY DEFINER VIEW breedingPool as
+select d.id as dragonId, d.elem1 as elem
+from dragons d
+where d.id in (select cb.id from canBreed cb where cb.canBreed is true)
+union
+select d.id as dragonId, d.elem2 as elem
+from dragons d
+where d.elem2 is not null and
+	d.id in (select cb.id from canBreed cb where cb.canBreed is true)
+union
+select d.id as dragonId, d.elem3 as elem
+from dragons d
+where d.elem3 is not null and
+	d.id in (select cb.id from canBreed cb where cb.canBreed is true)
+union
+select d.id as dragonId, d.elem4 as elem
+from dragons d
+where d.elem4 is not null and
+	d.id in (select cb.id from canBreed cb where cb.canBreed is true)
+union
+select d.id as dragonId, d.elemBreed1 as elem
+from dragons d
+where d.elemBreed1 is not null and
+	d.id in (select cb.id from canBreed cb where cb.canBreed is true)
+union
+select d.id as dragonId, d.elemBreed2 as elem
+from dragons d
+where d.elemBreed2 is not null and
+	d.id in (select cb.id from canBreed cb where cb.canBreed is true)
+union
+select d.id as dragonId, d.elemBreed3 as elem
+from dragons d
+where d.elemBreed3 is not null and
+	d.id in (select cb.id from canBreed cb where cb.canBreed is true)
+union
+select d.id as dragonId, d.elemBreed4 as elem
+from dragons d
+where d.elemBreed4 is not null and
+	d.id in (select cb.id from canBreed cb where cb.canBreed is true)
+union
+select d.id as dragonId, p.elem1 as elem
+from dragons d
+	join dragons p
+		on d.parent1 = p.id
+where d.id in (select cb.id from canBreed cb where cb.canBreed is true)
+union
+select d.id as dragonId, p.elem2 as elem
+from dragons d
+	join dragons p
+		on d.parent1 = p.id
+where p.elem2 is not null and
+	d.id in (select cb.id from canBreed cb where cb.canBreed is true)
+union
+select d.id as dragonId, p.elem3 as elem
+from dragons d
+	join dragons p
+		on d.parent1 = p.id
+where p.elem3 is not null and
+	d.id in (select cb.id from canBreed cb where cb.canBreed is true)
+union
+select d.id as dragonId, p.elem4 as elem
+from dragons d
+	join dragons p
+		on d.parent1 = p.id
+where p.elem4 is not null and
+	d.id in (select cb.id from canBreed cb where cb.canBreed is true)
+union
+select d.id as dragonId, p.elem1 as elem
+from dragons d
+	join dragons p
+		on d.parent2 = p.id
+where d.id in (select cb.id from canBreed cb where cb.canBreed is true)
+union
+select d.id as dragonId, p.elem2 as elem
+from dragons d
+	join dragons p
+		on d.parent2 = p.id
+where p.elem2 is not null and
+	d.id in (select cb.id from canBreed cb where cb.canBreed is true)
+union
+select d.id as dragonId, p.elem3 as elem
+from dragons d
+	join dragons p
+		on d.parent2 = p.id
+where p.elem3 is not null and
+	d.id in (select cb.id from canBreed cb where cb.canBreed is true)
+union
+select d.id as dragonId, p.elem4 as elem
+from dragons d
+	join dragons p
+		on d.parent2 = p.id
+where p.elem4 is not null and
+	d.id in (select cb.id from canBreed cb where cb.canBreed is true)
+union
+select d.id as dragonId, e.id as elem
+from dragons d
+	join elements e
+where d.id in (155,166,188,213,173) and
+	e.isEpic is false and e.canBreed is true
+union
+select 177, 4 union select 177, 6 union select 177, 7 -- Snowflake 1
+union
+select 178, 4 union select 178, 5 union select 178, 6 -- Snowflake 2
+union
+select 179, 2 union select 179, 4 union select 179, 6 -- Snowflake 3
+union
+select 180, 4 union select 180, 6 union select 180, 9 -- Snowflake 4
+union
+select 181, 1 union select 181, 4 union select 181, 6 -- Snowflake 5
+union
+select 182, 1 union select 182, 3 union select 182, 6 -- Monolith 1
+union
+select 183, 2 union select 183, 3 union select 183, 6 -- Monolith 2
+union
+select 184, 3 union select 184, 4 union select 184, 6 -- Monolith 3
+union
+select 185, 3 union select 185, 5 union select 185, 6 -- Monolith 4
+union
+select 186, 3 union select 186, 6 union select 186, 7 -- Monolith 5
+union
+select 276, 3 union select 276, 6 union select 276, 8 -- Monolith 6
+union
+select 245, 2 union select 245, 3 union select 245, 5 union select 245, 9 -- Antarian
+union
+select 246, 2 union select 246, 3 union select 246, 7 union select 246, 10 -- Arcturian
+union
+select 247, 4 union select 247, 5 union select 247, 7 union select 247, 10 -- Bizurian
+union
+select 248, 4 union select 248, 6 union select 248, 7 union select 248, 9 -- Polarian
+union
+select 249, 1 union select 249, 6 union select 249, 8 union select 249, 9 -- Sorarian
+union
+select 250, 1 union select 250, 2 union select 250, 3 union select 250, 4 -- Andromedan
+union
+select 251, 1 union select 251, 5 union select 251, 6 union select 251, 8 -- Procyon
+union
+select 252, 2 union select 252, 3 union select 252, 4 union select 252, 8 -- Comet
+union
+select 253, 1 union select 253, 3 union select 253, 4 union select 253, 9 -- Eridanian
+union
+select 262, 2 union select 262, 3 union select 262, 4 -- Serenity
+union
+select 263, 1 union select 263, 2 union select 263, 3 -- Ire
+union
+select 264, 1 union select 264, 2 union select 264, 4 -- Delight
+union
+select 265, 1 union select 265, 3 union select 265, 4 -- Melancholy
+union
+select 270, 2 union select 270, 3 union select 270, 4 -- Chrysalis
+union
+select 271, 1 union select 271, 2 union select 271, 3 -- Duskwing
+union
+select 272, 1 union select 272, 2 union select 272, 3 union select 272, 4 -- Lacewing
+union
+select 273, 1 union select 273, 2 union select 273, 3 union select 273, 4 -- Swallowtail
+union
+select 274, 1 union select 274, 2 union select 274, 3 union select 274, 4 -- Marbletail
+;
 
 -- --------------------------------------------------------
 
 --
--- Structure for view `canBreed`
+-- Structure for view canBreed
 --
-DROP TABLE IF EXISTS `canBreed`;
+DROP TABLE IF EXISTS canBreed;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `canBreed`  AS  select `d`.`id` AS `id`,((`e1`.`canBreed` is true) and (isnull(`e2`.`canBreed`) or (`e2`.`canBreed` is true)) and (isnull(`e3`.`canBreed`) or (`e3`.`canBreed` is true)) and (isnull(`e4`.`canBreed`) or (`e4`.`canBreed` is true))) AS `canBreed` from ((((`dragons` `d` join `elements` `e1` on((`d`.`elem1` = `e1`.`id`))) left join `elements` `e2` on((`d`.`elem2` = `e2`.`id`))) left join `elements` `e3` on((`d`.`elem3` = `e3`.`id`))) left join `elements` `e4` on((`d`.`elem4` = `e4`.`id`))) ;
+CREATE ALGORITHM=UNDEFINED DEFINER=root@localhost SQL SECURITY DEFINER VIEW canBreed as
+select d.id as id,
+			e1.canBreed is true
+		and
+			(e2.canBreed is null or e2.canBreed is true)
+		and
+			(e3.canBreed is null or e3.canBreed is true)
+		and
+			(e4.canBreed is null or e4.canBreed is true)
+		as canBreed
+from dragons d
+	join elements e1
+		on d.elem1 = e1.id
+	left join elements e2
+		on d.elem2 = e2.id
+	left join elements e3
+		on d.elem3 = e3.id
+	left join elements e4
+		on d.elem4 = e4.id;
 
 --
 -- Indexes for dumped tables
 --
 
 --
--- Indexes for table `coins`
+-- Indexes for table coins
 --
-ALTER TABLE `coins`
-  ADD PRIMARY KEY (`dragon`);
+ALTER TABLE coins
+  ADD PRIMARY KEY (dragon);
 
 --
--- Indexes for table `dragons`
+-- Indexes for table dragons
 --
-ALTER TABLE `dragons`
-  ADD PRIMARY KEY (`id`);
+ALTER TABLE dragons
+  ADD PRIMARY KEY (id);
 
 --
--- Indexes for table `elements`
+-- Indexes for table elements
 --
-ALTER TABLE `elements`
-  ADD PRIMARY KEY (`id`);
+ALTER TABLE elements
+  ADD PRIMARY KEY (id);
 
 --
 -- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT for table `coins`
+-- AUTO_INCREMENT for table coins
 --
-ALTER TABLE `coins`
-  MODIFY `dragon` smallint(5) UNSIGNED NOT NULL AUTO_INCREMENT;
+ALTER TABLE coins
+  MODIFY dragon smallint(5) UNSIGNED NOT NULL AUTO_INCREMENT;
 --
--- AUTO_INCREMENT for table `dragons`
+-- AUTO_INCREMENT for table dragons
 --
-ALTER TABLE `dragons`
-  MODIFY `id` smallint(5) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=277;
+ALTER TABLE dragons
+  MODIFY id smallint(5) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=278;
 --
--- AUTO_INCREMENT for table `elements`
+-- AUTO_INCREMENT for table elements
 --
-ALTER TABLE `elements`
-  MODIFY `id` tinyint(3) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+ALTER TABLE elements
+  MODIFY id tinyint(3) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;

@@ -37,17 +37,17 @@ body: begin
 		where ( -- Time and elements filters
 					(time(_time) = '00:00:00' or _time = d.time)
 				and
-					if (strictOrder,
+					case when strictOrder then
 						(_elem1 < 1 or elem1 = _elem1) and
 						(_elem2 < 1 or elem2 = _elem2) and
 						(_elem3 < 1 or elem3 = _elem3) and
 						(_elem4 < 1 or elem4 = _elem4)
-					,
+					else
 						(_elem1 < 1 or ifnull(_elem1 in (elem1, elem2, elem3, elem4), false)) and
 						(_elem2 < 1 or ifnull(_elem2 in (elem1, elem2, elem3, elem4), false)) and
 						(_elem3 < 1 or ifnull(_elem3 in (elem1, elem2, elem3, elem4), false)) and
 						(_elem4 < 1 or ifnull(_elem4 in (elem1, elem2, elem3, elem4), false))
-					)
+					end
 			) and ( -- Parents filters
 				(_parent1 < 1 and _parent2 < 1) or (
 						d.id = _parent1 and not isPrimary(_parent1) -- First parent
@@ -119,20 +119,32 @@ body: begin
 								 where bp.dragonId in (_parent1, _parent2)
 									and (e.id = 22 or e.isEpic is true))
 						)
+					) or ( -- Snowflake and Monolith (both parents Snowflake/Monolith)
+							d.elem1 in (20, 21)
+						and
+								d.elem1 in (select bp.elem
+											from breedingPool bp
+											where dragonId = _parent1)
+							and
+								d.elem1 in (select bp.elem
+											from breedingPool bp
+											where dragonId = _parent2)
 					) or ( -- Primary
 							isPrimary(d.id)
 						and (
 								d.id in (_parent1, _parent2)
 							or
 								getOppositeDragon(d.id) in (_parent1, _parent2)
-						) and (
-								select group_concat(concat('-', d1.elem1, '-', d1.elem2, '-'))
-								from dragons d1
-								where d1.id in (_parent1, _parent2) and
-									(d1.elem1, d1.elem2) in (select e.id, e.opposite
-															 from elements e
-															 where e.opposite is not null)
-							) like concat('%-', d.elem1, '-%')
+						) and d.elem1 in (
+							select bp.elem
+							from dragons d1
+								join breedingPool bp
+									on d.id = bp.dragonId
+							where d1.id in (_parent1, _parent2) and
+								(d1.elem1, d1.elem2) in (select e.id, e.opposite
+														 from elements e
+														 where e.opposite is not null)
+						)
 					) or ( -- Basic breedign rule
 							not isPrimary(d.id)
 						and
@@ -171,20 +183,63 @@ body: begin
 	order by rs.en;
 end body$$
 
+DROP PROCEDURE IF EXISTS `breedingHint`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `breedingHint` (`_id` INT, `reduced` INT, `displayDays` INT) READS SQL DATA
+begin
+	select d.id, d.en, d.elem1, d.elem2, d.elem3, d.elem4,
+			d.parent1, d.parent2, d.elemBreed1, d.elemBreed3,
+			d.elemBreed3, d.elemBreed4, isPrimary(d.id) as isPrimary,
+			formatTime(reduced, displayDays) as time,
+		case
+			when -- Motley
+				d.id = 126
+			then
+				'Any pair of dragons'
+
+			when -- Dream
+				d.id = 173
+			then
+				'Any other two elements'
+
+			when -- 4 different elements
+				id in (155, 166, 188, 213, 266, 268)
+			then
+				'Any four different elements'
+
+			when -- Galaxy
+				ifnull(22 in (d.elem1, d.elem2, d.elem3, d.elem4), false)
+			then
+				'Another Galaxy or epic'
+		end as notes
+-- TODO: primaries
+from dragons d
+	join elements e1
+		on d.elem1 = e1.id
+	left join elements e2
+		on d.elem2 = e2.id
+	left join elements e3
+		on d.elem3 = e3.id
+	left join elements e4
+		on d.elem4 = e4.id
+where d.id = _id or
+	ifnull(d.id in (select d1.parent1 from dragons d1 where d.id = _id), false) or
+	ifnull(d.id in (select d1.parent2 from dragons d1 where d.id = _id), false)
+end$$
+
 --
 -- Functions
 --
 DROP FUNCTION IF EXISTS `formatTime`$$
 CREATE DEFINER=`root`@`localhost` FUNCTION `formatTime` (`time` TIME, `reduced` TINYINT, `displayDays` TINYINT) RETURNS VARCHAR(11) CHARSET utf8mb4 DETERMINISTIC begin
-	set @time = if(reduced, sec_to_time(truncate(time_to_sec(time) * 0.8, 0)), time);
-	return if (displayDays,
+	set @time = case when reduced then sec_to_time(truncate(time_to_sec(time) * 0.8, 0)) else time end;
+	return case when displayDays then
 			concat_ws(':',
-				if (hour(@time) < 24, null, lpad(hour(@time) div 24, 2, '0')),
+				case when hour(@time) < 24 then null else lpad(hour(@time) div 24, 2, '0') end,
 				lpad(hour(@time) % 24, 2, '0'),
-				right(@time, 5)
-			),
+				right(@time, 5))
+		else
 			@time
-		);
+		end;
 end$$
 
 DROP FUNCTION IF EXISTS `isPrimary`$$
@@ -199,7 +254,7 @@ CREATE DEFINER=`root`@`localhost` FUNCTION `isPrimary` (`id` int) RETURNS tinyin
 
 DROP FUNCTION IF EXISTS `getOppositeDragon`$$
 CREATE DEFINER=`root`@`localhost` FUNCTION `getOppositeDragon` (`id` int) RETURNS int
-	return if (not isPrimary(id), null,
+	return case when not isPrimary(id) then null else
 			(select opp.id
 		     from dragons d
 				join elements e1
@@ -208,4 +263,4 @@ CREATE DEFINER=`root`@`localhost` FUNCTION `getOppositeDragon` (`id` int) RETURN
 					on opp.elem1 = e1.opposite
 		     where d.id = id
 				and isPrimary(opp.id))
-	)$$
+	end$$
