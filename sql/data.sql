@@ -7,28 +7,6 @@ USE dragonvale;
 -- --------------------------------------------------------
 
 --
--- Stand-in structure for view breedingPool
---
-DROP VIEW IF EXISTS breedingPool;
-CREATE TABLE breedingPool (
-dragonId smallint(20) unsigned,
-elem tinyint(20) unsigned
-);
-
--- --------------------------------------------------------
-
---
--- Stand-in structure for view canBreed
---
-DROP VIEW IF EXISTS canBreed;
-CREATE TABLE canBreed (
-id smallint(5) unsigned,
-canBreed tinyint(1)
-);
-
--- --------------------------------------------------------
-
---
 -- Table structure for table coins
 --
 
@@ -362,7 +340,7 @@ INSERT INTO dragons (id, en, time, elem1, elem2, elem3, elem4, parent1, parent2,
 (274, 'Marbletail', '50:40:00', 26, NULL, NULL, NULL, 272, 273, NULL, NULL, NULL, NULL),
 (275, 'Quartz', '30:00:00', 23, NULL, NULL, NULL, 67, 16, NULL, NULL, NULL, NULL),
 (276, 'Monolith 6', '24:00:00', 21, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(277, 'Tempest', '08:00:00', 5, 4, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL)
+(277, 'Tempest', '08:00:00', 5, 4, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 (278, 'Wavelyte', '36:00:00', 23, NULL, NULL, NULL, 77, 18, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
@@ -416,10 +394,34 @@ INSERT INTO elements (id, opposite, isEpic, canBreed, en, it) VALUES
 -- --------------------------------------------------------
 
 --
+-- Structure for view canBreed
+--
+CREATE OR REPLACE ALGORITHM=UNDEFINED DEFINER=root@localhost SQL SECURITY DEFINER VIEW canBreed as
+select d.id as id,
+			e1.canBreed is true
+		and
+			(e2.canBreed is null or e2.canBreed is true)
+		and
+			(e3.canBreed is null or e3.canBreed is true)
+		and
+			(e4.canBreed is null or e4.canBreed is true)
+		as canBreed
+from dragons d
+	join elements e1
+		on d.elem1 = e1.id
+	left join elements e2
+		on d.elem2 = e2.id
+	left join elements e3
+		on d.elem3 = e3.id
+	left join elements e4
+		on d.elem4 = e4.id;
+
+-- --------------------------------------------------------
+
+--
 -- Structure for view breedingPool
 --
-DROP TABLE IF EXISTS breedingPool;
-CREATE ALGORITHM=UNDEFINED DEFINER=root@localhost SQL SECURITY DEFINER VIEW breedingPool as
+CREATE OR REPLACE ALGORITHM=UNDEFINED DEFINER=root@localhost SQL SECURITY DEFINER VIEW breedingPool as
 select d.id as dragonId, d.elem1 as elem
 from dragons d
 where d.id in (select cb.id from canBreed cb where cb.canBreed is true)
@@ -577,33 +579,6 @@ select 273, 1 union select 273, 2 union select 273, 3 union select 273, 4 -- Swa
 union
 select 274, 1 union select 274, 2 union select 274, 3 union select 274, 4 -- Marbletail
 ;
-
--- --------------------------------------------------------
-
---
--- Structure for view canBreed
---
-DROP TABLE IF EXISTS canBreed;
-
-CREATE ALGORITHM=UNDEFINED DEFINER=root@localhost SQL SECURITY DEFINER VIEW canBreed as
-select d.id as id,
-			e1.canBreed is true
-		and
-			(e2.canBreed is null or e2.canBreed is true)
-		and
-			(e3.canBreed is null or e3.canBreed is true)
-		and
-			(e4.canBreed is null or e4.canBreed is true)
-		as canBreed
-from dragons d
-	join elements e1
-		on d.elem1 = e1.id
-	left join elements e2
-		on d.elem2 = e2.id
-	left join elements e3
-		on d.elem3 = e3.id
-	left join elements e4
-		on d.elem4 = e4.id;
 
 --
 -- Indexes for dumped tables

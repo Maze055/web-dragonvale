@@ -139,7 +139,7 @@ body: begin
 							select bp.elem
 							from dragons d1
 								join breedingPool bp
-									on d.id = bp.dragonId
+									on d1.id = bp.dragonId
 							where d1.id in (_parent1, _parent2) and
 								(d1.elem1, d1.elem2) in (select e.id, e.opposite
 														 from elements e
@@ -223,7 +223,7 @@ from dragons d
 		on d.elem4 = e4.id
 where d.id = _id or
 	ifnull(d.id in (select d1.parent1 from dragons d1 where d.id = _id), false) or
-	ifnull(d.id in (select d1.parent2 from dragons d1 where d.id = _id), false)
+	ifnull(d.id in (select d1.parent2 from dragons d1 where d.id = _id), false);
 end$$
 
 --
