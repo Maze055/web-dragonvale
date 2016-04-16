@@ -146,7 +146,7 @@ body: begin
 														 where e.opposite is not null)
 						)
 					) or ( -- Basic breedign rule
-							not isPrimary(d.id)
+							not isPrimary(d.id) and d.elem1 not in (20, 21)
 						and
 							coalesce(d.parent1, d.parent2, d.elemBreed1, d.elemBreed2,
 									d.elemBreed3, d.elemBreed4) is null
