@@ -152,9 +152,8 @@ class DragonValeDB {
 			statements don't handle the former. Moreover,
 			'b' in types string stands for 'blob'.
 		*/
-		return $this -> conn -> prepQuery(MySQLConn::ASSOC, function($dragon) {
-			return array_filter($dragon, function($field) { return isset($field); });
-				}, self::$breedingHintQuery, $id, (int) $reduced, (int) $displayDays);
+		return $this -> conn -> prepQuery(MySQLConn::ASSOC, null,
+				self::$breedingHintQuery, $id, (int) $reduced, (int) $displayDays);
 	}
 
 	/**

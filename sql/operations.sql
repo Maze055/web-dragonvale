@@ -11,9 +11,11 @@ DELIMITER $$
 DROP PROCEDURE IF EXISTS `getDragons`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getDragons` (`_id` INT, `_time` TIME, `_elem1` INT, `_elem2` INT, `_elem3` INT, `_elem4` INT, `_parent1` INT, `_parent2` INT, `rowsCount` INT, `startRow` INT, `strictOrder` INT, `reduced` INT, `displayDays` INT) READS SQL DATA
 body: begin
-	if _parent1 not in (select cb.id from canBreed cb where cb.canBreed is true)
-			or _parent2 not in (select cb.id from canBreed cb where cb.canBreed is true)
-			or (_parent1 > 0 and _parent1 = getOppositeDragon(_parent2)) then
+	if _parent1 > 0 and _parent2 > 0 and (
+			_parent1 not in (select cb.id from canBreed cb where cb.canBreed is true) or
+			_parent2 not in (select cb.id from canBreed cb where cb.canBreed is true) or
+			(_parent1 > 0 and _parent1 = getOppositeDragon(_parent2))
+			) then
 		select null;
 		leave body;
 	end if;
@@ -24,12 +26,10 @@ body: begin
 		from dragons d
 		where _id = d.id;
 	else
-		if _parent1 > 0 or _parent2 > 0 then
-			create table breedingTypes as
-			select bp.elem
-			from breedingPool bp
-			where bp.dragonId in (_parent1, _parent2);
-		end if;
+		create table breedingTypes as
+		select bp.elem
+		from breedingPool bp
+		where bp.dragonId in (_parent1, _parent2);
 
 		create temporary table common.resultSet as
 		select d.id, d.en, d.time, d.elem1, d.elem2, d.elem3, d.elem4
@@ -165,7 +165,7 @@ body: begin
 					)
 				)
 			);
-		drop table if exists breedingTypes;
+		drop table breedingTypes;
 		call common.limitResultSet(rowsCount, startRow, 'en');
 		alter table common.limitedResultSet rename resultSet;
 	end if;
