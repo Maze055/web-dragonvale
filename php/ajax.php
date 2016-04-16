@@ -27,6 +27,11 @@ switch ($request) {
 				(bool) $reduced, (bool) $displayDays);
 		break;
 
+	case 'breed':
+		$result = $dragonvaleDB -> breedingHint((int) $id,
+				(bool) $reduced, (bool) $displayDays);
+		break;
+
 	default:
 		$result = "Errore nell'uso di AJAX";
 		break;

@@ -22,12 +22,17 @@ class DragonValeDB {
 	private static $instance = 0;
 
 	/**
-	 * @var mysqli_stmt getDragons method underlying prepared statement.
+	 * @var mysqli_stmt getDragons() method underlying prepared statement.
 	 */
 	private static $getDragonsQuery = 0;
 
 	/**
-	 * @var mysqli_stmt allTimes method underlying prepared statement.
+	 * @var mysqli_stmt breedingHint() method underlying prepared statement.
+	 */
+	private static $breedingHintQuery = 0;
+
+	/**
+	 * @var mysqli_stmt allTimes() method underlying prepared statement.
 	 */
 	private static $allTimesQuery = 0;
 
@@ -54,6 +59,10 @@ class DragonValeDB {
 		if (self::$getDragonsQuery instanceof mysqli_stmt)
 			if (!self::$getDragonsQuery -> close())
 				echo '$getDragonsQuery closing failed due to: ' . self::$getDragonsQuery -> error . '\n';
+
+		if (self::$breedingHintQuery instanceof mysqli_stmt)
+			if (!self::$breedingHintQuery -> close())
+				echo '$breedingHintQuery closing failed due to: ' . self::$getDragonsQuery -> error . '\n';
 
 		if (self::$allTimesQuery instanceof mysqli_stmt)
 			if (!self::$allTimesQuery -> close())
@@ -144,7 +153,7 @@ class DragonValeDB {
 			'b' in types string stands for 'blob'.
 		*/
 		return $this -> conn -> prepQuery(MySQLConn::ASSOC, function($dragon) {
-					return array_filter($dragon, 'isset');
+			return array_filter($dragon, function($field) { return isset($field); });
 				}, self::$breedingHintQuery, $id, (int) $reduced, (int) $displayDays);
 	}
 

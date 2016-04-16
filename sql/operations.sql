@@ -146,7 +146,7 @@ body: begin
 														 where e.opposite is not null)
 						)
 					) or ( -- Basic breedign rule
-							not isPrimary(d.id) and d.elem1 not in (20, 21)
+							not isPrimary(d.id) and d.elem1 not in (20, 21, 25)
 						and
 							coalesce(d.parent1, d.parent2, d.elemBreed1, d.elemBreed2,
 									d.elemBreed3, d.elemBreed4) is null
@@ -187,9 +187,9 @@ DROP PROCEDURE IF EXISTS `breedingHint`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `breedingHint` (`_id` INT, `reduced` INT, `displayDays` INT) READS SQL DATA
 begin
 	select d.id, d.en, d.elem1, d.elem2, d.elem3, d.elem4,
-			d.parent1, d.parent2, d.elemBreed1, d.elemBreed3,
+			d.parent1, d.parent2, d.elemBreed1, d.elemBreed2,
 			d.elemBreed3, d.elemBreed4, isPrimary(d.id) as isPrimary,
-			formatTime(reduced, displayDays) as time,
+			formatTime(d.time, reduced, displayDays) as time,
 		case
 			when -- Motley
 				d.id = 126
@@ -202,7 +202,7 @@ begin
 				'Any other two elements'
 
 			when -- 4 different elements
-				id in (155, 166, 188, 213, 266, 268)
+				d.id in (155, 166, 188, 213, 266, 268)
 			then
 				'Any four different elements'
 
@@ -210,6 +210,11 @@ begin
 				ifnull(22 in (d.elem1, d.elem2, d.elem3, d.elem4), false)
 			then
 				'Another Galaxy or epic'
+
+			when -- Snowflake and Monolith
+				d.elem1 in (20, 21)
+			then
+				concat_ws(' ', 'Any pair of', e1.en, 'dragons')
 		end as notes
 -- TODO: primaries
 from dragons d
@@ -222,8 +227,8 @@ from dragons d
 	left join elements e4
 		on d.elem4 = e4.id
 where d.id = _id or
-	ifnull(d.id in (select d1.parent1 from dragons d1 where d.id = _id), false) or
-	ifnull(d.id in (select d1.parent2 from dragons d1 where d.id = _id), false);
+	ifnull(d.id in (select d1.parent1 from dragons d1 where d1.id = _id), false) or
+	ifnull(d.id in (select d1.parent2 from dragons d1 where d1.id = _id), false);
 end$$
 
 --
