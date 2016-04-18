@@ -2,7 +2,6 @@
 
 require_once 'autoload.php';
 require_once 'common.php';
-require_once 'footer.php';
 
 $dragonvaleDB = DragonvaleDB::getInstance();
 $elems = makeOptions(array_column($dragonvaleDB -> allElements(), 1, 0), true);
@@ -13,7 +12,7 @@ $parents = makeOptions(array_columns($dragonvaleDB -> allParents(),
 
 ?>
 
-<!DOCTYPE html >
+<!DOCTYPE html>
 
 <html>
 
@@ -24,7 +23,7 @@ $parents = makeOptions(array_columns($dragonvaleDB -> allParents(),
 	<meta http-equiv="content-type" content="text/html" />
 	<meta lang="it" name="application-name" content="Ricreca di draghi per Dragonvale" />
 	<meta name="author" content="Davide Laezza" />
-	<meta lang="it" name="desctiption" content="Ricercare i draghi di dragonvale per tempo d'incubazione, nome e/o elementi per ricavare queste stesse informazioni" />
+	<meta lang="it" name="desctiption" content="Ricercare i draghi di dragonvale per tempo d'incubazione, nome, elementi e/o coppia di genitori" />
 
 	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.4.2/chosen.min.css" />
 	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/tooltipster/3.3.0/css/tooltipster.min.css" />
@@ -136,7 +135,7 @@ $parents = makeOptions(array_columns($dragonvaleDB -> allParents(),
 			</tbody>
 		</table>
 	</main>
-	<?php footer('dragonvale', '2.0.2', 'moment', 'sprintf', 'chosen', 'tooltipster', 'cryptojs'); ?>
+	<?php require 'dragonvaleFooter.php'; ?>
 </body>
 
 </html>
