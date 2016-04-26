@@ -1,18 +1,10 @@
 @import 'common';
+@import 'dragonSearch';
+@import 'footer';
 @import 'mixins';
+@import 'pagination-default';
 
 $image-margin-right: 5px;
-
-body {
-	@extend .text-center;
-	font-family: Helvetica, sans-serif;
-}
-
-header {
-	h1 {
-		@extend .small-caps;
-	}
-}
 
 form {
 	@extend .pull-center-h;

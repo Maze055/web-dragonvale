@@ -20,46 +20,53 @@ $dragonvaleDB = DragonvaleDB::getInstance();
 	<meta name="author" content="Davide Laezza" />
 	<meta lang="it" name="desctiption" content="Ottenere informazioni su come si ottengono i vari draghi di Dragonvale" />
 
-	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.4.2/chosen.min.css" />
-	<link rel="stylesheet" type="text/css" href="../util/css/footer.css" />
-	<link rel="stylesheet" type="text/css" href="./css/breedingHint.css" />
-
-	<script charset="UTF-8" type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-	<script charset="UTF-8" type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+<!--	<script charset="UTF-8" type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 	<script charset="UTF-8" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js"></script>
-	<script charset="UTF-8" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/sprintf/1.0.3/sprintf.min.js"></script>
-	<script charset="UTF-8" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.4.2/chosen.jquery.min.js"></script>
-	<script charset="UTF-8" type="text/javascript" src="https://crypto-js.googlecode.com/svn/tags/3.0.2/build/rollups/md5.js"></script>
-	<script charset="UTF-8" type="text/javascript" src="./js/ajaxUpdate.js"></script>
-	<script charset="UTF-8" type="text/javascript" src="./js/breedingHints.js"></script>
+	<script charset="UTF-8" type="text/javascript" src="../js/ajaxUpdate.js"></script>-->
+
+	<script charset="UTF-8" type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js"></script>
+	<script charset="UTF-8" type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-sanitize.min.js"></script>
+	<script charset="UTF-8" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-select/0.16.1/select.min.js"></script>
+	<script charset="UTF-8" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-md5/0.1.10/angular-md5.min.js"></script>
+	<script charset="UTF-8" type="text/javascript" src="../js/dragonSearch.module.js"></script>
+	<script charset="UTF-8" type="text/javascript" src="../js/dragonSearch.config.js"></script>
+	<script charset="UTF-8" type="text/javascript" src="../js/dragonSearch.breeding.hints.controller.js"></script>
+	<script charset="UTF-8" type="text/javascript" src="../js/dragonSearch.images.js"></script>
+	<script charset="UTF-8" type="text/javascript" src="../js/dragonSearch.dragon.box.js"></script>
+
+	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/select2/3.4.5/select2.min.css" />
+	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-select/0.16.1/select.min.css" />
+	<link rel="stylesheet" type="text/css" href="../css/breedingHints.css" />
 </head>
 
 <body>
 	<header>
 		<h1>Breeding Hints</h1>
 	</header>
-	<main data-ng-app="breedingHints" data-ng-controller="breedingHintsCtrl">
+	<main data-ng-app="dragonSearch" data-ng-controller="BreedingHintsController as model">
 		<label>Nome:
-			<select name="id" data-ng-model="dragonId">
-				<option value="0">Non specificato</option>
-			<?php
-				echo makeOptions(array_column($dragonvaleDB -> allNames(), 1, 0), true);
-			?>
-			</select>
+			<ui-select class="ui-select" data-ng-model="model.dragon"\
+					data-ng-change="model.requestHint()">
+				<ui-select-match>{{ $select.selected.name }}</ui-select-match>
+				<ui-select-choices data-repeat="item in (model.names | filter :
+						{name: $select.search} : model.startsWith)">
+					{{ item.name }}
+				</ui-select-choices>
+			</ui-select>
 		</label>
 		<label>
-			<input type="checkbox" data-ng-model="reduced">Tempi di incubazione ridotti
+			<input type="checkbox" data-ng-model="model.reduced">Tempi di incubazione ridotti
 		</label>
 		<label>
-			<input type="checkbox" data-ng-model="displayDays">Visualizza i giorni nei tempi di incubazione
+			<input type="checkbox" data-ng-model="model.displayDays">Visualizza i giorni nei tempi di incubazione
 		</label>
-		<div data-ng-repeat="hint in hints | limitTo : -10">
-			<div>
-				<div>hint.dragon</div>
-				<div>=</div>
-				<div>hint.parent1</div>
+		<div>
+			<div data-ng-repeat="hint in model.hints | limitTo : 10">
+				<dragon-box data-dragon="hint.outcome" />
+<!--				<div>=</div>
+				<hint-box data-data="hint.parent1 || hint.elems || hint.notes"></hint-box>
 				<div>+</div>
-				<div>hint.parent2</div>
+				<hint-box data-data="hint.parent2 || hint.elems || hint.notes"></hint-box>-->
 			</div>
 		</div>
 	</main>

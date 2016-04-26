@@ -27,9 +27,27 @@ switch ($request) {
 				(bool) $reduced, (bool) $displayDays);
 		break;
 
+	case 'breedInit':
+		$result = array_columns($dragonvaleDB -> allNames(), [0, 1], ['id', 'name']);
+		break;
+
 	case 'breed':
-		$result = $dragonvaleDB -> breedingHint((int) $id,
-				(bool) $reduced, (bool) $displayDays);
+		$breedData = $dragonvaleDB -> breedingHint((int) $id, (bool) $reduced,
+				(bool) $displayDays);
+		foreach ($breedData as &$dragon) {
+			$dragon['elems'] = explode('-', $dragon['elems']);
+
+			if (isset($dragon['breedElems']))
+				$dragon['breedElems'] = explode('-', $dragon['breedElems']);
+		};
+
+		$ids = array_column($breedData, 'id');
+		$result['outcome'] = $breedData[array_search($id, $ids)];
+		$result['parent1'] = $breedData[array_search($result['outcome']['parent1'], $ids)];
+		$result['parent2'] = $breedData[array_search($result['outcome']['parent2'], $ids)];
+		unset($result['outcome']['parent1'], $result['outcome']['parent2'],
+				$result['parent1']['parent1'], $result['parent1']['parent2'],
+				$result['parent2']['parent1'], $result['parent2']['parent2']);
 		break;
 
 	default:

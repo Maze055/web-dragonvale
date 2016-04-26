@@ -1,0 +1,9 @@
+@import 'dragon-box';
+@import 'dragonSearch';
+@import 'footer';
+
+.ui-select {
+	@extend .small-text;
+
+	width: 11.5em;
+}

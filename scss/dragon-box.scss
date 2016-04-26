@@ -1,0 +1,24 @@
+@import 'common';
+
+
+.dragon-box {
+	margin: 1em;
+	border-radius: 30px;
+	padding: 1em;
+	background: #FAC67F;
+
+
+	img.dragon, img.egg {
+		margin-bottom: -0.5ex;
+		height: 6.7ex;
+	}
+
+	img.elem {
+		margin: 0.5ex 0.3em auto auto;
+		height: 4.5ex;
+	}
+
+	.name {
+		margin-bottom: -0.5ex;
+	}
+}

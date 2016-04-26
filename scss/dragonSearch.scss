@@ -1,0 +1,12 @@
+@import 'common';
+
+body {
+	@extend .text-center;
+	font-family: Helvetica, sans-serif;
+}
+
+header {
+	h1 {
+		@extend .small-caps;
+	}
+}

@@ -96,7 +96,7 @@ class DragonValeDB {
 	 * @param int $elem1 First element, or just one of them when $strictOrder is not set.
 	 * @param int $elem2 second element, or just one of them when $strictOrder is not set.
 	 * @param int $elem3 Third element, or just one of them when $strictOrder is not set.
-	 * @param int $elem4 fourth element, or just one of them when $strictOrder is not set.
+	 * @param int $elem4 Fourth element, or just one of them when $strictOrder is not set.
 	 * @param int $parent1 Id of one of the parents.
 	 * @param int $parent2 Id of one of the parents.
 	 * @param int $rowsCount Maximum number of rows that will be fetched.
