@@ -2,7 +2,7 @@
 
 angular.module('dragonSearch')
 
-.service('images', ['md5', function(md5) {
+.service('images', ['md5', 'moment', function(md5, moment) {
 	var baseURL = '//vignette3.wikia.nocookie.net/dragonvale/images';
 	var seasons = ['Winter', 'Spring', 'Summer', 'Autumn'];
 
@@ -14,17 +14,18 @@ angular.module('dragonSearch')
 	};
 
 	var getWeirdDragonImg = {
-		Snowflake: function(name, eggName) {
+		Snowflake: (function(name, eggName) {
 			return this.getImg(eggName + 'DragonAdult' + name.slice(-1) + '.png');
-		},
+		}).bind(this),
 
-		Seasonal: function(date) {
+		Seasonal: (function(date) {
 			return this.getImg(getSeason(date) + 'SeasonalDragonAdult.png');
-		}
+		}).bind(this)
 	};
 	getWeirdDragonImg.Monolith = getWeirdDragonImg.Snowflake;
 
 	var getEggName = function(name) {
+
 		/*
 			Seasonal, Snowflake and Monolith dragons have
 			different names for dragon and egg images.

@@ -21,18 +21,20 @@ $dragonvaleDB = DragonvaleDB::getInstance();
 	<meta lang="it" name="desctiption" content="Ottenere informazioni su come si ottengono i vari draghi di Dragonvale" />
 
 <!--	<script charset="UTF-8" type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-	<script charset="UTF-8" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js"></script>
 	<script charset="UTF-8" type="text/javascript" src="../js/ajaxUpdate.js"></script>-->
 
 	<script charset="UTF-8" type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js"></script>
 	<script charset="UTF-8" type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-sanitize.min.js"></script>
 	<script charset="UTF-8" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-select/0.16.1/select.min.js"></script>
 	<script charset="UTF-8" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-md5/0.1.10/angular-md5.min.js"></script>
+	<script charset="UTF-8" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js"></script>
+	<script charset="UTF-8" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-moment/1.0.0-beta.6/angular-moment.min.js"></script>
 	<script charset="UTF-8" type="text/javascript" src="../js/dragonSearch.module.js"></script>
 	<script charset="UTF-8" type="text/javascript" src="../js/dragonSearch.config.js"></script>
 	<script charset="UTF-8" type="text/javascript" src="../js/dragonSearch.breeding.hints.controller.js"></script>
 	<script charset="UTF-8" type="text/javascript" src="../js/dragonSearch.images.js"></script>
 	<script charset="UTF-8" type="text/javascript" src="../js/dragonSearch.dragon.box.js"></script>
+	<script charset="UTF-8" type="text/javascript" src="../js/dragonSearch.elem.box.js"></script>
 
 	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/select2/3.4.5/select2.min.css" />
 	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-select/0.16.1/select.min.css" />
@@ -60,15 +62,35 @@ $dragonvaleDB = DragonvaleDB::getInstance();
 		<label>
 			<input type="checkbox" data-ng-model="model.displayDays">Visualizza i giorni nei tempi di incubazione
 		</label>
-		<div>
+		<section>
 			<div data-ng-repeat="hint in model.hints | limitTo : 10">
-				<dragon-box data-dragon="hint.outcome" />
-<!--				<div>=</div>
-				<hint-box data-data="hint.parent1 || hint.elems || hint.notes"></hint-box>
-				<div>+</div>
-				<hint-box data-data="hint.parent2 || hint.elems || hint.notes"></hint-box>-->
+				<dragon-box data-dragon="hint"></dragon-box>
+				<span>=</span>
+
+				<!-- Parent1 -->
+				<dragon-box data-ng-if="hint.parent1" data-dragon="hint.parent1"
+						data-on-click="model.requestHint(id)"></dragon-box>
+				<span data-ng-if="hint.parent1">+</span>
+
+				<!-- Parent2 -->
+				<dragon-box data-ng-if="hint.parent2" data-dragon="hint.parent2"
+						data-on-click="model.requestHint(id)"></dragon-box>
+
+				<!-- Elem breed -->
+				<elem-box data-ng-repeat-start="elem in hint.breedElems"
+						  data-name="elem"></elem-box>
+				<span data-ng-if="!$last || hint.notes" data-ng-repeat-end>+</span>
+
+				<!-- Basic breeding rule -->
+				<elem-box data-ng-if="model.isBasicBreedingRule(hint)" data-name="elem"
+						  data-ng-repeat-start="elem in hint.elems"></elem-box>
+				<span data-ng-if="model.isBasicBreedingRule(hint) && !$last" data-ng-repeat-end>+</span>
+
+				<!-- Notes -->
+				<span data-ng-if="hint.notes" class="note">{{ hint.notes }}</span>
+
 			</div>
-		</div>
+		</section>
 	</main>
 	<?php require 'dragonvaleFooter.php'; ?>
 </body>

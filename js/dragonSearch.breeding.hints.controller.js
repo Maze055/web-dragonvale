@@ -31,6 +31,11 @@ angular.module('dragonSearch')
 		substring = substring.toLowerCase();
 		return string.indexOf(substring) === 0;
 	};
+
+	vm.isBasicBreedingRule = function(hint) {
+		return !hint.notes && !hint.breedElems
+				&& !hint.parent1 && !hint.parent2;
+	};
 }]);
 
 })(angular);

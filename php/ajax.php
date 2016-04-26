@@ -42,12 +42,18 @@ switch ($request) {
 		};
 
 		$ids = array_column($breedData, 'id');
-		$result['outcome'] = $breedData[array_search($id, $ids)];
-		$result['parent1'] = $breedData[array_search($result['outcome']['parent1'], $ids)];
-		$result['parent2'] = $breedData[array_search($result['outcome']['parent2'], $ids)];
-		unset($result['outcome']['parent1'], $result['outcome']['parent2'],
-				$result['parent1']['parent1'], $result['parent1']['parent2'],
-				$result['parent2']['parent1'], $result['parent2']['parent2']);
+		$result = $breedData[array_search($id, $ids)];
+
+		if (isset($result['parent1']))
+			$result['parent1'] = $breedData[array_search($result['parent1'], $ids)];
+
+		if (isset($result['parent2']))
+			$result['parent2'] = $breedData[array_search($result['parent2'], $ids)];
+
+		unset($result['parent1']['parent1'], $result['parent1']['parent2'],
+				$result['parent1']['breedElems'], $result['parent1']['notes'],
+				$result['parent2']['parent1'], $result['parent2']['parent2'],
+				$result['parent2']['breedElems'], $result['parent2']['notes']);
 		break;
 
 	default:

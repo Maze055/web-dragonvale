@@ -1,4 +1,4 @@
-<div class="dragon-box" data-ng-click="onClick(model.dragon.id)">
+<div class="dragon-box" data-ng-click="model.onClick({id: model.dragon.id})">
 	<img class="dragon" data-ng-src="{{ model.dragonImgURL }}" />
 	<img class="egg" data-ng-src="{{ model.eggImgURL }}" />
 	<div class="name">{{ model.dragon.name }}</div>

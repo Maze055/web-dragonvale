@@ -3,7 +3,8 @@
 angular.module('dragonSearch', [
 	'ui.select',
 	'ngSanitize',
-	'angular-md5'
+	'angular-md5',
+	'angularMoment'
 ]);
 
 })(angular);

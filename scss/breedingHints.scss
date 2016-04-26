@@ -1,9 +1,27 @@
+@import 'box';
+@import 'common';
 @import 'dragon-box';
 @import 'dragonSearch';
+@import 'elem-box';
 @import 'footer';
 
 .ui-select {
 	@extend .small-text;
 
 	width: 11.5em;
+}
+
+section {
+	> div {
+		@extend .flex-row;
+		@extend .flex-single;
+		@extend .flex-center-cross;
+		@extend .flex-center-main;
+		justify-content: center;
+	}
+}
+
+.note {
+	@extend .box;
+	@extend .text-center;
 }
