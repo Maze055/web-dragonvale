@@ -12,12 +12,12 @@ angular.module('dragonSearch')
 		onClick: '&'
 	},
 
-	controller: ['images', function(images) {
-		this.eggImgURL = images.getEggImg(this.dragon.name);
-		this.dragonImgURL = images.getDragonImg(this.dragon.name);
+	controller: ['image', function(image) {
+		this.eggImgURL = image.getEggImg(this.dragon.name);
+		this.dragonImgURL = image.getDragonImg(this.dragon.name);
 		this.elemsImgsURLs = [];
 		angular.forEach(this.dragon.elems, (function(elem) {
-			this.elemsImgsURLs.push(images.getElemFlagImg(elem));
+			this.elemsImgsURLs.push(image.getElemFlagImg(elem));
 		}).bind(this));
 	}]
 });

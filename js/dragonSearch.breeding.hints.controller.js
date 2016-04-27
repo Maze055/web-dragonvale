@@ -2,7 +2,8 @@
 
 angular.module('dragonSearch')
 
-.controller('BreedingHintsController', ['$http', function(ajax) {
+.controller('BreedingHintsController',
+		['$http', 'timeTweak', function(ajax, timeTweak) {
 	var vm = this;
 
 	vm.reduced = false;
@@ -15,7 +16,6 @@ angular.module('dragonSearch')
 		vm.names.unshift({id: 0, name: 'Non specificato'});
 		vm.dragon = vm.names[0];
 	});
-
 
 	vm.requestHint = function(id) {
 		return ajax.get('../php/ajax.php', {params: {request: 'breed', id: id || vm.dragon.id,
@@ -35,6 +35,20 @@ angular.module('dragonSearch')
 	vm.isBasicBreedingRule = function(hint) {
 		return !hint.notes && !hint.breedElems
 				&& !hint.parent1 && !hint.parent2;
+	};
+
+	vm.tweakTimes = function() {
+		var method = vm.reduced ? 'reduce' : 'unReduce';
+
+		angular.forEach(vm.hints, function(hint) {
+			hint.time = timeTweak[method](hint.time, vm.displayDays);
+		});
+	};
+
+	vm.toggleFormat = function() {
+		angular.forEach(vm.hints, function(hint) {
+			hint.time = timeTweak.format(hint.time, vm.displayDays);
+		});
 	};
 }]);
 

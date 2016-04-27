@@ -10,8 +10,8 @@ angular.module('dragonSearch')
 		name: '<'
 	},
 
-	controller: ['images', function(images) {
-		this.imgURL = images.getElemFlagImg(this.name);
+	controller: ['image', function(image) {
+		this.imgURL = image.getElemFlagImg(this.name);
 	}]
 });
 

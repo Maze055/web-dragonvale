@@ -20,19 +20,19 @@ $dragonvaleDB = DragonvaleDB::getInstance();
 	<meta name="author" content="Davide Laezza" />
 	<meta lang="it" name="desctiption" content="Ottenere informazioni su come si ottengono i vari draghi di Dragonvale" />
 
-<!--	<script charset="UTF-8" type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-	<script charset="UTF-8" type="text/javascript" src="../js/ajaxUpdate.js"></script>-->
-
 	<script charset="UTF-8" type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js"></script>
 	<script charset="UTF-8" type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-sanitize.min.js"></script>
 	<script charset="UTF-8" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-select/0.16.1/select.min.js"></script>
 	<script charset="UTF-8" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-md5/0.1.10/angular-md5.min.js"></script>
 	<script charset="UTF-8" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js"></script>
 	<script charset="UTF-8" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-moment/1.0.0-beta.6/angular-moment.min.js"></script>
+	<script charset="UTF-8" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/sprintf/1.0.3/sprintf.min.js"></script>
+	<script charset="UTF-8" type="text/javascript" src="https://raw.githubusercontent.com/L42y/angular-sprintf/master/angular-sprintf.js"></script>
 	<script charset="UTF-8" type="text/javascript" src="../js/dragonSearch.module.js"></script>
 	<script charset="UTF-8" type="text/javascript" src="../js/dragonSearch.config.js"></script>
 	<script charset="UTF-8" type="text/javascript" src="../js/dragonSearch.breeding.hints.controller.js"></script>
-	<script charset="UTF-8" type="text/javascript" src="../js/dragonSearch.images.js"></script>
+	<script charset="UTF-8" type="text/javascript" src="../js/dragonSearch.image.js"></script>
+	<script charset="UTF-8" type="text/javascript" src="../js/dragonSearch.time.tweak.js"></script>
 	<script charset="UTF-8" type="text/javascript" src="../js/dragonSearch.dragon.box.js"></script>
 	<script charset="UTF-8" type="text/javascript" src="../js/dragonSearch.elem.box.js"></script>
 
@@ -57,10 +57,13 @@ $dragonvaleDB = DragonvaleDB::getInstance();
 			</ui-select>
 		</label>
 		<label>
-			<input type="checkbox" data-ng-model="model.reduced">Tempi di incubazione ridotti
+			<input type="checkbox" data-ng-model="model.reduced"
+				   data-ng-change="model.tweakTimes()" />Tempi di incubazione ridotti
 		</label>
 		<label>
-			<input type="checkbox" data-ng-model="model.displayDays">Visualizza i giorni nei tempi di incubazione
+			<input type="checkbox" data-ng-model="model.displayDays"
+				   data-ng-change="model.toggleFormat()" />
+				Visualizza i giorni nei tempi di incubazione
 		</label>
 		<section>
 			<div data-ng-repeat="hint in model.hints | limitTo : 10">

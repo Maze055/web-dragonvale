@@ -2,7 +2,7 @@
 
 angular.module('dragonSearch')
 
-.service('images', ['md5', 'moment', function(md5, moment) {
+.service('image', ['md5', 'moment', function(md5, moment) {
 	var baseURL = '//vignette3.wikia.nocookie.net/dragonvale/images';
 	var seasons = ['Winter', 'Spring', 'Summer', 'Autumn'];
 
