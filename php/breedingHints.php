@@ -31,6 +31,7 @@ $dragonvaleDB = DragonvaleDB::getInstance();
 	<script charset="UTF-8" type="text/javascript" src="../js/dragonSearch.module.js"></script>
 	<script charset="UTF-8" type="text/javascript" src="../js/dragonSearch.config.js"></script>
 	<script charset="UTF-8" type="text/javascript" src="../js/dragonSearch.breeding.hints.controller.js"></script>
+	<script charset="UTF-8" type="text/javascript" src="../js/dragonSearch.time.tweak.box.js"></script>
 	<script charset="UTF-8" type="text/javascript" src="../js/dragonSearch.image.js"></script>
 	<script charset="UTF-8" type="text/javascript" src="../js/dragonSearch.time.tweak.js"></script>
 	<script charset="UTF-8" type="text/javascript" src="../js/dragonSearch.dragon.box.js"></script>
@@ -56,15 +57,9 @@ $dragonvaleDB = DragonvaleDB::getInstance();
 				</ui-select-choices>
 			</ui-select>
 		</label>
-		<label>
-			<input type="checkbox" data-ng-model="model.reduced"
-				   data-ng-change="model.tweakTimes()" />Tempi di incubazione ridotti
-		</label>
-		<label>
-			<input type="checkbox" data-ng-model="model.displayDays"
-				   data-ng-change="model.toggleFormat()" />
-				Visualizza i giorni nei tempi di incubazione
-		</label>
+		<time-tweak-box data-on-redu-change="model.toggleRed(red)"
+				data-on-dd-change="model.toggleDd(dd)"
+				data-dragons="model.dragons"></time-tweak-box>
 		<section>
 			<!-- Page load -->
 			<span data-ng-if="model.hints.length == 0">Nessun drago selezionato</span>

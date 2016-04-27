@@ -9,6 +9,7 @@ angular.module('dragonSearch')
 	vm.reduced = false;
 	vm.displayDays = false;
 	vm.hints = [];
+	vm.dragons = [];
 
 	ajax.get('../php/ajax.php', {params: {request: 'breedInit'}})
 	.then(function(data) {
@@ -18,7 +19,15 @@ angular.module('dragonSearch')
 	vm.requestHint = function(id) {
 		return ajax.get('../php/ajax.php', {params: {request: 'breed', id: id || vm.dragon.id,
 				reduced: vm.reduced ? 1 : 0, displayDays: vm.displayDays ? 1 : 0}})
-		.then(function(data) { vm.hints.unshift(data.data); });
+		.then(function(data) {
+			vm.hints.unshift(data.data);
+
+			vm.dragons.push(data.data);
+			if (data.data.parent1)
+				vm.dragons.push(data.data.parent1);
+			if (data.data.parent2)
+				vm.dragons.push(data.data.parent2);
+		});
 	};
 
 	vm.startsWith = function(string, substring) {
@@ -30,23 +39,17 @@ angular.module('dragonSearch')
 		return string.indexOf(substring) === 0;
 	};
 
+	vm.toggleRed = function(reduced) {
+		vm.reduced = reduced;
+	};
+
+	vm.toggleDd = function(displayDays) {
+		vm.displayDays = displayDays;
+	};
+
 	vm.isBasicBreedingRule = function(hint) {
 		return !hint.notes && !hint.breedElems
 				&& !hint.parent1 && !hint.parent2;
-	};
-
-	vm.tweakTimes = function() {
-		var method = vm.reduced ? 'reduce' : 'unReduce';
-
-		angular.forEach(vm.hints, function(hint) {
-			hint.time = timeTweak[method](hint.time, vm.displayDays);
-		});
-	};
-
-	vm.toggleFormat = function() {
-		angular.forEach(vm.hints, function(hint) {
-			hint.time = timeTweak.format(hint.time, vm.displayDays);
-		});
 	};
 }]);
 

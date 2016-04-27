@@ -1,0 +1,12 @@
+<label>
+	<input type="checkbox" data-ng-model="model.reduced"
+			data-ng-change="model.onReduChange({redu: model.reduced});
+			model.tweakTimes()" />
+	Tempi di incubazione ridotti
+</label>
+<label>
+	<input type="checkbox" data-ng-model="model.displayDays"
+			data-ng-change="model.onDdChange({dd: model.displayDays});
+			model.toggleFormat()" />
+	Visualizza i giorni nei tempi di incubazione
+</label>
