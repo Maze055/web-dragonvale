@@ -1,69 +1,104 @@
+-- phpMyAdmin SQL Dump
+-- version 4.5.2
+-- http://www.phpmyadmin.net
 --
--- Database: dragonvale
+-- Host: localhost
+-- Generation Time: Apr 27, 2016 at 08:01 PM
+-- Server version: 10.1.9-MariaDB
+-- PHP Version: 5.6.15
+
 --
-CREATE DATABasE IF NOT EXISTS dragonvale DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-USE dragonvale;
+-- Database: `dragonvale`
+--
+CREATE DATABASE IF NOT EXISTS `dragonvale` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+USE `dragonvale`;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table coins
+-- Table structure for table `breedingHintsNotes`
 --
 
-DROP TABLE IF EXISTS coins;
-CREATE TABLE coins (
-  dragon smallint(5) UNSIGNED NOT NULL,
-  level1 smallint(3) UNSIGNED NOT NULL,
-  level2 smallint(3) UNSIGNED NOT NULL,
-  level3 smallint(3) UNSIGNED NOT NULL,
-  level4 smallint(3) UNSIGNED NOT NULL,
-  level5 smallint(3) UNSIGNED NOT NULL,
-  level6 smallint(3) UNSIGNED NOT NULL,
-  level7 smallint(3) UNSIGNED NOT NULL,
-  level8 smallint(3) UNSIGNED NOT NULL,
-  level9 smallint(3) UNSIGNED NOT NULL,
-  level10 smallint(3) UNSIGNED NOT NULL,
-  leve111 smallint(3) UNSIGNED DEFAULT NULL,
-  level12 smallint(3) UNSIGNED DEFAULT NULL,
-  level13 smallint(3) UNSIGNED DEFAULT NULL,
-  level14 smallint(3) UNSIGNED DEFAULT NULL,
-  level15 smallint(3) UNSIGNED DEFAULT NULL,
-  level16 smallint(3) UNSIGNED DEFAULT NULL,
-  level17 smallint(3) UNSIGNED DEFAULT NULL,
-  level18 smallint(3) UNSIGNED DEFAULT NULL,
-  level19 smallint(3) UNSIGNED DEFAULT NULL,
-  level20 smallint(3) UNSIGNED DEFAULT NULL,
-  level21 smallint(3) UNSIGNED DEFAULT NULL
+DROP TABLE IF EXISTS `breedingHintsNotes`;
+CREATE TABLE `breedingHintsNotes` (
+  `id` char(5) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `en` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `it` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `breedingHintsNotes`
+--
+
+INSERT INTO `breedingHintsNotes` (`id`, `en`, `it`) VALUES
+('4ELEM', 'Any four different elements', 'Quattro elementi diversi qualsiasi'),
+('DREAM', 'Any other two different elements', 'Altri due elementi diversi qualsiasi'),
+('GALA', 'Any Galaxy or epic', 'Qualsiasi Galaxy o epic'),
+('MOT', 'Any pair of dragons', 'Qualsiasi coppia di draghi'),
+('SNMO', 'Any pair of $ELEM dragons', 'Qualsiasi coppia di draghi $ELEM'),
+('UNKN', 'Unknown at present', 'Attualmente sconosciuto'),
+('WIP', 'Works in progress', 'Lavori in corso');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `coins`
+--
+
+DROP TABLE IF EXISTS `coins`;
+CREATE TABLE `coins` (
+  `dragon` smallint(5) UNSIGNED NOT NULL,
+  `level1` smallint(3) UNSIGNED NOT NULL,
+  `level2` smallint(3) UNSIGNED NOT NULL,
+  `level3` smallint(3) UNSIGNED NOT NULL,
+  `level4` smallint(3) UNSIGNED NOT NULL,
+  `level5` smallint(3) UNSIGNED NOT NULL,
+  `level6` smallint(3) UNSIGNED NOT NULL,
+  `level7` smallint(3) UNSIGNED NOT NULL,
+  `level8` smallint(3) UNSIGNED NOT NULL,
+  `level9` smallint(3) UNSIGNED NOT NULL,
+  `level10` smallint(3) UNSIGNED NOT NULL,
+  `leve111` smallint(3) UNSIGNED DEFAULT NULL,
+  `level12` smallint(3) UNSIGNED DEFAULT NULL,
+  `level13` smallint(3) UNSIGNED DEFAULT NULL,
+  `level14` smallint(3) UNSIGNED DEFAULT NULL,
+  `level15` smallint(3) UNSIGNED DEFAULT NULL,
+  `level16` smallint(3) UNSIGNED DEFAULT NULL,
+  `level17` smallint(3) UNSIGNED DEFAULT NULL,
+  `level18` smallint(3) UNSIGNED DEFAULT NULL,
+  `level19` smallint(3) UNSIGNED DEFAULT NULL,
+  `level20` smallint(3) UNSIGNED DEFAULT NULL,
+  `level21` smallint(3) UNSIGNED DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table dragons
+-- Table structure for table `dragons`
 --
 
-DROP TABLE IF EXISTS dragons;
-CREATE TABLE dragons (
-  id smallint(5) UNSIGNED NOT NULL,
-  en varchar(40) CHARACTER SET utf8mb4 NOT NULL,
-  time time NOT NULL,
-  elem1 tinyint(3) UNSIGNED NOT NULL,
-  elem2 tinyint(3) UNSIGNED DEFAULT NULL,
-  elem3 tinyint(3) UNSIGNED DEFAULT NULL,
-  elem4 tinyint(3) UNSIGNED DEFAULT NULL,
-  parent1 smallint(5) UNSIGNED DEFAULT NULL,
-  parent2 smallint(5) UNSIGNED DEFAULT NULL,
-  elemBreed1 tinyint(3) UNSIGNED DEFAULT NULL,
-  elemBreed2 tinyint(3) UNSIGNED DEFAULT NULL,
-  elemBreed3 tinyint(3) UNSIGNED DEFAULT NULL,
-  elemBreed4 tinyint(3) UNSIGNED DEFAULT NULL
+DROP TABLE IF EXISTS `dragons`;
+CREATE TABLE `dragons` (
+  `id` smallint(5) UNSIGNED NOT NULL,
+  `en` varchar(40) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `time` time NOT NULL,
+  `elem1` tinyint(3) UNSIGNED NOT NULL,
+  `elem2` tinyint(3) UNSIGNED DEFAULT NULL,
+  `elem3` tinyint(3) UNSIGNED DEFAULT NULL,
+  `elem4` tinyint(3) UNSIGNED DEFAULT NULL,
+  `parent1` smallint(5) UNSIGNED DEFAULT NULL,
+  `parent2` smallint(5) UNSIGNED DEFAULT NULL,
+  `elemBreed1` tinyint(3) UNSIGNED DEFAULT NULL,
+  `elemBreed2` tinyint(3) UNSIGNED DEFAULT NULL,
+  `elemBreed3` tinyint(3) UNSIGNED DEFAULT NULL,
+  `elemBreed4` tinyint(3) UNSIGNED DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table dragons
+-- Dumping data for table `dragons`
 --
 
-INSERT INTO dragons (id, en, time, elem1, elem2, elem3, elem4, parent1, parent2, elemBreed1, elemBreed2, elemBreed3, elemBreed4) VALUES
+INSERT INTO `dragons` (`id`, `en`, `time`, `elem1`, `elem2`, `elem3`, `elem4`, `parent1`, `parent2`, `elemBreed1`, `elemBreed2`, `elemBreed3`, `elemBreed4`) VALUES
 (1, 'Plant', '00:00:05', 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 (2, 'Fire', '00:05:00', 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 (3, 'Earth', '02:00:00', 3, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
@@ -346,24 +381,24 @@ INSERT INTO dragons (id, en, time, elem1, elem2, elem3, elem4, parent1, parent2,
 -- --------------------------------------------------------
 
 --
--- Table structure for table elements
+-- Table structure for table `elements`
 --
 
-DROP TABLE IF EXISTS elements;
-CREATE TABLE elements (
-  id tinyint(3) UNSIGNED NOT NULL,
-  opposite tinyint(3) UNSIGNED DEFAULT NULL,
-  isEpic tinyint(1) UNSIGNED NOT NULL DEFAULT '1',
-  canBreed tinyint(1) UNSIGNED NOT NULL DEFAULT '1',
-  en varchar(15) CHARACTER SET utf8mb4 NOT NULL,
-  it varchar(15) CHARACTER SET utf8mb4 NOT NULL
+DROP TABLE IF EXISTS `elements`;
+CREATE TABLE `elements` (
+  `id` tinyint(3) UNSIGNED NOT NULL,
+  `opposite` tinyint(3) UNSIGNED DEFAULT NULL,
+  `isEpic` tinyint(1) UNSIGNED NOT NULL DEFAULT '1',
+  `canBreed` tinyint(1) UNSIGNED NOT NULL DEFAULT '1',
+  `en` varchar(15) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `it` varchar(15) COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Dumping data for table elements
+-- Dumping data for table `elements`
 --
 
-INSERT INTO elements (id, opposite, isEpic, canBreed, en, it) VALUES
+INSERT INTO `elements` (`id`, `opposite`, `isEpic`, `canBreed`, `en`, `it`) VALUES
 (1, 8, 0, 1, 'Plant', 'Vegetale'),
 (2, 4, 0, 1, 'Fire', 'Fuoco'),
 (3, 7, 0, 1, 'Earth', 'Terra'),
@@ -391,6 +426,53 @@ INSERT INTO elements (id, opposite, isEpic, canBreed, en, it) VALUES
 (25, NULL, 1, 1, 'Aura', 'Aura'),
 (26, NULL, 1, 1, 'Chrysalis', 'Crisalide');
 
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `breedingHintsNotes`
+--
+ALTER TABLE `breedingHintsNotes`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `coins`
+--
+ALTER TABLE `coins`
+  ADD PRIMARY KEY (`dragon`);
+
+--
+-- Indexes for table `dragons`
+--
+ALTER TABLE `dragons`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `elements`
+--
+ALTER TABLE `elements`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `coins`
+--
+ALTER TABLE `coins`
+  MODIFY `dragon` smallint(5) UNSIGNED NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `dragons`
+--
+ALTER TABLE `dragons`
+  MODIFY `id` smallint(5) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=279;
+--
+-- AUTO_INCREMENT for table `elements`
+--
+ALTER TABLE `elements`
+  MODIFY `id` tinyint(3) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 -- --------------------------------------------------------
 
 --
@@ -579,45 +661,3 @@ select 273, 1 union select 273, 2 union select 273, 3 union select 273, 4 -- Swa
 union
 select 274, 1 union select 274, 2 union select 274, 3 union select 274, 4 -- Marbletail
 ;
-
---
--- Indexes for dumped tables
---
-
---
--- Indexes for table coins
---
-ALTER TABLE coins
-  ADD PRIMARY KEY (dragon);
-
---
--- Indexes for table dragons
---
-ALTER TABLE dragons
-  ADD PRIMARY KEY (id);
-
---
--- Indexes for table elements
---
-ALTER TABLE elements
-  ADD PRIMARY KEY (id);
-
---
--- AUTO_INCREMENT for dumped tables
---
-
---
--- AUTO_INCREMENT for table coins
---
-ALTER TABLE coins
-  MODIFY dragon smallint(5) UNSIGNED NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table dragons
---
-ALTER TABLE dragons
-  MODIFY id smallint(5) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=278;
---
--- AUTO_INCREMENT for table elements
---
-ALTER TABLE elements
-  MODIFY id tinyint(3) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;

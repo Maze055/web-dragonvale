@@ -49,7 +49,7 @@ $dragonvaleDB = DragonvaleDB::getInstance();
 		<label>Nome:
 			<ui-select class="ui-select" data-ng-model="model.dragon"\
 					data-ng-change="model.requestHint()">
-				<ui-select-match>{{ $select.selected.name }}</ui-select-match>
+				<ui-select-match data-placeholder="Seleziona un drago">{{ $select.selected.name }}</ui-select-match>
 				<ui-select-choices data-repeat="item in (model.names | filter :
 						{name: $select.search} : model.startsWith)">
 					{{ item.name }}
@@ -66,6 +66,9 @@ $dragonvaleDB = DragonvaleDB::getInstance();
 				Visualizza i giorni nei tempi di incubazione
 		</label>
 		<section>
+			<!-- Page load -->
+			<span data-ng-if="model.hints.length == 0">Nessun drago selezionato</span>
+
 			<div data-ng-repeat="hint in model.hints | limitTo : 10">
 				<dragon-box data-dragon="hint"></dragon-box>
 				<span>=</span>

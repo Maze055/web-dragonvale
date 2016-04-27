@@ -289,27 +289,39 @@ begin
 			when -- Motley
 				d.id = 126
 			then
-				'Any pair of dragons'
+				(select n.it from breedingHintsNotes n where n.id = 'MOT')
 
 			when -- Dream
 				d.id = 173
 			then
-				'Any other two elements'
+				(select n.it from breedingHintsNotes n where n.id = 'DREAM')
 
 			when -- 4 different elements
 				d.id in (155, 166, 188, 213, 266, 268)
 			then
-				'Any four different elements'
+				(select n.it from breedingHintsNotes n where n.id = '4ELEM')
 
 			when -- Galaxy
 				ifnull(22 in (d.elem1, d.elem2, d.elem3, d.elem4), false)
 			then
-				'Another Galaxy or epic'
+				(select n.it from breedingHintsNotes n where n.id = 'GALA')
 
 			when -- Snowflake and Monolith
 				d.elem1 in (20, 21)
 			then
-				concat_ws(' ', 'Any pair of', e1.en, 'dragons')
+				replace((select n.it from breedingHintsNotes n where n.id = 'SNMO'),
+					'$ELEM', e1.en)
+
+			when
+				d.elem1 in (24, 25) -- Ornamental & Aura are still unknown
+			then
+				(select n.it from breedingHintsNotes n where n.id = 'UNKN')
+
+			when -- Works in progress
+				isPrimary(d.id)
+			then
+				(select n.it from breedingHintsNotes n where n.id = 'WIP')
+
 		end as notes
 -- TODO: primaries
 from dragons d
@@ -377,10 +389,10 @@ CREATE DEFINER=`root`@`localhost` FUNCTION `isPrimary` (`id` int) RETURNS tinyin
 	return (select d.elem1
 			from dragons d
 			where coalesce(d.elem2, d.elem3, d.elem4) is null -- One element only
-				and d.id = id) not in (select e.id
-									   from elements e
-									   -- Neither epic nor Galaxy
-									   where e1.isEpic is not true and e1.id <> 22)$$
+				and d.id = id) in (select e.id
+								   from elements e
+								   -- Neither epic nor Galaxy
+								   where e.isEpic is not true and e.id <> 22)$$
 
 /*
 	Returns the id of the opposite dragon when the

@@ -13,8 +13,6 @@ angular.module('dragonSearch')
 	ajax.get('../php/ajax.php', {params: {request: 'breedInit'}})
 	.then(function(data) {
 		vm.names = data.data;
-		vm.names.unshift({id: 0, name: 'Non specificato'});
-		vm.dragon = vm.names[0];
 	});
 
 	vm.requestHint = function(id) {
