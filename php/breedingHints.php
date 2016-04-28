@@ -47,8 +47,9 @@ $dragonvaleDB = DragonvaleDB::getInstance();
 		<h1>Breeding Hints</h1>
 	</header>
 	<main data-ng-app="dragonSearch" data-ng-controller="BreedingHintsController as model">
-		<label>Nome:
-			<ui-select class="ui-select" data-ng-model="model.dragon"\
+		<section class="input">
+			<label for="name">Nome:</label>
+			<ui-select id="name" class="ui-select" data-ng-model="model.dragon"\
 					data-ng-change="model.requestHint()">
 				<ui-select-match data-placeholder="Seleziona un drago">{{ $select.selected.name }}</ui-select-match>
 				<ui-select-choices data-repeat="item in (model.names | filter :
@@ -56,11 +57,11 @@ $dragonvaleDB = DragonvaleDB::getInstance();
 					{{ item.name }}
 				</ui-select-choices>
 			</ui-select>
-		</label>
-		<time-tweak-box data-on-redu-change="model.toggleRed(red)"
-				data-on-dd-change="model.toggleDd(dd)"
-				data-dragons="model.dragons"></time-tweak-box>
-		<section>
+			<time-tweak-box data-on-redu-change="model.toggleRed(red)"
+					data-on-dd-change="model.toggleDd(dd)"
+					data-dragons="model.dragons"></time-tweak-box>
+		</section>
+		<section class="breeding-hints">
 			<!-- Page load -->
 			<span data-ng-if="model.hints.length == 0">Nessun drago selezionato</span>
 

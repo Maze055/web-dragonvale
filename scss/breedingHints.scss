@@ -4,6 +4,7 @@
 @import 'dragonSearch';
 @import 'elem-box';
 @import 'footer';
+@import 'time-tweak-box';
 
 .ui-select {
 	@extend .small-text;
@@ -11,13 +12,33 @@
 	width: 11.5em;
 }
 
-section {
+.input {
+	@extend .flex-row;
+	@extend .flex-single;
+	@extend .flex-center-main;
+	@extend .flex-center-cross;
+
+	> * {
+		margin: auto 0.25em;
+	}
+}
+
+.breeding-hints {
+	margin: 1.5ex auto;
+
 	> div {
 		@extend .flex-row;
 		@extend .flex-single;
 		@extend .flex-center-cross;
-		@extend .flex-center-main;
+
 		justify-content: center;
+
+		span:not(.note) {
+			@extend .bold;
+
+			padding-bottom: 0.5ex;
+			font-size: 500%;
+		}
 	}
 }
 

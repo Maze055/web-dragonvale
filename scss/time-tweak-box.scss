@@ -1,0 +1,14 @@
+@import 'common';
+
+.time-tweak-box {
+	@extend .flex-row;
+	@extend .flex-single;
+	@extend .flex-center-main;
+	@extend .flex-center-cross;
+
+	display: inline-flex;
+
+	> * {
+		margin: auto 0.25em;
+	}
+}
