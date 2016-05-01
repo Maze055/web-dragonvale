@@ -28,14 +28,7 @@ $dragonvaleDB = DragonvaleDB::getInstance();
 	<script charset="UTF-8" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-moment/1.0.0-beta.6/angular-moment.min.js"></script>
 	<script charset="UTF-8" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/sprintf/1.0.3/sprintf.min.js"></script>
 	<script charset="UTF-8" type="text/javascript" src="https://raw.githubusercontent.com/L42y/angular-sprintf/master/angular-sprintf.js"></script>
-	<script charset="UTF-8" type="text/javascript" src="../js/dragonSearch.module.js"></script>
-	<script charset="UTF-8" type="text/javascript" src="../js/dragonSearch.config.js"></script>
-	<script charset="UTF-8" type="text/javascript" src="../js/dragonSearch.breeding.hints.controller.js"></script>
-	<script charset="UTF-8" type="text/javascript" src="../js/dragonSearch.time.tweak.box.js"></script>
-	<script charset="UTF-8" type="text/javascript" src="../js/dragonSearch.image.js"></script>
-	<script charset="UTF-8" type="text/javascript" src="../js/dragonSearch.time.tweak.js"></script>
-	<script charset="UTF-8" type="text/javascript" src="../js/dragonSearch.dragon.box.js"></script>
-	<script charset="UTF-8" type="text/javascript" src="../js/dragonSearch.elem.box.js"></script>
+	<script charset="UTF-8" type="text/javascript" src="../js/breedingHints.js"></script>
 
 	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/select2/3.4.5/select2.min.css" />
 	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-select/0.16.1/select.min.css" />
@@ -43,6 +36,7 @@ $dragonvaleDB = DragonvaleDB::getInstance();
 </head>
 
 <body>
+	<?php require 'navBar.html'; ?>
 	<header>
 		<h1>Breeding Hints</h1>
 	</header>

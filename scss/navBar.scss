@@ -1,0 +1,18 @@
+@import 'common';
+@import 'mixins';
+
+$links-color: #000;
+
+nav ul {
+	@extend .text-left;
+
+	list-style-type: none;
+	padding-left: 0;
+
+	li {
+		display: inline;
+		margin: auto 1em;
+
+		@include links(#000);
+	}
+}

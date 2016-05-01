@@ -4,6 +4,7 @@
 @import 'dragonSearch';
 @import 'elem-box';
 @import 'footer';
+@import 'navBar';
 @import 'time-tweak-box';
 
 .ui-select {
@@ -12,6 +13,7 @@
 	width: 11.5em;
 }
 
+/* Input section: name menu and time tweak checkboxes */
 .input {
 	@extend .flex-row;
 	@extend .flex-single;
@@ -26,17 +28,18 @@
 .breeding-hints {
 	margin: 1.5ex auto;
 
+	/* Single breeding hint container */
 	> div {
 		@extend .flex-row;
 		@extend .flex-single;
+		@extend .flex-center-main;
 		@extend .flex-center-cross;
 
-		justify-content: center;
-
+		/* = and + signs spans */
 		span:not(.note) {
 			@extend .bold;
+			@extend .text-center-v;
 
-			padding-bottom: 0.5ex;
 			font-size: 500%;
 		}
 	}

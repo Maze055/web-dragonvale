@@ -44,6 +44,7 @@ $parents = makeOptions(array_columns($dragonvaleDB -> allParents(),
 </head>
 
 <body>
+	<?php require 'navBar.html'; ?>
 	<header>
 		<h1>DragonSearch</h1>
 	</header>
