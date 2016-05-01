@@ -1,3 +1,9 @@
+/***************************************
+
+Shared CSS styles for website pages
+
+***************************************/
+
 @import 'common';
 
 body {
@@ -5,8 +11,6 @@ body {
 	font-family: Helvetica, sans-serif;
 }
 
-header {
-	h1 {
-		@extend .small-caps;
-	}
+header h1 {
+	@extend .small-caps;
 }

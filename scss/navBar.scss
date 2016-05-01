@@ -1,7 +1,11 @@
+/***************************************
+
+CSS styles for website navigation bar
+
+***************************************/
+
 @import 'common';
 @import 'mixins';
-
-$links-color: #000;
 
 nav ul {
 	@extend .text-left;
