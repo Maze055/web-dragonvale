@@ -39,7 +39,7 @@ angular.module('dragonSearch')
 		return string.indexOf(substring) === 0;
 	};
 
-	vm.toggleRed = function(reduced) {
+	vm.toggleRedu = function(reduced) {
 		vm.reduced = reduced;
 	};
 

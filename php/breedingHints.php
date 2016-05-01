@@ -51,7 +51,7 @@ $dragonvaleDB = DragonvaleDB::getInstance();
 					{{ item.name }}
 				</ui-select-choices>
 			</ui-select>
-			<time-tweak-box data-on-redu-change="model.toggleRed(red)"
+			<time-tweak-box data-on-redu-change="model.toggleRedu(redu)"
 					data-on-dd-change="model.toggleDd(dd)"
 					data-dragons="model.dragons"></time-tweak-box>
 		</section>

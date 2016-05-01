@@ -14,8 +14,8 @@ module.exports = function (grunt) {
 			},
 
 			index: {
-				src: ['js/*.js'],
-				dest: 'lindex.js'
+				src: [],
+				dest: 'js/lindex.js'
 			},
 
 			breed: {
