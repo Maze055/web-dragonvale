@@ -1,12 +1,3 @@
-<?php
-
-require_once 'autoload.php';
-require_once 'common.php';
-
-$dragonvaleDB = DragonvaleDB::getInstance();
-
-?>
-
 <!DOCTYPE html>
 
 <html>
@@ -51,9 +42,9 @@ $dragonvaleDB = DragonvaleDB::getInstance();
 					{{ item.name }}
 				</ui-select-choices>
 			</ui-select>
-			<time-tweak-box data-on-redu-change="model.toggleRedu(redu)"
-					data-on-dd-change="model.toggleDd(dd)"
-					data-dragons="model.dragons"></time-tweak-box>
+			<time-tweak-box data-on-redu-change="model.setReduced(redu)"
+					data-on-dd-change="model.setDisplayDays(dd)"
+					data-dragons="model.dragonBoxes"></time-tweak-box>
 		</section>
 		<section class="breeding-hints">
 			<!-- Page load -->

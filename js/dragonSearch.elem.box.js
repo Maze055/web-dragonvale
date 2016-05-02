@@ -1,3 +1,10 @@
+/**
+ * @fileoverview
+ *
+ * This file contains the definition of the business
+ * logic of AngularJS elemBox component.
+ */
+
 (function(angular) {
 
 angular.module('dragonSearch')

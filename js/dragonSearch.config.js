@@ -1,3 +1,10 @@
+/**
+ * @fileoverview
+ *
+ * This file contains the configuration blocks
+ * for this website AngularJS module.
+ */
+
 (function(angular) {
 
 angular.module('dragonSearch')

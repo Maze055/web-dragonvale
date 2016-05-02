@@ -1,3 +1,10 @@
+/**
+ * @fileoverview
+ *
+ * This file contains the definition of the
+ * this website AngularJS module.
+ */
+
 (function(angular) {
 
 angular.module('dragonSearch', [
