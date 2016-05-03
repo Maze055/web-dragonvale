@@ -8,6 +8,8 @@ $dragonvaleDB = DragonvaleDB::getInstance();
 extract($_GET);
 
 switch ($request) {
+
+	// Initialization request for dragon filters page
 	case 'init':
 
 		/*
@@ -19,6 +21,7 @@ switch ($request) {
 				[0, 1], ['value', 'text']);
 		break;
 
+	// Dragon filters request
 	case 'dragons':
 		$result = $dragonvaleDB -> getDragons((int) $id, (string) $time,
 				(int) $elem1, (int) $elem2, (int) $elem3, (int) $elem4,
@@ -27,33 +30,18 @@ switch ($request) {
 				(bool) $reduced, (bool) $displayDays);
 		break;
 
+	/*
+		Initialization request for breeding hints
+		page: only id-names pairs are necessary.
+	*/
 	case 'breedInit':
-		$result = array_columns($dragonvaleDB -> allNames(), [0, 1], ['id', 'name']);
+		$result = $dragonvaleDB -> allNames();
 		break;
 
+	// Breeding hint request
 	case 'breed':
-		$breedData = $dragonvaleDB -> breedingHint((int) $id, (bool) $reduced,
+		$result = $dragonvaleDB -> breedingHint((int) $id, (bool) $reduced,
 				(bool) $displayDays);
-		foreach ($breedData as &$dragon) {
-			$dragon['elems'] = explode('-', $dragon['elems']);
-
-			if (isset($dragon['breedElems']))
-				$dragon['breedElems'] = explode('-', $dragon['breedElems']);
-		};
-
-		$ids = array_column($breedData, 'id');
-		$result = $breedData[array_search($id, $ids)];
-
-		if (isset($result['parent1']))
-			$result['parent1'] = $breedData[array_search($result['parent1'], $ids)];
-
-		if (isset($result['parent2']))
-			$result['parent2'] = $breedData[array_search($result['parent2'], $ids)];
-
-		unset($result['parent1']['parent1'], $result['parent1']['parent2'],
-				$result['parent1']['breedElems'], $result['parent1']['notes'],
-				$result['parent2']['parent1'], $result['parent2']['parent2'],
-				$result['parent2']['breedElems'], $result['parent2']['notes']);
 		break;
 
 	default:

@@ -56,7 +56,7 @@ $parents = makeOptions(array_columns($dragonvaleDB -> allParents(),
 						<select name="id">
 							<option value="0">Non specificato</option>
 						<?php
-							echo makeOptions(array_column($dragonvaleDB -> allNames(), 1, 0), true);
+							echo makeOptions(array_column($dragonvaleDB -> allNames(), 'name', 'id'), true);
 						?>
 						</select>
 					</label>
