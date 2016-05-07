@@ -5,6 +5,16 @@
  * that manipulate hatching times of an array
  * of dragon objects using timeTweak service.
  *
+ * The only input is an array of Dragon instances,
+ * whose hatching times will be manipulated.
+ *
+ * The outputs are two callbacks, onReduChange
+ * and onDdChange, fired on every value change
+ * of reduced and displayDays respectively:
+ * the former has the new value in key 'redu',
+ * the latter in 'dd'. They are also called in
+ * initializaton phase with initial values.
+ *
  * @see Dragon
  */
 

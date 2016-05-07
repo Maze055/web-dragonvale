@@ -1,8 +1,11 @@
 /**
  * @fileoverview
  *
- * This file contains the definition of the business
- * logic of AngularJS elemBox component.
+ * This component is made up of a picture of
+ * an element and its English name below.
+ *
+ * The input is an English element name, given
+ * as a plain string. There are no outputs.
  */
 
 (function(angular) {
