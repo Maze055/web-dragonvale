@@ -2,9 +2,7 @@
 # Angular Pagination + memory leak
 # Primaries
 # Server side includes
-# Unwatched directories
+# Unwatched directories + gitignore
 # Partials SCSS
-# Grunt watch
 # Modernizr
 # Tweak time caching
-# No double hints

@@ -29,16 +29,27 @@ angular.module('dragonSearch')
 		vm.names = data.data;
 	});
 
+	vm.findHintById = function(id) {
+		for (var index in vm.hints)
+			if (vm.hints[index].id == id)
+				return index;
+		return -1;
+	};
+
 	/**
-	 * This method performs an AJAX request to get the breeding
-	 * hint of either the passed dragon or the selected one in
-	 * vm.dragon, and places it at the beginning of vm.hints;
-	 * furthermore, it updates vm.dragonBoxes with the ones of
-	 * the required dragon an possible parents. This method is
+	 * This method requests the breeding hint of either the
+	 * passed dragon or the selected one in vm.dragon: if it
+	 * has been required previously, it's just moved to the
+	 * top position of vm.hints, otherwise an AJAX request
+	 * to get it is performed, and the result is placed
+	 * straight at the beginning of vm.hints. In this latter
+	 * case vm.dragonBoxes is also updated with Dragon
+	 * instances of the required dragon and its possible
+	 * parents. When performing AJAx request, this method is
 	 * chainable, since it returns an AngularJS $q instance.
 	 *
-	 * @summary Retrieves the breeding hint of
-	 * the passed/selected dragon through AJAX.
+	 * @summary Retrieves the breeding hint of the passed/selected
+	 * dragon through AJAX, or moves it to the top if existing.
 	 *
 	 * @memberof BreedingHintsController#
 	 *
@@ -48,20 +59,35 @@ angular.module('dragonSearch')
 	 * @see Hint
 	 */
 	vm.requestHint = function(id) {
-		return ajax.get('../php/ajax.php', {params: {request: 'breed',
-				id: id || vm.dragon.id, reduced: vm.reduced,
-				displayDays: vm.displayDays}})
-		.then(function(data) {
 
-			// data.data is expected to be an instance of Hint.
-			vm.hints.unshift(data.data);
+		// Setting default value for id
+		id = id || vm.dragon.id;
 
-			vm.dragonBoxes.push(data.data);
-			if (data.data.parent1)
-				vm.dragonBoxes.push(data.data.parent1);
-			if (data.data.parent2)
-				vm.dragonBoxes.push(data.data.parent2);
-		});
+//		var index = vm.hints.findIndex(function(dragon) {
+//				return dragon.id == id;
+//			});
+
+		var hintIndex = vm.findHintById(id);
+
+		// Hint not found, requesting it through AJAX
+		if (hintIndex == -1)
+			return ajax.get('../php/ajax.php', {params: {request: 'breed', id: id,
+					reduced: vm.reduced, displayDays: vm.displayDays}})
+			.then(function(data) {
+
+				// data.data is expected to be an instance of Hint.
+				vm.hints.unshift(data.data);
+
+				vm.dragonBoxes.push(data.data);
+				if (data.data.parent1)
+					vm.dragonBoxes.push(data.data.parent1);
+				if (data.data.parent2)
+					vm.dragonBoxes.push(data.data.parent2);
+			});
+
+		// Hint found, but not first: moving to top
+		if (hintIndex)
+			vm.hints.unshift(vm.hints.splice(hintIndex, 1)[0]);
 	};
 
 	/**
