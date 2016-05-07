@@ -377,7 +377,12 @@ INSERT INTO `dragons` (`id`, `en`, `time`, `elem1`, `elem2`, `elem3`, `elem4`, `
 (276, 'Monolith 6', '24:00:00', 21, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 (277, 'Tempest', '08:00:00', 5, 4, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 (278, 'Wavelyte', '36:00:00', 23, NULL, NULL, NULL, 77, 18, NULL, NULL, NULL, NULL),
-(279, 'Vortex', '14:00:00', 6, 7, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+(279, 'Vortex', '14:00:00', 6, 7, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(280, 'Nebula', '18:00:00', 22, NULL, NULL, NULL, 280, NULL, NULL, NULL, NULL, NULL),
+(281, 'Rayleian', '22:00:00', 22, NULL, NULL, NULL, 281, NULL, NULL, NULL, NULL, NULL),
+(282, 'Celerulean', '24:00:00', 22, NULL, NULL, NULL, 282, NULL, NULL, NULL, NULL, NULL),
+(283, 'Teidian', '20:00:00', 22, NULL, NULL, NULL, 283, NULL, NULL, NULL, NULL, NULL),
+(284, 'Shield', '13:30:00', 4, 5, 6, 3, 30, 174, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -468,7 +473,7 @@ ALTER TABLE `coins`
 -- AUTO_INCREMENT for table `dragons`
 --
 ALTER TABLE `dragons`
-  MODIFY `id` smallint(5) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=280;
+  MODIFY `id` smallint(5) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=285;
 --
 -- AUTO_INCREMENT for table `elements`
 --

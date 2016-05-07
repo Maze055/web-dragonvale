@@ -250,7 +250,7 @@ BOUND
 	public function allTimes($reduced = false, $displayDays = false) {
 		if (!self::$allTimesQuery)
 			self::$allTimesQuery = $this -> conn -> prepare(
-					'select distinct time, formatTime(time, ?, ?) frm dragons order by time',
+					'select distinct time, formatTime(time, ?, ?) from dragons order by time',
 					'allTimesQuery');
 
 		/*

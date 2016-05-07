@@ -3,7 +3,10 @@
 # Angular Pagination + memory leak
 # Primaries
 # Server side includes
-# Regenerate docs
 # Unwatched directories
 # Partials SCSS
-# Grunt whatc
+# Grunt watch
+# Modernizr
+# Tweak time caching
+# No double hints
+

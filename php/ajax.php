@@ -5,7 +5,32 @@ require_once 'common.php';
 
 $dragonvaleDB = DragonvaleDB::getInstance();
 
-extract($_GET);
+extract(filterInputArrayDie(INPUT_GET, [
+	'request' => FILTER_DEFAULT,
+	'reduced' => FILTER_VALIDATE_BOOLEAN,
+	'displayDays' => FILTER_VALIDATE_BOOLEAN,
+	'id' => FILTER_VALIDATE_INT,
+	'time' => FILTER_DEFAULT,
+	'elem1' => FILTER_VALIDATE_INT,
+	'elem2' => FILTER_VALIDATE_INT,
+	'elem3' => FILTER_VALIDATE_INT,
+	'elem4' => FILTER_VALIDATE_INT,
+	'parent1' => FILTER_VALIDATE_INT,
+	'parent2' => FILTER_VALIDATE_INT,
+	'page' => [
+		'filter' => FILTER_VALIDATE_INT,
+		'options' => [
+			'min_range' => 1,
+		]
+	],
+	'pageLength' => [
+		'filter' => FILTER_VALIDATE_INT,
+		'options' => [
+			'min_range' => 0,
+		]
+	],
+	'strictOrder' => FILTER_VALIDATE_BOOLEAN
+], true));
 
 switch ($request) {
 

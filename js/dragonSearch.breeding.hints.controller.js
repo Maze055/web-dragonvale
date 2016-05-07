@@ -49,13 +49,8 @@ angular.module('dragonSearch')
 	 */
 	vm.requestHint = function(id) {
 		return ajax.get('../php/ajax.php', {params: {request: 'breed',
-
-				/*
-					Converting booleans to integers is necessary to
-					allow PHP to correctly cast back from strings.
-				*/
-				id: id || vm.dragon.id, reduced: vm.reduced ? 1 : 0,
-				displayDays: vm.displayDays ? 1 : 0}})
+				id: id || vm.dragon.id, reduced: vm.reduced,
+				displayDays: vm.displayDays}})
 		.then(function(data) {
 
 			// data.data is expected to be an instance of Hint.
