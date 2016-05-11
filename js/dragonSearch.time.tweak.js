@@ -46,7 +46,7 @@ angular.module('dragonSearch')
 	 *
 	 * @see {@link http://momentjs.com/docs/#/durations/ moment.js duration class}.
 	 */
-	var makeDuration = function(time) {
+	var makeDuration = (function(time) {
 		if (moment.isDuration(time))
 			return time;
 
@@ -55,11 +55,11 @@ angular.module('dragonSearch')
 			according to moment.js specifications.
 			http://momentjs.com/docs/#/durations/creating/
 		*/
-		if (typeof(time) == 'string' && time.length > 8)
+		if (typeof(time) == 'string' && this.daysAreDisplayed(time))
 			time = time.replace(':', '.');
 
 		return moment.duration(time);
-	};
+	}).bind(this);
 
 	/**
 	 * This method formats a time duration to either
@@ -95,20 +95,37 @@ angular.module('dragonSearch')
 	};
 
 	/**
-	 * This method multiplies the provided time duration
-	 * by a given value, then displays result as specified.
+	 * This method multiplies the supplied time duration by
+	 * a given value: the output format can either be
+	 * explicitly provided or inferred from the input itself.
 	 *
-	 * @summary Multiplies time durations by a value and
-	 * handles formatting.
+	 * @summary Multiplies time durations by a value.
 	 *
-	 * @param {string|moment.duration} time - Input time duration: when string, only 'dd:HH:mm:ss' and 'HH:mm:ss' format are accepted.
+	 * @private
+	 *
+	 * @param {string} time - Input time duration: only 'dd:HH:mm:ss' and 'HH:mm:ss' formats are accepted.
 	 * @param {number} multiplier - Value the time duration will be multiplied by.
-	 * @param {boolean} putDays - If true, days will be displayed in the result, if any.
-	 * @return {string} The new time duration, varied and formatted as specified.
+	 * @param {boolean} [putDays] - If true, days will be displayed in the result, if any. When false, days will be converted to hours. If undefined, output format will be deduced from input.
+	 * @return {string} The new time duration.
 	 */
-	var tweakTime = function(time, multiplier, putDays) {
+	var tweakTime = (function(time, multiplier, putDays) {
+		if (arguments.length < 3)
+			putDays = this.daysAreDisplayed(time);
+
 		return format(moment.duration(makeDuration(time)
 				.asMilliseconds() * multiplier), putDays);
+	}).bind(this);
+
+	/**
+	 * @summary Returns true when a time displays days.
+	 *
+	 * @private
+	 *
+	 * @param {string} time - Input time string.
+	 * @return {boolean} True if input time string displays days.
+	 */
+	this.daysAreDisplayed = function(time) {
+		return time.length > 8;
 	};
 
 	/**
@@ -123,7 +140,7 @@ angular.module('dragonSearch')
 	 * @param {string} time - Input time duration string, in either 'dd:HH:mm:ss' or 'HH:mm:ss' format.
 	 * @return {string} Time duration string in 'dd:HH:mm:ss' format, with no days if none in input.
 	 */
-	this.putDays = function(time) {
+	this.displayDays = function(time) {
 		return format(time, true);
 	};
 
@@ -146,33 +163,31 @@ angular.module('dragonSearch')
 	/**
 	 * This method accepts a colon-separed time duration
 	 * string, in either 'dd:HH:mm:ss' or 'HH:mm:ss' format,
-	 * and returns another reduced by 20%, displaying
-	 * days as specified.
+	 * and returns another reduced by 20%, in the same
+	 * format as the input.
 	 *
 	 * @summary Reduces a time duration by 20%.
 	 *
 	 * @param {string} time - Input time duration string, in either 'dd:HH:mm:ss' or 'HH:mm:ss' format.
-	 * @param {boolean} putDays - If true, days will be displayed in the result, if any.
 	 * @return {string} Time duration string reduced by 20%.
 	 */
-	this.reduce = function(time, putDays) {
-		return tweakTime(time, 0.8, putDays);
+	this.reduce = function(time) {
+		return tweakTime(time, 0.8);
 	};
 
 	/**
 	 * This method accepts a colon-separed time duration
 	 * string, in either 'dd:HH:mm:ss' or 'HH:mm:ss' format,
-	 * and returns another increased by 20%, displaying
-	 * days as specified.
+	 * and returns another increased by 20%, in the same
+	 * format as the input.
 	 *
 	 * @summary Increases a time duration by 20%.
 	 *
 	 * @param {string} time - Input time duration string, in either 'dd:HH:mm:ss' or 'HH:mm:ss' format.
-	 * @param {boolean} putDays - If true, days will be displayed in the result, if any.
 	 * @return {string} Time duration string increased by 20%.
 	 */
-	this.increase = function(time, putDays) {
-		return tweakTime(time, 1.25, putDays);
+	this.increase = function(time) {
+		return tweakTime(time, 1.25);
 	};
 }]);
 

@@ -34,7 +34,7 @@ $parents = makeOptions(array_columns($dragonvaleDB -> allParents(),
 	<script charset="UTF-8" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/sprintf/1.0.3/sprintf.min.js"></script>
 	<script charset="UTF-8" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.4.2/chosen.jquery.min.js"></script>
 	<script charset="UTF-8" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tooltipster/3.3.0/js/jquery.tooltipster.min.js"></script>
-	<script charset="UTF-8" type="text/javascript" src="https://crypto-js.googlecode.com/svn/tags/3.0.2/build/rollups/md5.js"></script>
+	<script charset="UTF-8" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/md5.js"></script>
 	<script charset="UTF-8" type="text/javascript" src="../util/js/jquery-util.js"></script>
 	<script charset="UTF-8" type="text/javascript" src="../util/js/Pagination.js"></script>
 	<script charset="UTF-8" type="text/javascript" src="../util/js/jquery-ajaxTable.js"></script>

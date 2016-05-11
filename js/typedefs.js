@@ -33,3 +33,11 @@
  * @prop {Dragon} [parent1] - Possible parent requested for breeding the dragon.
  * @prop {Dragon} [parent2] - Potential parent necessary to breed the dragon.
  */
+
+/**
+ * An object holding a time string in a time proerty.
+ *
+ * @typedef {object} Time
+ *
+ * @prop {string} time - The time string held by this object.
+ */

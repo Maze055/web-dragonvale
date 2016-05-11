@@ -5,4 +5,4 @@
 # Unwatched directories + gitignore
 # Partials SCSS
 # Modernizr
-# Tweak time caching
+# Localstorage

@@ -35,7 +35,7 @@
 		<section class="input">
 			<label for="name">Nome:</label>
 			<ui-select id="name" class="ui-select" data-ng-model="model.dragon"\
-					data-ng-change="model.requestHint()">
+					data-ng-change="model.addHint()">
 				<ui-select-match data-placeholder="Seleziona un drago">{{ $select.selected.name }}</ui-select-match>
 				<ui-select-choices data-repeat="item in (model.names | filter :
 						{name: $select.search} : model.startsWith)">
@@ -43,8 +43,7 @@
 				</ui-select-choices>
 			</ui-select>
 			<time-tweak-box data-on-redu-change="model.setReduced(redu)"
-					data-on-dd-change="model.setDisplayDays(dd)"
-					data-dragons="model.dragonBoxes"></time-tweak-box>
+					data-on-dd-change="model.setDisplayDays(dd)"></time-tweak-box>
 		</section>
 		<section class="breeding-hints">
 			<!-- Page load -->
@@ -56,12 +55,12 @@
 
 				<!-- Parent1 -->
 				<dragon-box data-ng-if="hint.parent1" data-dragon="hint.parent1"
-						data-on-click="model.requestHint(id)"></dragon-box>
+						data-on-click="model.addHint(id)"></dragon-box>
 				<span data-ng-if="hint.parent1">+</span>
 
 				<!-- Parent2 -->
 				<dragon-box data-ng-if="hint.parent2" data-dragon="hint.parent2"
-						data-on-click="model.requestHint(id)"></dragon-box>
+						data-on-click="model.addHint(id)"></dragon-box>
 
 				<!-- Elem breed -->
 				<elem-box data-ng-repeat-start="elem in hint.breedElems"

@@ -1,21 +1,21 @@
 /**
  * @fileoverview
  *
- * This component is made up of two checkboxes
- * that manipulate hatching times of an array
- * of dragon objects using timeTweak service.
+ * This component is roughly a GUI for TimeManager
+ * service: it's made up of two checkboxes that
+ * activate time reduction and days display when
+ * checked.
  *
- * The only input is an array of Dragon instances,
- * whose hatching times will be manipulated.
+ * It has no explicit inputs, since it's actually
+ * TimeManager that does the real work. The outputs
+ * are two callbacks, onReduChange and onDdChange,
+ * fired on every value change of reduced and
+ * displayDays respectively: the former has the new
+ * value in key 'redu', the latter in 'dd'. They
+ * are also called in initializaton phase with
+ * initial values.
  *
- * The outputs are two callbacks, onReduChange
- * and onDdChange, fired on every value change
- * of reduced and displayDays respectively:
- * the former has the new value in key 'redu',
- * the latter in 'dd'. They are also called in
- * initializaton phase with initial values.
- *
- * @see Dragon
+ * @see TimeManager
  */
 
 (function(angular) {
@@ -27,13 +27,11 @@ angular.module('dragonSearch')
 	templateUrl: '../html/time-tweak-box.html',
 
 	bindings: {
-		dragons: '<',
-
 		onReduChange: '&',
 		onDdChange: '&'
 	},
 
-	controller: ['timeTweak', function(timeTweak) {
+	controller: ['TimeManager', function(times) {
 		this.reduced = false;		// Reduced time checkbox
 		this.displayDays = false;	// Display days checkbox
 
@@ -43,29 +41,26 @@ angular.module('dragonSearch')
 
 		/**
 		 * This method reduces/increases all times
-		 * in dragons array basing on the value of
+		 * in TimeManager basing on the value of
 		 * this.reduced.
 		 */
 		this.tweakTimes = function() {
-			var method = this.reduced ? 'reduce' : 'increase';
-
-			angular.forEach(this.dragons, (function(dragon) {
-				dragon.time = timeTweak[method](dragon.time,
-						this.displayDays);
-			}).bind(this));
+			if (this.reduced)
+				times.reduce();
+			else
+				times.increase();
 		};
 
 		/**
 		 * This method changes the format of all times
-		 * in dragons array basing on the value of
+		 * in TimeManager basing on the value of
 		 * this.displayDays.
 		 */
 		this.toggleFormat = function() {
-			var method = this.displayDays ? 'putDays' : 'convertDays';
-
-			angular.forEach(this.dragons, function(dragons) {
-				dragons.time = timeTweak[method](dragons.time);
-			});
+			if (this.displayDays)
+				times.displayDays();
+			else
+				times.convertDays();
 		};
 	}]
 });

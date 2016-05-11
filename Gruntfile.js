@@ -14,8 +14,10 @@ module.exports = function (grunt) {
 			breed: {
 				src: ['js/dragonSearch.module.js',
 					'js/dragonSearch.config.js',
-					'js/dragonSearch.breeding.hints.controller.js',
 					'js/dragonSearch.time.tweak.js',
+					'js/dragonSearch.time.manager.js',
+					'js/dragonSearch.breeding.hints.js',
+					'js/dragonSearch.breeding.hints.controller.js',
 					'js/dragonSearch.time.tweak.box.js',
 					'js/dragonSearch.image.js',
 					'js/dragonSearch.dragon.box.js',
