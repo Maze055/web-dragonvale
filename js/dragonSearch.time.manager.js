@@ -90,9 +90,8 @@ angular.module('dragonSearch')
 
 		// The second level of nesting is the format, days/noDays
 		if (!this.cache[keys.duration][keys.format])
-			this.cache[keys.duration][keys.format] =
-					arguments.length < 2 ? sourceTime :
-					timeTweak[method](sourceTime);
+			this.cache[keys.duration][keys.format] = timeTweak[method] ?
+					timeTweak[method](sourceTime) : sourceTime;
 
 		return this;
 	};

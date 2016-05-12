@@ -1,0 +1,14 @@
+# Git ignored directories and files
+
+# Netbeans data
+
+/nbproject
+
+# Node js local modules
+
+/node_modules
+
+# Build
+
+/css/
+/js/breedingHints.js
