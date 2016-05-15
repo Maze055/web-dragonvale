@@ -47,14 +47,8 @@ angular.module('dragonSearch')
 	};
 
 	/**
-	 * This method returns true when substring is the
-	 * beginning of string; the comparison is case-
-	 * insensitive and no value and empty string are
-	 * considered a successful match. Basically, it is
-	 * an implementation of the namesake String method
-	 * of ES6 specification.
-	 *
-	 * @summary Checks if string begins with substring.
+	 * @summary Case-insensitive version of startsWith()
+	 * method of JavaScript built-in String object.
 	 *
 	 * @memberof BreedingHintsController#
 	 *
@@ -62,13 +56,9 @@ angular.module('dragonSearch')
 	 * @param {string} [substring] - The string that will be searched for.
 	 * @return {boolean} True if string starts with substring.
 	 */
-	vm.startsWith = function(string, substring) {
-		if (!substring)
-			return true;
-
-		string = string.toLowerCase();
-		substring = substring.toLowerCase();
-		return string.indexOf(substring) === 0;
+	vm.startsWithCi = function(string, substring) {
+		return string.toLowerCase().startsWith(
+				substring.toLowerCase());
 	};
 
 	/**

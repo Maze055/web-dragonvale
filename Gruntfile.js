@@ -4,26 +4,15 @@ module.exports = function (grunt) {
 		Tasks configuration object, to allow true
 		pipelining of consecutive tasks
 	*/
-	var tasksConfig = {
-		concat: {
+	var tasksIO = {
+		modernizr: {
 			index: {
-				src: [],
-				dest: 'js/lindex.js'
+				dest: 'js/modernizr.index.js'
 			},
 
 			breed: {
-				src: ['js/dragonSearch.module.js',
-					'js/dragonSearch.config.js',
-					'js/dragonSearch.time.tweak.js',
-					'js/dragonSearch.time.manager.js',
-					'js/dragonSearch.breeding.hints.js',
-					'js/dragonSearch.breeding.hints.controller.js',
-					'js/dragonSearch.time.tweak.box.js',
-					'js/dragonSearch.image.js',
-					'js/dragonSearch.dragon.box.js',
-					'js/dragonSearch.elem.box.js'
-				],
-				dest: 'js/breedingHints.js'
+				devFile: 'js/breedingHints.js',
+				dest: 'js/modernizr.breed.js'
 			}
 		},
 
@@ -38,54 +27,91 @@ module.exports = function (grunt) {
 		}
 	};
 
-	tasksConfig.postcss.index.dest = tasksConfig.postcss.index.src;
-	tasksConfig.postcss.breed.dest = tasksConfig.postcss.breed.src;
+	tasksIO.postcss.index.dest = tasksIO.postcss.index.src;
+	tasksIO.postcss.breed.dest = tasksIO.postcss.breed.src;
 
-	tasksConfig.uglify = {
+	tasksIO.concat = {
 		index: {
-			src: tasksConfig.concat.index.dest,
-			dest: tasksConfig.concat.index.dest
+			src: [],
+			dest: 'js/lindex.js'
 		},
 
 		breed: {
-			src: tasksConfig.concat.breed.dest,
-			dest: tasksConfig.concat.breed.dest
+			src: [tasksIO.modernizr.breed.dest,
+				'js/dragonSearch.module.js',
+				'js/dragonSearch.config.js',
+				'js/dragonSearch.time.tweak.js',
+				'js/dragonSearch.time.manager.js',
+				'js/dragonSearch.breeding.hints.js',
+				'js/dragonSearch.breeding.hints.controller.js',
+				'js/dragonSearch.time.tweak.box.js',
+				'js/dragonSearch.image.js',
+				'js/dragonSearch.dragon.box.js',
+				'js/dragonSearch.elem.box.js'
+			],
+			dest: 'js/breedingHints.js'
 		}
 	};
 
-	tasksConfig.watch = {
+	tasksIO.uglify = {
 		index: {
-			files: tasksConfig.concat.index.src,
+			src: tasksIO.concat.index.dest,
+			dest: tasksIO.concat.index.dest
+		},
+
+		breed: {
+			src: tasksIO.concat.breed.dest,
+			dest: tasksIO.concat.breed.dest
+		}
+	};
+
+	tasksIO.watch = {
+		index: {
+			files: tasksIO.concat.index.src,
 			tasks: 'index:js'
 		},
 
 		breed: {
-			files: tasksConfig.concat.breed.src,
+			files: tasksIO.concat.breed.src,
 			tasks: 'breed:js'
 		}
 	};
 
 	// Project configuration.
 	grunt.initConfig({
+		modernizr: {
+			options: {
+				options: [],
+				uglify: false,
+				files: {
+					src: ['js/*.js']
+				}
+			},
+
+			index: tasksIO.modernizr.index,
+
+			breed: tasksIO.modernizr.breed
+		},
+
 		concat: {
 			options: {
-				banner: '(function(angular) {\n\n',
-				footer: ';\n\n})(angular);',
+				banner: '(function(window, document, angular) {\n\n',
+				footer: ';\n\n})(window, document, angular);',
 
 				/*
 					Removes IIFE and AngularJS module retrieval,
 					to create an unique chained module declaration
 				*/
 				process: function(src) {
-					return src.replace(/\(function\(.*\)\s*{\s*/, '')
-							.replace(/;?\s*\}\)\(.*\);\s*$/g, '')
+					return src.replace(/[\(!]function\(.*?\)\s*{\s*/, '')
+							.replace(/;?\s*\}\)?\(.*?\);\s*$/g, '')
 							.replace(/angular.module\(["']dragonSearch["']\)\n/g, '');
 				}
 			},
 
-			index: tasksConfig.concat.index,
+			index: tasksIO.concat.index,
 
-			breed: tasksConfig.concat.breed
+			breed: tasksIO.concat.breed
 		},
 
 		uglify: {
@@ -101,9 +127,9 @@ module.exports = function (grunt) {
 				quoteStyle: 3
 			},
 
-			index: tasksConfig.uglify.index,
+			index: tasksIO.uglify.index,
 
-			breed: tasksConfig.uglify.breed
+			breed: tasksIO.uglify.breed
 		},
 
 		postcss: {
@@ -114,9 +140,9 @@ module.exports = function (grunt) {
 				]
 			},
 
-			index: tasksConfig.postcss.index,
+			index: tasksIO.postcss.index,
 
-			breed: tasksConfig.postcss.breed
+			breed: tasksIO.postcss.breed
 		},
 
 		watch: {
@@ -124,26 +150,30 @@ module.exports = function (grunt) {
 				event: 'all'
 			},
 
-//			index: tasksConfig.watch.index,
+//			index: tasksIO.watch.index,
 
-			breed: tasksConfig.watch.breed
+			breed: tasksIO.watch.breed
 		}
 	});
 
 	// Load plugins that actually provide tasks
+	grunt.loadNpmTasks('grunt-modernizr');
 	grunt.loadNpmTasks('grunt-contrib-concat');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-postcss');
 	grunt.loadNpmTasks('grunt-contrib-watch');
 
-	// Tasks
+	// Web pages tasks
 	var tasksNames = ['index', 'breed'];
 	for (var key in tasksNames) {
 		var task = tasksNames[key];
-		grunt.registerTask(task, ['concat:' + task, 'uglify:' + task,
-				'postcss:' + task]);
-		grunt.registerTask(task + ':js', ['concat:' + task,
-				'uglify:' + task]);
-		grunt.registerTask(task + ':css', 'postcss:' + task);
+		var jsTask = task + ':js';
+		var cssTask = task + ':css';
+
+		grunt.registerTask(jsTask, ['modernizr:' + task,
+				'concat:' + task]);
+		grunt.registerTask(cssTask, 'postcss:' + task);
+		grunt.registerTask(task, [jsTask, 'uglify:' + task,
+				cssTask]);
 	}
 };

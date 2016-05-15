@@ -9,11 +9,12 @@
 
 angular.module('dragonSearch')
 
-.config(['uiSelectConfig', function(uiSelectConf) {
-	uiSelectConf.appendToBody = false;
-	uiSelectConf.resetSearchInput = true;
-	uiSelectConf.searchEnabled = true;
-	uiSelectConf.theme = 'select2';
+// Global configuration of ui-select plugin
+.config(['uiSelectConfig', function(uiSelect) {
+	uiSelect.appendToBody = false;
+	uiSelect.resetSearchInput = true;
+	uiSelect.searchEnabled = true;
+	uiSelect.theme = 'select2';
 }]);
 
 })(angular);

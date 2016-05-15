@@ -2,5 +2,4 @@
 # Angular Pagination + memory leak
 # Primaries
 # Server side includes
-# Modernizr
-# Localstorage
+# Build directories

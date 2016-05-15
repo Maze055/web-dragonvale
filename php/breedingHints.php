@@ -11,6 +11,10 @@
 	<meta name="author" content="Davide Laezza" />
 	<meta lang="it" name="desctiption" content="Ottenere informazioni su come si ottengono i vari draghi di Dragonvale" />
 
+	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/select2/3.4.5/select2.min.css" />
+	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-select/0.16.1/select.min.css" />
+	<link rel="stylesheet" type="text/css" href="../css/breedingHints.css" />
+
 	<script charset="UTF-8" type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js"></script>
 	<script charset="UTF-8" type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-sanitize.min.js"></script>
 	<script charset="UTF-8" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-select/0.16.1/select.min.js"></script>
@@ -20,10 +24,6 @@
 	<script charset="UTF-8" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/sprintf/1.0.3/sprintf.min.js"></script>
 	<script charset="UTF-8" type="text/javascript" src="https://raw.githubusercontent.com/L42y/angular-sprintf/master/angular-sprintf.js"></script>
 	<script charset="UTF-8" type="text/javascript" src="../js/breedingHints.js"></script>
-
-	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/select2/3.4.5/select2.min.css" />
-	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-select/0.16.1/select.min.css" />
-	<link rel="stylesheet" type="text/css" href="../css/breedingHints.css" />
 </head>
 
 <body>
@@ -38,7 +38,7 @@
 					data-ng-change="model.addHint()">
 				<ui-select-match data-placeholder="Seleziona un drago">{{ $select.selected.name }}</ui-select-match>
 				<ui-select-choices data-repeat="item in (model.names | filter :
-						{name: $select.search} : model.startsWith)">
+						{name: $select.search} : model.startsWithCi)">
 					{{ item.name }}
 				</ui-select-choices>
 			</ui-select>

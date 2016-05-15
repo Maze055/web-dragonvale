@@ -24,13 +24,6 @@ angular.module('dragonSearch')
 	 */
 	this.hints = [];
 
-	this.findHintById = function(id) {
-		for (var index in this.hints)
-			if (this.hints[index].id == id)
-				return index;
-		return -1;
-	};
-
 	/**
 	 * This method requests the breeding hint of a dragon:
 	 * if it has been required previously, it's just moved
@@ -55,7 +48,9 @@ angular.module('dragonSearch')
 	 * @see Hint
 	 */
 	this.requestHint = function(id, reduced, displayDays) {
-		var hintIndex = this.findHintById(id);
+		var hintIndex = this.hints.findIndex(function(hint) {
+				return id == hint.id;
+			});
 
 		// Hint not found, requesting it through AJAX
 		if (hintIndex == -1)
@@ -64,13 +59,15 @@ angular.module('dragonSearch')
 			.then((function(data) {
 
 				// data.data is expected to be an instance of Hint.
-				this.hints.unshift(data.data);
+				var hint = data.data;
 
-				times.addTime(data.data, reduced, displayDays);
-				if (data.data.parent1)
-					times.addTime(data.data.parent1, reduced, displayDays);
-				if (data.data.parent2)
-					times.addTime(data.data.parent2, reduced, displayDays);
+				this.hints.unshift(hint);
+
+				times.addTime(hint, reduced, displayDays);
+				if (hint.parent1)
+					times.addTime(hint.parent1, reduced, displayDays);
+				if (hint.parent2)
+					times.addTime(hint.parent2, reduced, displayDays);
 			}).bind(this));
 
 		// Hint found, but not first: moving to top
