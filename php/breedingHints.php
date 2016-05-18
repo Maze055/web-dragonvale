@@ -13,7 +13,7 @@
 
 	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/select2/3.4.5/select2.min.css" />
 	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-select/0.16.1/select.min.css" />
-	<link rel="stylesheet" type="text/css" href="../css/breedingHints.css" />
+	<link rel="stylesheet" type="text/css" href="../build/css/breedingHints.css" />
 
 	<script charset="UTF-8" type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js"></script>
 	<script charset="UTF-8" type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-sanitize.min.js"></script>
@@ -23,7 +23,7 @@
 	<script charset="UTF-8" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-moment/1.0.0-beta.6/angular-moment.min.js"></script>
 	<script charset="UTF-8" type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/sprintf/1.0.3/sprintf.min.js"></script>
 	<script charset="UTF-8" type="text/javascript" src="https://raw.githubusercontent.com/L42y/angular-sprintf/master/angular-sprintf.js"></script>
-	<script charset="UTF-8" type="text/javascript" src="../js/breedingHints.js"></script>
+	<script charset="UTF-8" type="text/javascript" src="../build/js/breedingHints.js"></script>
 </head>
 
 <body>
@@ -34,7 +34,7 @@
 	<main data-ng-app="dragonSearch" data-ng-controller="BreedingHintsController as model">
 		<section class="input">
 			<label for="name">Nome:</label>
-			<ui-select id="name" class="ui-select" data-ng-model="model.dragon"\
+			<ui-select id="name" class="ui-select" data-ng-model="model.dragon"
 					data-ng-change="model.addHint()">
 				<ui-select-match data-placeholder="Seleziona un drago">{{ $select.selected.name }}</ui-select-match>
 				<ui-select-choices data-repeat="item in (model.names | filter :

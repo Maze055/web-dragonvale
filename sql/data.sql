@@ -382,7 +382,8 @@ INSERT INTO `dragons` (`id`, `en`, `time`, `elem1`, `elem2`, `elem3`, `elem4`, `
 (281, 'Rayleian', '22:00:00', 22, NULL, NULL, NULL, 281, NULL, NULL, NULL, NULL, NULL),
 (282, 'Celerulean', '24:00:00', 22, NULL, NULL, NULL, 282, NULL, NULL, NULL, NULL, NULL),
 (283, 'Teidian', '20:00:00', 22, NULL, NULL, NULL, 283, NULL, NULL, NULL, NULL, NULL),
-(284, 'Shield', '13:30:00', 4, 5, 6, 3, 30, 174, NULL, NULL, NULL, NULL);
+(284, 'Shield', '13:30:00', 4, 5, 6, 3, 30, 174, NULL, NULL, NULL, NULL)
+(285, 'Azurite', '35:00:00', 23, NULL, NULL, NULL, 22, 66, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -473,7 +474,7 @@ ALTER TABLE `coins`
 -- AUTO_INCREMENT for table `dragons`
 --
 ALTER TABLE `dragons`
-  MODIFY `id` smallint(5) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=285;
+  MODIFY `id` smallint(5) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=286;
 --
 -- AUTO_INCREMENT for table `elements`
 --
@@ -666,4 +667,12 @@ union
 select 273, 1 union select 273, 2 union select 273, 3 union select 273, 4 -- Swallowtail
 union
 select 274, 1 union select 274, 2 union select 274, 3 union select 274, 4 -- Marbletail
+union
+select 280, 1 union select 280, 4 union select 280, 6 union select 281, 7 -- Nebula
+union
+select 281, 2 union select 281, 6 union select 281, 7 union select 281, 9 -- Rayleian
+union
+select 282, 2 union select 282, 4 union select 282, 6 union select 282, 9 -- Celerulean
+union
+select 283, 2 union select 283, 3 union select 283, 5 union select 283, 8 -- Teidian
 ;

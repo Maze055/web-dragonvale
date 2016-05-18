@@ -7,22 +7,46 @@ module.exports = function (grunt) {
 	var tasksIO = {
 		modernizr: {
 			index: {
-				dest: 'js/modernizr.index.js'
+				dest: 'build/js/modernizr.index.js'
 			},
 
 			breed: {
-				devFile: 'js/breedingHints.js',
-				dest: 'js/modernizr.breed.js'
+				dest: 'build/js/modernizr.breed.js'
 			}
 		},
 
 		postcss: {
 			index: {
-				src: 'css/index.css'
+				src: 'build/css/index.css'
 			},
 
 			breed: {
-				src: 'css/breedingHints.css'
+				src: 'build/css/breedingHints.css'
+			}
+		},
+
+		copy: {
+			index: {
+				src: [],
+				dest: []
+			},
+
+			breed: {
+				files: [{
+					extend: true,
+					src: 'php/breedingHints.php',
+					dest: 'build'
+				}]
+			}
+		},
+
+		htmlmin: {
+			index: {
+				src: 'build/html/index.html'
+			},
+
+			breed: {
+				src: 'build/php/breedingHints.php'
 			}
 		}
 	};
@@ -30,16 +54,20 @@ module.exports = function (grunt) {
 	tasksIO.postcss.index.dest = tasksIO.postcss.index.src;
 	tasksIO.postcss.breed.dest = tasksIO.postcss.breed.src;
 
+	tasksIO.htmlmin.index.dest = tasksIO.htmlmin.index.src;
+	tasksIO.htmlmin.breed.dest = tasksIO.htmlmin.breed.src;
+
 	tasksIO.concat = {
 		index: {
 			src: [],
-			dest: 'js/lindex.js'
+			dest: 'build/js/index.js'
 		},
 
 		breed: {
 			src: [tasksIO.modernizr.breed.dest,
 				'js/dragonSearch.module.js',
 				'js/dragonSearch.config.js',
+				'js/dragonSearch.run.js',
 				'js/dragonSearch.time.tweak.js',
 				'js/dragonSearch.time.manager.js',
 				'js/dragonSearch.breeding.hints.js',
@@ -49,7 +77,7 @@ module.exports = function (grunt) {
 				'js/dragonSearch.dragon.box.js',
 				'js/dragonSearch.elem.box.js'
 			],
-			dest: 'js/breedingHints.js'
+			dest: 'build/js/breedingHints.js'
 		}
 	};
 
@@ -145,6 +173,37 @@ module.exports = function (grunt) {
 			breed: tasksIO.postcss.breed
 		},
 
+		copy: {
+			options: {
+
+				/*
+					Removes all build directory references,
+					it's not present in the actual website
+				*/
+				process: function(src) {
+					return src.replace(/\/build/g, '');
+				}
+			},
+
+//			index: tasksIO.copy.index,
+
+			breed: tasksIO.copy.breed
+		},
+
+		htmlmin: {
+			options: {
+				collapseWhitespace: true,
+				customAttrCollapse: /.*/,
+				minifyJs: true,
+				decodeEntities: true,
+				removeComments: true
+			},
+
+//			index: tasksIO.htmlmin.index,
+
+			breed: tasksIO.htmlmin.breed
+		},
+
 		watch: {
 			options: {
 				event: 'all'
@@ -161,6 +220,8 @@ module.exports = function (grunt) {
 	grunt.loadNpmTasks('grunt-contrib-concat');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-postcss');
+	grunt.loadNpmTasks('grunt-contrib-copy');
+	grunt.loadNpmTasks('grunt-contrib-htmlmin');
 	grunt.loadNpmTasks('grunt-contrib-watch');
 
 	// Web pages tasks
@@ -169,11 +230,13 @@ module.exports = function (grunt) {
 		var task = tasksNames[key];
 		var jsTask = task + ':js';
 		var cssTask = task + ':css';
+		var htmlTask = task + ':html';
 
 		grunt.registerTask(jsTask, ['modernizr:' + task,
 				'concat:' + task]);
 		grunt.registerTask(cssTask, 'postcss:' + task);
+		grunt.registerTask(htmlTask, 'copy:' + task);
 		grunt.registerTask(task, [jsTask, 'uglify:' + task,
-				cssTask]);
+				cssTask, htmlTask, 'htmlmin:' + task]);
 	}
 };
