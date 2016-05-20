@@ -2,4 +2,4 @@
 # Angular Pagination + memory leak
 # Primaries
 # Server side includes
-# Build directories
+# Mobile meta
