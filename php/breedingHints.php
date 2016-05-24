@@ -31,49 +31,59 @@
 	<header>
 		<h1>Breeding Hints</h1>
 	</header>
-	<main data-ng-app="dragonSearch" data-ng-controller="BreedingHintsController as model">
-		<section class="input">
-			<label for="name">Nome:</label>
-			<ui-select id="name" class="ui-select" data-ng-model="model.dragon"
-					data-ng-change="model.addHint()">
-				<ui-select-match data-placeholder="Seleziona un drago">{{ $select.selected.name }}</ui-select-match>
-				<ui-select-choices data-repeat="item in (model.names | filter :
-						{name: $select.search} : model.startsWithCi)">
-					{{ item.name }}
-				</ui-select-choices>
-			</ui-select>
-			<time-tweak-box data-on-redu-change="model.setReduced(redu)"
-					data-on-dd-change="model.setDisplayDays(dd)"></time-tweak-box>
-		</section>
+	<main ng-app="dragonSearch" ng-controller="BreedingHintsController as model">
+		<form class="input">
+			<div>
+				<label for="name">Nome:</label>
+				<ui-select id="name" class="ui-select" ng-model="model.dragon"
+						ng-change="model.addHint()">
+					<ui-select-match placeholder="Seleziona un drago">{{ $select.selected.name }}</ui-select-match>
+					<ui-select-choices repeat="item in (model.names | filter :
+							{name: $select.search} : model.startsWithCi)">
+						{{ item.name }}
+					</ui-select-choices>
+				</ui-select>
+				<time-tweak-box on-redu-change="model.setReduced(redu)"
+								on-dd-change="model.setDisplayDays(dd)"
+						></time-tweak-box>
+			</div>
+			<pager-view current-item="model.currentHint"
+						page-length="model.pageLength"
+						items-count="model.hints.length"
+						single-step="true"
+						on-item-change="model.setCurrentHint(newItem)"
+						on-page-length-change="model.setPageLength(newLength)"
+					></pager-view>
+		</form>
 		<section class="breeding-hints">
 			<!-- Page load -->
-			<span data-ng-if="model.hints.length == 0">Nessun drago selezionato</span>
+			<span ng-if="!model.hints.length">Nessun drago selezionato</span>
 
-			<div data-ng-repeat="hint in model.hints | limitTo : 10">
-				<dragon-box data-dragon="hint"></dragon-box>
+			<div ng-repeat="hint in model.hints | circularLimitTo : model.pageLength : model.currentHint">
+				<dragon-box dragon="hint"></dragon-box>
 				<span>=</span>
 
 				<!-- Parent1 -->
-				<dragon-box data-ng-if="hint.parent1" data-dragon="hint.parent1"
-						data-on-click="model.addHint(id)"></dragon-box>
-				<span data-ng-if="hint.parent1">+</span>
+				<dragon-box ng-if="hint.parent1" dragon="hint.parent1"
+						on-click="model.addHint(id)"></dragon-box>
+				<span ng-if="hint.parent1">+</span>
 
 				<!-- Parent2 -->
-				<dragon-box data-ng-if="hint.parent2" data-dragon="hint.parent2"
-						data-on-click="model.addHint(id)"></dragon-box>
+				<dragon-box ng-if="hint.parent2" dragon="hint.parent2"
+						on-click="model.addHint(id)"></dragon-box>
 
 				<!-- Elem breed -->
-				<elem-box data-ng-repeat-start="elem in hint.breedElems"
-						  data-name="elem"></elem-box>
-				<span data-ng-if="!$last || hint.notes" data-ng-repeat-end>+</span>
+				<elem-box ng-repeat-start="elem in hint.breedElems"
+						  name="elem"></elem-box>
+				<span ng-if="!$last || hint.notes" ng-repeat-end>+</span>
 
 				<!-- Basic breeding rule -->
-				<elem-box data-ng-if="model.isBasicBreedingRule(hint)" data-name="elem"
-						  data-ng-repeat-start="elem in hint.elems"></elem-box>
-				<span data-ng-if="model.isBasicBreedingRule(hint) && !$last" data-ng-repeat-end>+</span>
+				<elem-box ng-if="model.isBasicBreedingRule(hint)" name="elem"
+						  ng-repeat-start="elem in hint.elems"></elem-box>
+				<span ng-if="model.isBasicBreedingRule(hint) && !$last" ng-repeat-end>+</span>
 
 				<!-- Notes -->
-				<span data-ng-if="hint.notes" class="note">{{ hint.notes }}</span>
+				<span ng-if="hint.notes" class="note">{{ hint.notes }}</span>
 
 			</div>
 		</section>

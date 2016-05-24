@@ -31,9 +31,6 @@ angular.module('dragonSearch')
 	if (!Modernizr.es6array)
 		http.jsonp('/util/js/polyfills/Array.findIndex.js');
 
-	if (!Modernizr.es5function)
-		http.jsonp('/util/js/polyfills/Function.bind.js');
-
 	if (!Modernizr.es5array)
 		http.jsonp('/util/js/polyfills/Array.map.js');
 }]);

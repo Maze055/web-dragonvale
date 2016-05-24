@@ -14,7 +14,8 @@
 
 angular.module('dragonSearch')
 
-.service('TimeManager', ['timeTweak', function(timeTweak) {
+.service('TimeManager', ['TimeTweak', function(timeTweak) {
+	var vm = this;
 
 	/**
 	 * @class
@@ -113,10 +114,11 @@ angular.module('dragonSearch')
 	 * are performed on.
 	 *
 	 * @private
+	 * @memberof TimeManager#
 	 *
 	 * @type {Time[]}
 	 */
-	this.times = [];
+	vm.times = [];
 
 	/**
 	 * @summary Attaches a new TimeManager.Data object to a Time instance.
@@ -124,14 +126,14 @@ angular.module('dragonSearch')
 	 * @private
 	 * @memberof TimeManager.
 	 *
-	 * @param {Time} time - Time instance data will be added to.
 	 * @param {boolean} reduced - True if the duration is reduced, will be set as initial status.
 	 * @param {boolean} displayDays - True if the duration shows days, will be set as initial status.
+	 * @param {Time} time - Time instance data will be added to.
 	 * @return {Time} The very same input Time instance, but with TimeManager data attached.
 	 *
 	 * @see TimeManager.Data
 	 */
-	var addData = function(time, reduced, displayDays) {
+	var addData = function(reduced, displayDays, time) {
 		return Object.defineProperty(time, 'TimeManager', {
 			__proto__: null,
 			configurable: false,
@@ -139,25 +141,6 @@ angular.module('dragonSearch')
 			writable: false,
 			value: new Data(time.time, reduced, displayDays)
 		});
-	};
-
-	/**
-	 * This method returns a callback function that acts
-	 * exactly like addData() method, but with no reduced
-	 * and displayDays arguments, being they set to the
-	 * passed values.
-	 *
-	 * @summary Returns a callback which acts like addData()
-	 * but with fixed reduced and displayDays value.
-	 *
-	 * @param {boolean} reduced - True if the duration is reduced, will be set as initial status.
-	 * @param {boolean} displayDays - True if the duration shows days, will be set as initial status.
-	 * @returns {function} A callback that adds Data instance to a Time instance with reduced and displayDays set to the value of the namesake arguments.
-	 */
-	var addDataCallback = function(reduced, displayDays) {
-		return function(time) {
-			return addData(time, reduced, displayDays);
-		};
 	};
 
 	/**
@@ -180,8 +163,8 @@ angular.module('dragonSearch')
 	 *
 	 * @see timeTweak
 	 */
-	var forEachTime = (function(method, status, newStatus) {
-		angular.forEach(this.times, function(item) {
+	var forEachTime = function(method, status, newStatus) {
+		angular.forEach(vm.times, function(item) {
 			var data = item.TimeManager;
 
 			if (data[status] == newStatus)
@@ -192,7 +175,7 @@ angular.module('dragonSearch')
 
 			item.time = data.getCurrentCachedTime();
 		});
-	}).bind(this);
+	};
 
 	/**
 	 * This method adds an array of Time instances to
@@ -204,19 +187,20 @@ angular.module('dragonSearch')
 	 *
 	 * @summary Adds an array of Time instances to the array.
 	 *
+	 * @memberof TimeManager#
+	 *
 	 * @param {Time[]|Time} times - The times object that will be added. If a single one is passed, addTime() method is called.
 	 * @param {boolean} reduced - When True, it means that all the passed durations are reduced.
 	 * @param {boolean} displayDays - When True, it means that all the passed durations show days.
 	 * @return {TimeManager} This instance.
 	 */
-	this.addTimes = function(times, reduced, displayDays) {
+	vm.addTimes = function(times, reduced, displayDays) {
 		if (!angular.isArray(times))
-			this.addTime(times, reduced, displayDays);
-		else
-			this.times = this.times.concat(times.map(
-					addDataCallback(reduced, displayDays)));
+			return vm.addTime(times, reduced, displayDays);
 
-		return this;
+		vm.times = vm.times.concat(times.map(angular.bind(
+					undefined, addData, reduced, displayDays)));
+		return vm;
 	};
 
 	/**
@@ -229,57 +213,67 @@ angular.module('dragonSearch')
 	 *
 	 * @summary Adds a single Time instance to the array.
 	 *
+	 * @memberof TimeManager#
+	 *
 	 * @param {Time|Time[]} time - The time object that will be added. If an array is passed, addTimes() method is called.
 	 * @param {boolean} reduced - True if the passed time is reduced.
 	 * @param {boolean} displayDays - True if the passed time shows days.
 	 * @return {TimeManager} This instance.
 	 */
-	this.addTime = function(time, reduced, displayDays) {
+	vm.addTime = function(time, reduced, displayDays) {
 		if (angular.isArray(time))
-			this.addTimes(time, reduced, displayDays);
-		else
-			this.times.push(addData(time, reduced, displayDays));
-		return this;
+			return vm.addTimes(time, reduced, displayDays);
+
+		vm.times.push(addData(reduced, displayDays, time));
+		return vm;
 	};
 
 	/**
 	 * @summary Reduces all durations by 20%, provided they are not already.
 	 *
+	 * @memberof TimeManager#
+	 *
 	 * @return {TimeManager} This instance.
 	 */
-	this.reduce = function() {
+	vm.reduce = function() {
 		forEachTime('reduce', 'reduced', true);
-		return this;
+		return vm;
 	};
 
 	/**
 	 * @summary Increases all durations by 20%, provided they are not already.
 	 *
+	 * @memberof TimeManager#
+	 *
 	 * @return {TimeManager} This instance.
 	 */
-	this.increase = function() {
+	vm.increase = function() {
 		forEachTime('increase', 'reduced', false);
-		return this;
+		return vm;
 	};
 
 	/**
 	 * @summary Displays days on all durations, provided one lasts at least one.
 	 *
+	 * @memberof TimeManager#
+	 *
 	 * @return {TimeManager} This instance.
 	 */
-	this.displayDays = function() {
+	vm.displayDays = function() {
 		forEachTime('displayDays', 'displayDays', true);
-		return this;
+		return vm;
 	};
 
 	/**
 	 * @summary Converts days to hours on all durations.
 	 *
+	 * @memberof TimeManager#
+	 *
 	 * @return {TimeManager} This instance.
 	 */
-	this.convertDays = function() {
+	vm.convertDays = function() {
 		forEachTime('convertDays', 'displayDays', false);
-		return this;
+		return vm;
 	};
 }]);
 

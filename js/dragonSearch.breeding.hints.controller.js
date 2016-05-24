@@ -15,35 +15,44 @@ angular.module('dragonSearch')
 		['$http', 'BreedingHints', function(http, hints) {
 	var vm = this;
 
-	vm.reduced;								// Reduced time checkbox
-	vm.displayDays;							// Display days checkbox
-	vm.names;								// List of dragon names to populate the menu
-	vm.dragon;								// Selected dragon
-	vm.hints = hints.getHints();			// Currently loaded hints
+	vm.reduced;						// Reduced time checkbox
+	vm.displayDays;					// Display days checkbox
+	vm.names;						// List of dragon names to populate the menu
+	vm.dragon;						// Selected dragon
+	vm.hints = hints.getHints();	// Currently loaded hints
+	vm.currentHint = 0;				// Index of the first hint to be displayed
+	vm.pageLength = 10;				// Hint page length
 
 	// AJAX request to populate dragon names menu
 	http.get('../php/ajax.php', {params: {request: 'breedInit'}})
-	.then(function(data) {
+	.success(function(names) {
 
-		// data.data is expected to have 'id' and 'name' properties.
-		vm.names = data.data;
+		// names element are expected to have 'id' and 'name' properties.
+		vm.names = names;
 	});
 
 	/**
+	 * This method adds/moves to the top of hints collection
+	 * the breeding hint of the passed/selected dragon,
+	 * bringing it into view by setting its index as the
+	 * currently displayed one.
+	 *
 	 * @summary Adds the breeding hint of the passed/selected
-	 * dragon.
+	 * dragon and brings it to view.
 	 *
 	 * @memberof BreedingHintsController#
 	 *
 	 * @param {int} [id=vm.dragon.id] - Id of the dragon whose breeding hint will be retrieved.
-	 * @return {$q} AngularJS promise instance, to allow methods chaining.
+	 * @return {BreedingHintsController} This instance.
 	 *
 	 * @see Hint
 	 * @see BreedingHints#requestHint
 	 */
 	vm.addHint = function(id) {
-		return hints.requestHint(id || vm.dragon.id, vm.reduced,
+		hints.newHint(id || vm.dragon.id, vm.reduced,
 				vm.displayDays);
+		vm.setCurrentHint(0);
+		return vm;
 	};
 
 	/**
@@ -74,7 +83,7 @@ angular.module('dragonSearch')
 	 */
 	vm.setReduced = function(reduced) {
 		vm.reduced = reduced;
-		return this;
+		return vm;
 	};
 
 	/**
@@ -90,7 +99,40 @@ angular.module('dragonSearch')
 	 */
 	vm.setDisplayDays = function(displayDays) {
 		vm.displayDays = displayDays;
-		return this;
+		return vm;
+	};
+
+	/**
+	 * This method is a simple setter for the currentHint property.
+	 * Since it returns this instance, it is chainable.
+	 *
+	 * @summary Setter for currentHint property.
+	 *
+	 * @memberof BreedingHintsController#
+	 *
+	 * @param {int} position - The new value of currentHint property.
+	 * @return {BreedingHintsController} This instance.
+	 */
+	vm.setCurrentHint = function(position) {
+		console.log(position);
+		vm.currentHint = position;
+		return vm;
+	};
+
+	/**
+	 * This method is a simple setter for the pageLength property.
+	 * Since it returns this instance, it is chainable.
+	 *
+	 * @summary Setter for pageLength property.
+	 *
+	 * @memberof BreedingHintsController#
+	 *
+	 * @param {int} length - The new value of pageLength property.
+	 * @return {BreedingHintsController} This instance.
+	 */
+	vm.setPageLength = function(length) {
+		vm.pageLength = length;
+		return vm;
 	};
 
 	/**
@@ -105,9 +147,7 @@ angular.module('dragonSearch')
 	 * @see Hint
 	 * @see BreedingHints#isBasicBreedingRule
 	 */
-	vm.isBasicBreedingRule = function(hint) {
-		return hints.isBasicBreedingRule(hint);
-	};
+	vm.isBasicBreedingRule = angular.bind(hints, hints.isBasicBreedingRule);
 }]);
 
 })(angular);

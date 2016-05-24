@@ -12,6 +12,7 @@ CSS styles for breeding hints web page
 @import 'footer';
 @import 'navBar';
 @import 'time-tweak-box';
+@import 'pager-view';
 
 .ui-select {
 	@extend .small-text;
@@ -21,13 +22,17 @@ CSS styles for breeding hints web page
 
 /* Input section: name menu and time tweak checkboxes */
 .input {
-	@extend .flex-row;
-	@extend .flex-single;
-	@extend .flex-center-main;
-	@extend .flex-center-cross;
+	> div:first-of-type {
+		@extend .flex-row;
+		@extend .flex-single;
+		@extend .flex-center-main;
+		@extend .flex-center-cross;
 
-	> * {
-		margin: auto 0.25em;
+		margin: 1.5ex auto;
+
+		> * {
+			margin: auto 0.25em;
+		}
 	}
 }
 

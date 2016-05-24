@@ -12,7 +12,8 @@ angular.module('dragonSearch', [
 	'ngSanitize',
 	'angular-md5',
 	'angularMoment',
-	'l42y.sprintf'
+	'l42y.sprintf',
+	'pager'
 ]);
 
 })(angular);

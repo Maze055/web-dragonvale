@@ -43,24 +43,38 @@ angular.module('dragonSearch')
 		 * This method reduces/increases all times
 		 * in TimeManager basing on the value of
 		 * this.reduced.
+		 *
+		 * @summary Reduces/increases TimeManager times.
+		 *
+		 * @memberof TimeTweakBox#
+		 *
+		 * @return {TimeTweakBox} This instance.
 		 */
 		this.tweakTimes = function() {
 			if (this.reduced)
 				times.reduce();
 			else
 				times.increase();
+			return this;
 		};
 
 		/**
 		 * This method changes the format of all times
 		 * in TimeManager basing on the value of
 		 * this.displayDays.
+		 *
+		 * @summary Changes the format of TimeManager times.
+		 *
+		 * @memberof TimeTweakBox#
+		 *
+		 * @return {TimeTweakBox} This instance.
 		 */
 		this.toggleFormat = function() {
 			if (this.displayDays)
 				times.displayDays();
 			else
 				times.convertDays();
+			return this;
 		};
 	}]
 });

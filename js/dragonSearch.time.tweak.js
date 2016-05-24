@@ -13,12 +13,14 @@
 
 angular.module('dragonSearch')
 
-.service('timeTweak', ['sprintfFilter', 'moment', function(sprintf, moment) {
+.service('TimeTweak', ['sprintfFilter', 'moment', function(sprintf, moment) {
+	var vm = this;
 
 	/**
 	 * @summary sprintf format that displays days.
 	 *
 	 * @private
+	 * @memberof TimeTweak.
 	 */
 	var daysfulFormat = '%02d:%02d:%02d:%02d';
 
@@ -26,6 +28,7 @@ angular.module('dragonSearch')
 	 * @summary sprintf format that doesn't display days.
 	 *
 	 * @private
+	 * @memberof TimeTweak.
 	 */
 	var dayslessFormat = '%02d:%02d:%02d';
 
@@ -40,13 +43,14 @@ angular.module('dragonSearch')
 	 * a time duration string.
 	 *
 	 * @private
+	 * @memberof TimeTweak.
 	 *
 	 * @param {string|moment.duration} time - Input time duration string, in either 'dd:HH:mm:ss' or 'HH:mm:ss' format.
 	 * @return {moment.duration} A moment.duration instance derived from input.
 	 *
 	 * @see {@link http://momentjs.com/docs/#/durations/ moment.js duration class}.
 	 */
-	var makeDuration = (function(time) {
+	var makeDuration = function(time) {
 		if (moment.isDuration(time))
 			return time;
 
@@ -55,11 +59,11 @@ angular.module('dragonSearch')
 			according to moment.js specifications.
 			http://momentjs.com/docs/#/durations/creating/
 		*/
-		if (typeof(time) == 'string' && this.daysAreDisplayed(time))
+		if (typeof(time) == 'string' && vm.daysAreDisplayed(time))
 			time = time.replace(':', '.');
 
 		return moment.duration(time);
-	}).bind(this);
+	};
 
 	/**
 	 * This method formats a time duration to either
@@ -71,14 +75,15 @@ angular.module('dragonSearch')
 	 * 'dd:HH:mm:ss' or HH:mm:ss' format.
 	 *
 	 * @private
+	 * @memberof TimeTweak.
 	 *
-	 * @param {string|moment.duration} time - Input time duration: when string, only 'dd:HH:mm:ss' and 'HH:mm:ss' format are accepted.
 	 * @param {boolean} putDays - When true, the result will be in 'dd:HH:mm:ss' format, but days will be hidden if none. When false, 'HH:mm:ss' format will be used.
+	 * @param {string|moment.duration} time - Input time duration: when string, only 'dd:HH:mm:ss' and 'HH:mm:ss' format are accepted.
 	 * @return {string} Time duration string in either 'dd:HH:mm:ss' or HH:mm:ss' format.
 	 *
 	 * @see {@link http://momentjs.com/docs/#/durations/ moment.js duration class}.
 	 */
-	var format = function(time, putDays) {
+	var format = function(putDays, time) {
 		time = makeDuration(time);
 
 		/*
@@ -102,29 +107,30 @@ angular.module('dragonSearch')
 	 * @summary Multiplies time durations by a value.
 	 *
 	 * @private
+	 * @memberof TimeTweak.
 	 *
-	 * @param {string} time - Input time duration: only 'dd:HH:mm:ss' and 'HH:mm:ss' formats are accepted.
 	 * @param {number} multiplier - Value the time duration will be multiplied by.
+	 * @param {string} time - Input time duration: only 'dd:HH:mm:ss' and 'HH:mm:ss' formats are accepted.
 	 * @param {boolean} [putDays] - If true, days will be displayed in the result, if any. When false, days will be converted to hours. If undefined, output format will be deduced from input.
 	 * @return {string} The new time duration.
 	 */
-	var tweakTime = (function(time, multiplier, putDays) {
+	var tweakTime = function(multiplier, time, putDays) {
 		if (arguments.length < 3)
-			putDays = this.daysAreDisplayed(time);
+			putDays = vm.daysAreDisplayed(time);
 
-		return format(moment.duration(makeDuration(time)
-				.asMilliseconds() * multiplier), putDays);
-	}).bind(this);
+		return format(putDays, moment.duration(makeDuration(time)
+				.asMilliseconds() * multiplier));
+	};
 
 	/**
 	 * @summary Returns true when a time displays days.
 	 *
-	 * @private
+	 * @memberof TimeTweak.
 	 *
 	 * @param {string} time - Input time string.
 	 * @return {boolean} True if input time string displays days.
 	 */
-	this.daysAreDisplayed = function(time) {
+	vm.daysAreDisplayed = function(time) {
 		return time.length > 8;
 	};
 
@@ -137,12 +143,12 @@ angular.module('dragonSearch')
 	 *
 	 * @summary Displays days in the passed time duration string.
 	 *
+	 * @memberof TimeTweak.
+	 *
 	 * @param {string} time - Input time duration string, in either 'dd:HH:mm:ss' or 'HH:mm:ss' format.
 	 * @return {string} Time duration string in 'dd:HH:mm:ss' format, with no days if none in input.
 	 */
-	this.displayDays = function(time) {
-		return format(time, true);
-	};
+	vm.displayDays = angular.bind(undefined, format, true);
 
 	/**
 	 * This method accepts a colon-separed time duration
@@ -153,12 +159,12 @@ angular.module('dragonSearch')
 	 * @summary Convert days into hours in the provided
 	 * time duration string.
 	 *
+	 * @memberof TimeTweak.
+	 *
 	 * @param {string} time - Input time duration string, in either 'dd:HH:mm:ss' or 'HH:mm:ss' format.
 	 * @return {string} Time duration string in 'HH:mm:ss' format.
 	 */
-	this.convertDays = function(time) {
-		return format(time, false);
-	};
+	vm.convertDays = angular.bind(undefined, format, false);
 
 	/**
 	 * This method accepts a colon-separed time duration
@@ -168,12 +174,12 @@ angular.module('dragonSearch')
 	 *
 	 * @summary Reduces a time duration by 20%.
 	 *
+	 * @memberof TimeTweak.
+	 *
 	 * @param {string} time - Input time duration string, in either 'dd:HH:mm:ss' or 'HH:mm:ss' format.
 	 * @return {string} Time duration string reduced by 20%.
 	 */
-	this.reduce = function(time) {
-		return tweakTime(time, 0.8);
-	};
+	vm.reduce = angular.bind(undefined, tweakTime, 0.8);
 
 	/**
 	 * This method accepts a colon-separed time duration
@@ -183,12 +189,12 @@ angular.module('dragonSearch')
 	 *
 	 * @summary Increases a time duration by 20%.
 	 *
+	 * @memberof TimeTweak.
+	 *
 	 * @param {string} time - Input time duration string, in either 'dd:HH:mm:ss' or 'HH:mm:ss' format.
 	 * @return {string} Time duration string increased by 20%.
 	 */
-	this.increase = function(time) {
-		return tweakTime(time, 1.25);
-	};
+	vm.increase = angular.bind(undefined, tweakTime, 1.25);
 }]);
 
 })(angular);

@@ -31,13 +31,15 @@ angular.module('dragonSearch')
 		onClick: '&'
 	},
 
-	controller: ['image', function(image) {
-		this.eggImgURL = image.getEggImg(this.dragon.name);
-		this.dragonImgURL = image.getDragonImg(this.dragon.name);
-		this.elemsImgsURLs = [];
-		angular.forEach(this.dragon.elems, (function(elem) {
-			this.elemsImgsURLs.push(image.getElemFlagImg(elem));
-		}).bind(this));
+	controller: ['Image', function(image) {
+		var vm = this;
+
+		vm.eggImgURL = image.getEggImg(vm.dragon.name);
+		vm.dragonImgURL = image.getDragonImg(vm.dragon.name);
+		vm.elemsImgsURLs = [];
+		angular.forEach(vm.dragon.elems, function(elem) {
+			vm.elemsImgsURLs.push(image.getElemFlagImg(elem));
+		});
 	}]
 });
 

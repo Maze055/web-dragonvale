@@ -1,5 +1,8 @@
 module.exports = function (grunt) {
 
+	// Base path of utility files directory
+	var utilPath = '../util/';
+
 	/*
 		Tasks configuration object, to allow true
 		pipelining of consecutive tasks
@@ -65,7 +68,12 @@ module.exports = function (grunt) {
 
 		breed: {
 			src: [tasksIO.modernizr.breed.dest,
+				utilPath + 'js/pager/pager.module.js',
+				utilPath + 'js/pager/pager.service.js',
+				utilPath + 'js/pager/pager.filter.js',
+				utilPath + 'js/pager/pager.view.js',
 				'js/dragonSearch.module.js',
+				'js/dragonSearch.circular.limit.to.js',
 				'js/dragonSearch.config.js',
 				'js/dragonSearch.run.js',
 				'js/dragonSearch.time.tweak.js',
@@ -133,7 +141,7 @@ module.exports = function (grunt) {
 				process: function(src) {
 					return src.replace(/[\(!]function\(.*?\)\s*{\s*/, '')
 							.replace(/;?\s*\}\)?\(.*?\);\s*$/g, '')
-							.replace(/angular.module\(["']dragonSearch["']\)\n/g, '');
+							.replace(/angular.module\(["'].+?["']\)\n/g, '');
 				}
 			},
 

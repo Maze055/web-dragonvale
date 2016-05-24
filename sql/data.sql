@@ -383,7 +383,8 @@ INSERT INTO `dragons` (`id`, `en`, `time`, `elem1`, `elem2`, `elem3`, `elem4`, `
 (282, 'Celerulean', '24:00:00', 22, NULL, NULL, NULL, 282, NULL, NULL, NULL, NULL, NULL),
 (283, 'Teidian', '20:00:00', 22, NULL, NULL, NULL, 283, NULL, NULL, NULL, NULL, NULL),
 (284, 'Shield', '13:30:00', 4, 5, 6, 3, 30, 174, NULL, NULL, NULL, NULL)
-(285, 'Azurite', '35:00:00', 23, NULL, NULL, NULL, 22, 66, NULL, NULL, NULL, NULL);
+(285, 'Azurite', '35:00:00', 23, NULL, NULL, NULL, 22, 66, NULL, NULL, NULL, NULL)
+(286, 'Plains', '12:00:00', 3, 9, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -474,7 +475,7 @@ ALTER TABLE `coins`
 -- AUTO_INCREMENT for table `dragons`
 --
 ALTER TABLE `dragons`
-  MODIFY `id` smallint(5) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=286;
+  MODIFY `id` smallint(5) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=287;
 --
 -- AUTO_INCREMENT for table `elements`
 --

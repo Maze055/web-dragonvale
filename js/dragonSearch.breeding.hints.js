@@ -16,24 +16,59 @@
 angular.module('dragonSearch')
 
 .service('BreedingHints', ['$http', 'TimeManager', function(http, times) {
+	var vm = this;
 
 	/**
 	 * @summary Array of managed Hints objects.
 	 *
 	 * @private
+	 * @memberof BreedingHints#
 	 */
-	this.hints = [];
+	vm.hints = [];
+
+	/**
+	 * This method performs an AJAX request to get the breeding
+	 * hint of the dragon whose id has been passed, placing it
+	 * straight at the beginning of hints array. Also, hatching
+	 * times of the required dragon and its possible parents are
+	 * added to TimeMaganer. Returning an AngularJS promise
+	 * instance, this method is chainable.
+	 *
+	 * @summary Requests a breeding hint through AJAX and places
+	 * it at the top of hints array.
+	 *
+	 * @private
+	 * @memberof BreedingHints.
+	 *
+	 * @param {int} id - Id of the dragon whose breeding hint will be retrieved.
+	 * @param {boolean} reduced - When true, dragons hatching times will be reduced.
+	 * @param {boolean} displayDays - When true, dragons hatching times will display days.
+	 * @return {$q} AngularJS promise instance, to allow chaining.
+	 *
+	 * @see Hint
+	 */
+	var requestHint = function(id, reduced, displayDays) {
+		return http.get('ajax.php', {params: {request: 'breed',
+					id: id, reduced: reduced, displayDays: displayDays}})
+			.success(function(hint) {
+
+				// hint is expected to be an instance of Hint.
+				vm.hints.unshift(hint);
+
+				times.addTime(hint, reduced, displayDays);
+				if (hint.parent1)
+					times.addTime(hint.parent1, reduced, displayDays);
+				if (hint.parent2)
+					times.addTime(hint.parent2, reduced, displayDays);
+			});
+	};
 
 	/**
 	 * This method requests the breeding hint of a dragon:
 	 * if it has been required previously, it's just moved
 	 * to the top position, otherwise an AJAX request to
-	 * get it is performed, placing the result straight at
-	 * the beginning. In this latter case, hatching times
-	 * of the required dragon and its possible parents are
-	 * added to TimeMaganer. When performing AJAx request,
-	 * this method is chainable, since it returns an
-	 * AngularJS $q instance.
+	 * get it is performed. This method is chainable, since
+	 * it returns this instance.
 	 *
 	 * @summary Retrieves the breeding hint of the passed/selected
 	 * dragon through AJAX, or moves it to the top if existing.
@@ -43,36 +78,24 @@ angular.module('dragonSearch')
 	 * @param {int} id - Id of the dragon whose breeding hint will be retrieved.
 	 * @param {boolean} reduced - When true, dragons hatching times will be reduced.
 	 * @param {boolean} displayDays - When true, dragons hatching times will display days.
-	 * @return {$q} AngularJS promise instance, to allow methods chaining.
+	 * @return {BreedingHints} This instance.
 	 *
 	 * @see Hint
 	 */
-	this.requestHint = function(id, reduced, displayDays) {
-		var hintIndex = this.hints.findIndex(function(hint) {
+	vm.newHint = function(id, reduced, displayDays) {
+		var hintIndex = vm.hints.findIndex(function(hint) {
 				return id == hint.id;
 			});
 
 		// Hint not found, requesting it through AJAX
 		if (hintIndex == -1)
-			return http.get('../php/ajax.php', {params: {request: 'breed',
-					id: id, reduced: reduced, displayDays: displayDays}})
-			.then((function(data) {
-
-				// data.data is expected to be an instance of Hint.
-				var hint = data.data;
-
-				this.hints.unshift(hint);
-
-				times.addTime(hint, reduced, displayDays);
-				if (hint.parent1)
-					times.addTime(hint.parent1, reduced, displayDays);
-				if (hint.parent2)
-					times.addTime(hint.parent2, reduced, displayDays);
-			}).bind(this));
+			requestHint(id, reduced, displayDays);
 
 		// Hint found, but not first: moving to top
-		if (hintIndex)
-			this.hints.unshift(this.hints.splice(hintIndex, 1)[0]);
+		else if (hintIndex)
+			vm.hints.unshift(vm.hints.splice(hintIndex, 1)[0]);
+
+		return vm;
 	};
 
 	/**
@@ -89,7 +112,7 @@ angular.module('dragonSearch')
 	 * @param {Hint} hint - The input breeding hint.
 	 * @return {boolean} True when the passed hint is a basic breeding rule one.
 	 */
-	this.isBasicBreedingRule = function(hint) {
+	vm.isBasicBreedingRule = function(hint) {
 		return !hint.notes && !hint.breedElems
 				&& !hint.parent1 && !hint.parent2;
 	};
@@ -97,12 +120,14 @@ angular.module('dragonSearch')
 	/**
 	 * @summary Getter for hints property.
 	 *
+	 * @memberof BreedingHints#
+	 *
 	 * @return {Hint[]} hints property of this instance.
 	 *
 	 * @see Hint
 	 */
-	this.getHints = function() {
-		return this.hints;
+	vm.getHints = function() {
+		return vm.hints;
 	};
 }]);
 

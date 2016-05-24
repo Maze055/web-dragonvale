@@ -1,10 +1,10 @@
 <div class="time-tweak-box">
-	<input id="reduced" type="checkbox" data-ng-model="model.reduced"
-			data-ng-change="model.onReduChange({redu: model.reduced});
+	<input id="reduced" type="checkbox" ng-model="model.reduced"
+			ng-change="model.onReduChange({redu: model.reduced});
 			model.tweakTimes()" />
 	<label for="reduced">Tempi di incubazione ridotti</label>
-	<input id="displayDays" type="checkbox" data-ng-model="model.displayDays"
-			data-ng-change="model.onDdChange({dd: model.displayDays});
+	<input id="displayDays" type="checkbox" ng-model="model.displayDays"
+			ng-change="model.onDdChange({dd: model.displayDays});
 			model.toggleFormat()" />
 	<label for="displayDays">Visualizza i giorni nei tempi di incubazione</label>
 </div>

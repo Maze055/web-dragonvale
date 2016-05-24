@@ -20,7 +20,7 @@ angular.module('dragonSearch')
 		name: '<'
 	},
 
-	controller: ['image', function(image) {
+	controller: ['Image', function(image) {
 		this.imgURL = image.getElemFlagImg(this.name);
 	}]
 });
