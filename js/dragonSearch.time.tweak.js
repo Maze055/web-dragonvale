@@ -9,7 +9,7 @@
  * and {@link https://github.com/alexei/sprintf.js sprintf.js}.
  */
 
-(function(angular) {
+;(function(angular) {
 
 angular.module('dragonSearch')
 

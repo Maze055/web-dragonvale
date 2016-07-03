@@ -69,9 +69,8 @@ module.exports = function (grunt) {
 		breed: {
 			src: [tasksIO.modernizr.breed.dest,
 				utilPath + 'js/pager/pager.module.js',
-				utilPath + 'js/pager/pager.service.js',
-				utilPath + 'js/pager/pager.filter.js',
-				utilPath + 'js/pager/pager.view.js',
+				utilPath + 'js/pager/pager.circular.movements.js',
+				utilPath + 'js/pager/pager.sequential.access.pager.js',
 				'js/dragonSearch.module.js',
 				'js/dragonSearch.circular.limit.to.js',
 				'js/dragonSearch.config.js',

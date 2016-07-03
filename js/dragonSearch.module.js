@@ -5,7 +5,7 @@
  * this website AngularJS module.
  */
 
-(function(angular) {
+;(function(angular) {
 
 angular.module('dragonSearch', [
 	'ui.select',

@@ -17,7 +17,7 @@
  * @see Dragon
  */
 
-(function(angular) {
+;(function(angular) {
 
 angular.module('dragonSearch')
 

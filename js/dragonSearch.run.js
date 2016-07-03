@@ -6,7 +6,7 @@
  * polyfill loading through AJAX and Modernizr.
  */
 
-(function(angular, Modernizr) {
+;(function(angular, Modernizr) {
 
 angular.module('dragonSearch')
 

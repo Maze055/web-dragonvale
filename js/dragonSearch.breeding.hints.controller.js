@@ -7,7 +7,7 @@
  * @see BreedingHints
  */
 
-(function(angular) {
+;(function(angular) {
 
 angular.module('dragonSearch')
 
@@ -114,7 +114,6 @@ angular.module('dragonSearch')
 	 * @return {BreedingHintsController} This instance.
 	 */
 	vm.setCurrentHint = function(position) {
-		console.log(position);
 		vm.currentHint = position;
 		return vm;
 	};

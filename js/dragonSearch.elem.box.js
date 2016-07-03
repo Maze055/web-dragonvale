@@ -8,7 +8,7 @@
  * as a plain string. There are no outputs.
  */
 
-(function(angular) {
+;(function(angular) {
 
 angular.module('dragonSearch')
 

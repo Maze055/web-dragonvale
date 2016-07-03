@@ -382,9 +382,22 @@ INSERT INTO `dragons` (`id`, `en`, `time`, `elem1`, `elem2`, `elem3`, `elem4`, `
 (281, 'Rayleian', '22:00:00', 22, NULL, NULL, NULL, 281, NULL, NULL, NULL, NULL, NULL),
 (282, 'Celerulean', '24:00:00', 22, NULL, NULL, NULL, 282, NULL, NULL, NULL, NULL, NULL),
 (283, 'Teidian', '20:00:00', 22, NULL, NULL, NULL, 283, NULL, NULL, NULL, NULL, NULL),
-(284, 'Shield', '13:30:00', 4, 5, 6, 3, 30, 174, NULL, NULL, NULL, NULL)
-(285, 'Azurite', '35:00:00', 23, NULL, NULL, NULL, 22, 66, NULL, NULL, NULL, NULL)
-(286, 'Plains', '12:00:00', 3, 9, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+(284, 'Shield', '13:30:00', 4, 5, 6, 3, 30, 174, NULL, NULL, NULL, NULL),
+(285, 'Azurite', '35:00:00', 23, NULL, NULL, NULL, 22, 66, NULL, NULL, NULL, NULL),
+(286, 'Plains', '12:00:00', 3, 9, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(287, 'Nether', '12:00:00', 2, 8, 3, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(288, 'Labradorite', '36:00:00', 23, NULL, NULL, NULL, 65, 20, NULL, NULL, NULL, NULL)
+(289, 'Fates', '20:00:00', 16, NULL, NULL, NULL, NULL, NULL, 1, 2, 6, NULL),
+(290, 'Blazing Gale', '22:00:00', 2, 7, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(291, 'Hidden Bolt', '22:00:00', 10, 5, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(292, 'Icy Torrent', '22:00:00', 4, 6, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(293, 'Iron Blossom', '22:00:00', 1, 8, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(294, 'Mountain Sun', '22:00:00', 3, 9, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(295, 'Herald', '34:00:00', 16, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(296, 'Stygian', '34:00:00', 16, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(297, 'Squall', '34:00:00', 16, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(298, 'Valor', '34:00:00', 16, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(299, 'Thunderbolt', '34:00:00', 16, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -475,7 +488,7 @@ ALTER TABLE `coins`
 -- AUTO_INCREMENT for table `dragons`
 --
 ALTER TABLE `dragons`
-  MODIFY `id` smallint(5) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=287;
+  MODIFY `id` smallint(5) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=289;
 --
 -- AUTO_INCREMENT for table `elements`
 --

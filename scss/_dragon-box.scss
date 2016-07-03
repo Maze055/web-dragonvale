@@ -11,9 +11,18 @@ CSS styles for dragonBox AngularJS component
 	@extend .box;
 	@extend .text-center;
 
-	img.dragon, img.egg {
+	%top-row-img {
 		margin-bottom: -0.5ex;
 		height: 6.7ex;
+	}
+
+	img.dragon {
+		@extend %top-row-img;
+		margin-right: 0.2em;
+	}
+
+	img.egg {
+		@extend %top-row-img;
 	}
 
 	img.elem {

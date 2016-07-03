@@ -17,7 +17,7 @@
  */
 var dragonRows, resultTimes;
 
-(function($) {
+;(function($) {
 
 /*
 	Empty jQuery object at initialization,

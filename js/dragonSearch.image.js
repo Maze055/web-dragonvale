@@ -6,7 +6,7 @@
  * eggs, adult dragons and elemental flags.
  */
 
-(function(angular) {
+;(function(angular) {
 
 angular.module('dragonSearch')
 
@@ -180,7 +180,6 @@ angular.module('dragonSearch')
 	vm.getElemFlagImg = function(elem) {
 		return vm.getImg(elem + '_Flag.png');
 	};
-
 }]);
 
 })(angular);

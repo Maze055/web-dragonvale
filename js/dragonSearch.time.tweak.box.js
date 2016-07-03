@@ -18,7 +18,7 @@
  * @see TimeManager
  */
 
-(function(angular) {
+;(function(angular) {
 
 angular.module('dragonSearch')
 

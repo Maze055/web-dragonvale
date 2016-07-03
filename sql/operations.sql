@@ -312,8 +312,8 @@ begin
 				replace((select n.it from breedingHintsNotes n where n.id = 'SNMO'),
 					'$ELEM', e1.en)
 
-			when
-				d.elem1 in (24, 25) -- Ornamental & Aura are still unknown
+			when -- Still unknown: Ornamental, Aura, Arcane Pentournament exclusives
+				d.elem1 in (24, 25) or d.id > 289
 			then
 				(select n.it from breedingHintsNotes n where n.id = 'UNKN')
 

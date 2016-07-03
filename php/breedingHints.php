@@ -47,13 +47,13 @@
 								on-dd-change="model.setDisplayDays(dd)"
 						></time-tweak-box>
 			</div>
-			<pager-view current-item="model.currentHint"
-						page-length="model.pageLength"
-						items-count="model.hints.length"
-						single-step="true"
-						on-item-change="model.setCurrentHint(newItem)"
-						on-page-length-change="model.setPageLength(newLength)"
-					></pager-view>
+			<sequential-access-pager
+					current-item="model.currentHint"
+					page-length="model.pageLength"
+					items-count="model.hints.length"
+					on-item-change="model.setCurrentHint(newItem)"
+					on-page-length-change="model.setPageLength(newLength)"
+				></sequential-access-pager>
 		</form>
 		<section class="breeding-hints">
 			<!-- Page load -->

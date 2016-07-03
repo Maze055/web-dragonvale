@@ -17,7 +17,7 @@
  * @see {https://docs.angularjs.org/api/ng/filter/limitTo AngularJS built-in limitTo filter}.
  */
 
-(function(angular) {
+;(function(angular) {
 
 angular.module('dragonSearch')
 
