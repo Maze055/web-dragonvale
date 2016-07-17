@@ -397,7 +397,8 @@ INSERT INTO `dragons` (`id`, `en`, `time`, `elem1`, `elem2`, `elem3`, `elem4`, `
 (296, 'Stygian', '34:00:00', 16, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 (297, 'Squall', '34:00:00', 16, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 (298, 'Valor', '34:00:00', 16, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(299, 'Thunderbolt', '34:00:00', 16, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+(299, 'Thunderbolt', '34:00:00', 16, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL)
+(300, 'Trimera', '19:26:40', 16, NULL, NULL, NULL, NULL, NULL, 1, 2, 7, NULL);
 
 -- --------------------------------------------------------
 
@@ -488,7 +489,7 @@ ALTER TABLE `coins`
 -- AUTO_INCREMENT for table `dragons`
 --
 ALTER TABLE `dragons`
-  MODIFY `id` smallint(5) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=289;
+  MODIFY `id` smallint(5) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=301;
 --
 -- AUTO_INCREMENT for table `elements`
 --
