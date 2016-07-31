@@ -29,9 +29,9 @@ var pagerSrc = [
 ];
 var breedingHintsSrc = [
 	'module',
-	'circular.limit.to',
 	'config',
 	'run',
+	'circular.limit.to',
 	'time.tweak',
 	'time.manager',
 	'breeding.hints',
