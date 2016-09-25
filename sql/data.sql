@@ -397,9 +397,17 @@ INSERT INTO `dragons` (`id`, `en`, `time`, `elem1`, `elem2`, `elem3`, `elem4`, `
 (296, 'Stygian', '34:00:00', 16, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 (297, 'Squall', '34:00:00', 16, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 (298, 'Valor', '34:00:00', 16, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(299, 'Thunderbolt', '34:00:00', 16, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL)
+(299, 'Thunderbolt', '34:00:00', 16, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 (300, 'Trimera', '19:26:40', 16, NULL, NULL, NULL, NULL, NULL, 1, 2, 7, NULL),
-(301, 'Cerberus', '33:00:00', 16, NULL, NULL, NULL, 15, 174, NULL, NULL, NULL, NULL);
+(301, 'Cerberus', '33:00:00', 16, NULL, NULL, NULL, 15, 174, NULL, NULL, NULL, NULL),
+(302, 'Dawnbringer', '35:00:00', 16, NULL, NULL, NULL, NULL, NULL, 2, 7, 10, NULL),
+(303, 'Ivy', '14:00:00', 5, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(304, 'Quicksand', '15:00:00', 6, 3, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(305, 'Bubble', '10:00:00', 7, 6, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(306, 'Conch', '06:00:00', 8, 6, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(307, 'Trench', '07:30:00', 6, 10, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(308, 'Lagoon', '12:00:00', 6, 9, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(309, 'Wyrmwood', '18:00:00', 3, 1, 2, 4, NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -490,7 +498,7 @@ ALTER TABLE `coins`
 -- AUTO_INCREMENT for table `dragons`
 --
 ALTER TABLE `dragons`
-  MODIFY `id` smallint(5) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=302;
+  MODIFY `id` smallint(5) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=310;
 --
 -- AUTO_INCREMENT for table `elements`
 --

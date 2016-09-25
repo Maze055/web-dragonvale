@@ -22,17 +22,17 @@ class DragonValeDB {
 	private static $instance = 0;
 
 	/**
-	 * @var mysqli_stmt getDragons() method underlying prepared statement.
+	 * @var \mysqli_stmt getDragons() method underlying prepared statement.
 	 */
 	private static $getDragonsQuery = 0;
 
 	/**
-	 * @var mysqli_stmt breedingHint() method underlying prepared statement.
+	 * @var \mysqli_stmt breedingHint() method underlying prepared statement.
 	 */
 	private static $breedingHintQuery = 0;
 
 	/**
-	 * @var mysqli_stmt allTimes() method underlying prepared statement.
+	 * @var \mysqli_stmt allTimes() method underlying prepared statement.
 	 */
 	private static $allTimesQuery = 0;
 
@@ -58,12 +58,12 @@ class DragonValeDB {
 	public function __destruct() {
 		if (self::$getDragonsQuery)
 			$this -> conn -> closeStmt(self::$getDragonsQuery, 'getDragonsQuery');
-
-		if (self::$breedingHintQuery)
-			$this -> conn -> closeStmt(self::$breedingHintQuery, 'breedingHintQuery');
-
-		if (self::$allTimesQuery)
-			$this -> conn -> closeStmt(self::$allTimesQuery, 'allTimesQuery');
+	
+			if (self::$breedingHintQuery)
+				$this -> conn -> closeStmt(self::$breedingHintQuery, 'breedingHintQuery');
+	
+				if (self::$allTimesQuery)
+					$this -> conn -> closeStmt(self::$allTimesQuery, 'allTimesQuery');
 	}
 
 	/**
@@ -73,7 +73,7 @@ class DragonValeDB {
 	 * @return self The singleton instance of this class.
 	 */
 	public static function getInstance() {
-		if (!(self::$instance instanceof DragonvaleDB))
+		if (!(self::$instance instanceof DragonValeDB))
 			self::$instance = new DragonvaleDB();
 		return self::$instance;
 	}

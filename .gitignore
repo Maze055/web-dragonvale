@@ -1,8 +1,10 @@
 # Git ignored directories and files
 
-# Netbeans data
+# IDE data
 
 /nbproject
+/.idea
+/*.iml
 
 # Node js local modules
 
