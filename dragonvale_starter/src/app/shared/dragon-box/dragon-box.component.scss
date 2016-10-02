@@ -1,0 +1,31 @@
+/***************************************
+
+CSS styles for dragonBox AngularJS component
+
+***************************************/
+
+@import 'box';
+@import 'common';
+
+%top-row-img {
+  height: 6.7ex;
+}
+
+.dragon-box {
+  @extend .box;
+  @extend .text-center;
+
+  img.dragon {
+    @extend %top-row-img;
+    margin-right: 0.2em;
+  }
+
+  img.egg {
+    @extend %top-row-img;
+  }
+
+  img.elem {
+    margin: 0.3ex 0.3em auto auto;
+    height: 4.5ex;
+  }
+}
