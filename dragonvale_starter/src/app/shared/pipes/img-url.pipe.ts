@@ -8,7 +8,7 @@
 
 import { Pipe, PipeTransform } from '@angular/core';
 import { Md5 } from 'ts-md5/dist/md5';
-import * as moment from 'moment';
+import moment = require('moment');
 
 @Pipe({
     name: 'imgUrl'

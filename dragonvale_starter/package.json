@@ -79,6 +79,7 @@
     "ie-shim": "^0.1.0",
     "moment": "^2.15.1",
     "rxjs": "5.0.0-beta.12",
+    "sprintf": "^0.1.5",
     "ts-md5": "^1.2.0",
     "zone.js": "~0.6.17"
   },
@@ -89,6 +90,7 @@
     "@types/protractor": "^1.5.20",
     "@types/selenium-webdriver": "2.44.29",
     "@types/source-map": "^0.1.27",
+    "@types/sprintf": "0.0.28",
     "@types/uglify-js": "^2.0.27",
     "@types/webpack": "^1.12.34",
     "angular2-template-loader": "^0.5.0",

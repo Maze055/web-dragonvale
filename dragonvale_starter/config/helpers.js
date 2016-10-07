@@ -7,7 +7,7 @@ var path = require('path');
 var ROOT = path.resolve(__dirname, '..');
 
 // CUSTOM: path to utility code directory
-var UTIL = path.resolve(__dirname, '../../util');
+var UTIL = path.resolve(__dirname, '../../../util');
 
 function hasProcessFlag(flag) {
   return process.argv.join('').indexOf(flag) > -1;

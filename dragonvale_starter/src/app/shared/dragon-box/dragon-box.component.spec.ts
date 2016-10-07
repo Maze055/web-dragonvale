@@ -5,7 +5,7 @@
 import { TestBed, async } from '@angular/core/testing';
 import DragonBoxComponent from './dragon-box.component';
 import { By } from '@angular/platform-browser';
-import ImgUrlPipe from '../img-url.pipe';
+import ImgUrlPipe from '../pipes/img-url.pipe';
 
 describe('DragonBox component', () => {
     beforeEach(async(() => {
@@ -34,7 +34,7 @@ describe('DragonBox component', () => {
 
     describe('input tests', () => {
 
-        describe('- displayed values', () => {
+        describe('displayed values', () => {
 
             it(`should display dragon name in div.name`, () => {
                 var name = this.element.query(By.css('.name')).nativeElement;
@@ -48,7 +48,7 @@ describe('DragonBox component', () => {
 
         });
 
-        describe('- image sources', () => {
+        describe('image sources', () => {
 
             it(`should display dragon image in img.dragon`, () => {
                 var dragon = this.element.query(By.css('.dragon')).nativeElement;
