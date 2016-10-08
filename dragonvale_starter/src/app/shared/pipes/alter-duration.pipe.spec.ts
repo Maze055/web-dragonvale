@@ -3,7 +3,7 @@
 /**
  * Created by maze on 10/6/16.
  *
- * AlterDuration pipe tests file
+ * AlterDuration pipe tests file.
  */
 
 import AlterDurationPipe from './alter-duration.pipe';

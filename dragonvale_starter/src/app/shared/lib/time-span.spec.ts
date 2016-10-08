@@ -3,7 +3,7 @@
 /**
  * Created by maze on 10/7/16.
  *
- * Test file for timeSpan utility functions
+ * Test file for timeSpan utility functions.
  */
 
 import moment = require('moment');

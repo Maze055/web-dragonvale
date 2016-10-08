@@ -53,10 +53,10 @@ namespace timeSpan {
             return time;
 
         /*
-         Days are present, so transforming string
-         according to moment.js specifications.
-         http://momentjs.com/docs/#/durations/creating/
-         */
+             Days are present, so transforming string
+             according to moment.js specifications.
+             http://momentjs.com/docs/#/durations/creating/
+        */
         if (daysAreDisplayed(time))
             time = time.replace(':', '.');
 

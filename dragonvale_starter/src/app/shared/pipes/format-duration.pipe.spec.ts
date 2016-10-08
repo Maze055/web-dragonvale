@@ -3,7 +3,7 @@
 /**
  * Created by maze on 10/7/16.
  *
- * FormatDuration pipe tests file
+ * FormatDuration pipe tests file.
  */
 
 import moment = require('moment');

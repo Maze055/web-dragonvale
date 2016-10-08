@@ -42,7 +42,7 @@ export default class ImgUrlPipe implements PipeTransform {
      * @param [date=moment()] The date whose season will be returned.
      * @return Capitalized english season name of the provided date.
      *
-     * @see {@link http://momentjs.com/docs moment.js documentation}
+     * @see {@link http://momentjs.com/docs moment.js documentation}.
      */
     private static getSeason(date?: moment.Moment): string {
         if (!(date instanceof moment))
@@ -93,7 +93,7 @@ export default class ImgUrlPipe implements PipeTransform {
          * @param [date=moment()] The date used to get the season.
          * @return Dragonvale Wiki picture URL of Seasonal dragon in the season of the passed date.
          *
-         * @see {@link http://momentjs.com/docs moment.js documentation}
+         * @see {@link http://momentjs.com/docs moment.js documentation}.
          */
         Seasonal(date?: moment.Moment): string {
             return ImgUrlPipe.getImg(ImgUrlPipe.getSeason(date) + 'SeasonalDragonAdult.png');

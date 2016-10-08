@@ -3,7 +3,7 @@
 /**
  * Created by maze on 9/25/16.
  *
- * ImgUrl pipe tests file
+ * ImgUrl pipe tests file.
  */
 
 import ImgUrlPipe from './img-url.pipe';

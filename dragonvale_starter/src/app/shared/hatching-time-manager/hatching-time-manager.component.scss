@@ -1,0 +1,24 @@
+/***************************************
+
+CSS styles for timeTweakBox AngularJS component
+
+***************************************/
+
+@import 'common';
+
+.hatching-time-manager {
+  @extend .flex-row;
+  @extend .flex-single;
+  @extend .flex-center-main;
+  @extend .flex-center-cross;
+
+  display: inline-flex;
+
+  > * {
+    margin: auto 0.25em;
+  }
+
+  label {
+    max-width: 12em;
+  }
+}
