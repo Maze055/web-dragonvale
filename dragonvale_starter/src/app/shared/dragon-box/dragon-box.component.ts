@@ -11,6 +11,7 @@
  */
 
 import { Component, Input, Output, EventEmitter } from '@angular/core';
+import AlterDurationPipe from '../pipes/alter-duration.pipe';
 import Dragon from '../models/dragon';
 
 @Component({
@@ -23,11 +24,20 @@ export default class DragonBoxComponent {
     /** The data of the dragon that will be rendered. */
     @Input() private dragon: Dragon;
 
-    /**
-     * Emits the dragon id when the user
-     * interacts with the component template.
-     */
+    /** Whether display days in hatching time. */
+    @Input() private putDays: boolean;
+
+    /** Whether hatching time should be reduced. */
+    @Input() private reduce: boolean;
+
+    /** Used to emit dragon id. */
     @Output() private interact = new EventEmitter<number>();
+
+    /**
+     * Redeclaring AlterDurationPipe.Transformation
+     * to be visible from the template.
+     */
+    private readonly Action = AlterDurationPipe.Transformation;
 
     /**
      * Bound to click event in the template,

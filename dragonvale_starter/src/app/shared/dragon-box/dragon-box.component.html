@@ -2,6 +2,7 @@
   <img class="dragon" [src]="dragon.name | imgUrl : 'dragon'" />
   <img class="egg" [src]="dragon.name | imgUrl : 'egg'" />
   <div class="name">{{ dragon.name }}</div>
-  <div class="hatching-time">{{ dragon.time }}</div>
+  <div class="hatching-time">{{ dragon.time | hatchingTime : ( reduced ? Action.REDUCE
+            : Action.NONE ) : putDays }}</div>
   <img class="elem" *ngFor="let elem of dragon.elems" [src]="elem | imgUrl : 'elemFlag'" />
 </div>
