@@ -1,0 +1,28 @@
+/***************************************
+
+CSS styles for BreedingHint AngularJS component
+
+***************************************/
+
+@import 'common';
+@import 'box';
+
+.breeding-hint {
+  @extend .flex-row;
+  @extend .flex-single;
+  @extend .flex-center-main;
+  @extend .flex-center-cross;
+
+  /* = and + signs spans */
+  span:not(.note) {
+    @extend .bold;
+    @extend .text-center-v;
+
+    font-size: 500%;
+  }
+
+  .note {
+    @extend .box;
+    @extend .text-center;
+  }
+}

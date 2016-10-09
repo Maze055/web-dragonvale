@@ -1,0 +1,30 @@
+<header>
+    <h1>Breeding Hints</h1>
+</header>
+
+<main class="breeding-hints">
+    <form class="input">
+        <label for="name">Nome:</label>
+        <ng-select id="name"
+                   [options]="names"
+                   [placeholder]="Seleziona un drago"
+                   (selected)="addHint($event.value)"
+        ></ng-select>
+        <hatching-time-manager (reduced)="setReduced($event)"
+                               (putDays)="setPutDays($event)"
+        ></hatching-time-manager>
+    </form>
+
+    <ul>
+        <!-- Page load -->
+        <li *ngIf="!hints.length">Nessun drago selezionato</li>
+
+        <li *ngFor="let hint of hints">
+            <breeding-hint [hint]="hint"
+                           [reduced]="reduced"
+                           [putDays]="putDays"
+                           (dragonSelected)="addHint($event)"
+            ></breeding-hint>
+        </li>
+    </ul>
+</main>

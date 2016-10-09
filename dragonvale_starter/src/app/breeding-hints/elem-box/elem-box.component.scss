@@ -1,0 +1,21 @@
+/***************************************
+
+CSS styles for elemBox AngularJS component
+
+***************************************/
+
+@import 'box';
+@import 'common';
+
+.elem-box {
+  @extend .box;
+  @extend .text-center;
+
+  /* Elem flag image */
+  img {
+    @extend .new-line;
+    @extend .pull-center-h;
+
+    height: 6.7ex;
+  }
+}
