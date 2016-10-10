@@ -1,5 +1,9 @@
 /**
  * Created by maze on 10/9/16.
+ *
+ * This interfaces holds all the data
+ * necessary to display any breeding hint
+ * for a dragon and the dragon itself.
  */
 
 import Dragon from '../../shared/models/dragon';
