@@ -28,7 +28,7 @@ export default class DragonBoxComponent {
     @Input() private putDays: boolean;
 
     /** Whether hatching time should be reduced. */
-    @Input() private reduce: boolean;
+    @Input() private reduced: boolean;
 
     /** Used to emit dragon id. */
     @Output() private interact = new EventEmitter<number>();

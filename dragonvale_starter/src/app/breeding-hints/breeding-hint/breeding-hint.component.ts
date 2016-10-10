@@ -7,7 +7,7 @@ import BreedingHint from '../models/breeding-hint';
 
 @Component({
     selector: 'breeding-hint',
-    templateUrl: './breeding-hint.commponent.html',
+    templateUrl: './breeding-hint.component.html',
     styleUrls: ['./breeding-hint.component.scss']
 })
 export default class BreedingHintComponent implements OnInit {

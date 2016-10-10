@@ -26,7 +26,7 @@
 
     <!-- Breed Elems -->
     <template ngFor let-elem [ngForOf]="hint.breedElems"
-              [let-last]="last">
+              let-last="last">
 
         <elem-box [elem]="elem"></elem-box>
         <span *ngIf="!last || hint.notes">+</span>
@@ -39,7 +39,7 @@
     <!-- Basic breeding rule -->
     <template *ngIf="isBasicBreedingRule"
               ngFor let-elem [ngForOf]="hint.elems"
-              [let-last]="last">
+              let-last="last">
 
         <elem-box [elem]="elem"></elem-box>
         <span *ngIf="!last">+</span>
