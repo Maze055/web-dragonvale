@@ -33,7 +33,8 @@ import ImgUrlPipe from './pipes/img-url.pipe';
     exports: [
         DragonBoxComponent,
         HatchingTimeManagerComponent,
-        ImgUrlPipe
+        ImgUrlPipe,
+        HatchingTimePipe
     ]
 })
 export default class SharedModule { }

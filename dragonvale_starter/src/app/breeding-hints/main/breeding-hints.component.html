@@ -10,8 +10,8 @@
                    [placeholder]="Seleziona un drago"
                    (selected)="addHint($event.value)"
         ></ng-select>
-        <hatching-time-manager (reduced)="setReduced($event)"
-                               (putDays)="setPutDays($event)"
+        <hatching-time-manager (reduced)="reduced = $event"
+                               (putDays)="putDays = $event"
         ></hatching-time-manager>
     </form>
 

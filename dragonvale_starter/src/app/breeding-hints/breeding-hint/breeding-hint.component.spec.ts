@@ -60,16 +60,103 @@ describe('BreedingHint component', () => {
             this.fixture.detectChanges();
 
             // The dragon object of the hint and both parents
-            expect(this.element.queryAll(By.css('.dragon-box')).length).toEqual(3);
+            var dragons = this.element.queryAll(By.css('.dragon-box'));
+            expect(dragons.length).toBe(3);
 
-            expect(this.element.query(By.css('.elem-box'))).toBeFalsy();
-            expect(this.element.query(By.css('.notes'))).toBeFalsy();
+            var elems = this.element.query(By.css('.elem-box'));
+            expect(elems).toBeFalsy();
+            var notes = this.element.query(By.css('.notes'));
+            expect(notes).toBeFalsy();
+        });
+
+        it('should display parent1 and breed elements only', () => {
+            this.comp.hint = this.parent1Elems;
+            this.fixture.detectChanges();
+
+            // The dragon object of the hint and parent1
+            var dragons = this.element.queryAll(By.css('.dragon-box'));
+            expect(dragons.length).toBe(2);
+            var elems = this.element.queryAll(By.css('.elem-box'));
+            expect(elems.length).toEqual(this.breedElems.length);
+
+            var notes = this.element.query(By.css('.notes'));
+            expect(notes).toBeFalsy();
+        });
+
+        it('should display parent1 and notes only', () => {
+            this.comp.hint = this.parent1Notes;
+            this.fixture.detectChanges();
+
+            // The dragon object of the hint and parent1
+            var dragons = this.element.queryAll(By.css('.dragon-box'));
+            expect(dragons.length).toBe(2);
+            var notes = this.element.query(By.css('.notes'));
+            expect(notes).toBeTruthy();
+
+            var elems = this.element.query(By.css('.elem-box'));
+            expect(elems).toBeFalsy();
+        });
+
+        it('should display breed elements only', () => {
+            this.comp.hint = this.breedElemsHint;
+            this.fixture.detectChanges();
+
+            var elems = this.element.queryAll(By.css('.elem-box'));
+            expect(elems.length).toEqual(this.breedElems.length);
+
+            // The dragon object of the hint
+            var dragons = this.element.queryAll(By.css('.dragon-box'));
+            expect(dragons.length).toBe(1);
+            var notes = this.element.query(By.css('.notes'));
+            expect(notes).toBeFalsy();
+        });
+
+        it('should display breed elements and notes only', () => {
+            this.comp.hint = this.breedElemsNotes;
+            this.fixture.detectChanges();
+
+            var elems = this.element.queryAll(By.css('.elem-box'));
+            expect(elems.length).toEqual(this.breedElems.length);
+            var notes = this.element.query(By.css('.notes'));
+            expect(notes).toBeTruthy();
+
+            // The dragon object of the hint
+            var dragons = this.element.queryAll(By.css('.dragon-box'));
+            expect(dragons.length).toBe(1);
+        });
+
+        it('should display notes only', () => {
+            this.comp.hint = this.notesHint;
+            this.fixture.detectChanges();
+
+            var notes = this.element.query(By.css('.notes'));
+            expect(notes).toBeTruthy();
+
+            // The dragon object of the hint
+            var dragons = this.element.queryAll(By.css('.dragon-box'));
+            expect(dragons.length).toBe(1);
+            var elems = this.element.query(By.css('.elem-box'));
+            expect(elems).toBeFalsy();
+        });
+
+        it('should be the default hint', () => {
+            this.comp.hint = this.defaultHint;
+            this.fixture.detectChanges();
+
+            // The dragon object of the hint
+            var dragons = this.element.queryAll(By.css('.dragon-box'));
+            expect(dragons.length).toBe(1);
+            var elems = this.element.queryAll(By.css('.elem-box'));
+            expect(elems.length).toEqual(this.defaultHint.elems.length);
+
+            var notes = this.element.query(By.css('.notes'));
+            expect(notes).toBeFalsy();
         });
     });
 
     describe('Output test', () => {
         it('should emit parents id when they are clicked', () => {
-            var emittedId: number;
+            var emittedId: number = null;
             this.comp.dragonSelected.subscribe((id: number) => {
                 emittedId = id;
             });
