@@ -407,7 +407,12 @@ INSERT INTO `dragons` (`id`, `en`, `time`, `elem1`, `elem2`, `elem3`, `elem4`, `
 (306, 'Conch', '06:00:00', 8, 6, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 (307, 'Trench', '07:30:00', 6, 10, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 (308, 'Lagoon', '12:00:00', 6, 9, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(309, 'Wyrmwood', '18:00:00', 3, 1, 2, 4, NULL, NULL, NULL, NULL, NULL, NULL);
+(309, 'Wyrmwood', '18:00:00', 3, 1, 2, 4, NULL, NULL, NULL, NULL, NULL, NULL),
+(310, 'Portent', '50:00:00', 19, NULL, NULL, NULL, 175, 99, NULL, NULL, NULL, NULL),
+(311, 'Bog', '24:00:00', 6, 1, 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(312, 'Garden', '12:00:00', 1, 3, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(313, 'Decay', '24:00:00', 2, 3, 4, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(314, 'Thicket', '15:00:00', 3, 1, 4, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -498,7 +503,7 @@ ALTER TABLE `coins`
 -- AUTO_INCREMENT for table `dragons`
 --
 ALTER TABLE `dragons`
-  MODIFY `id` smallint(5) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=310;
+  MODIFY `id` smallint(5) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=315;
 --
 -- AUTO_INCREMENT for table `elements`
 --
