@@ -37,7 +37,8 @@ describe('HatchingTimeManager component', () => {
         });
 
         expect(checkbox.nativeElement.checked).toBe(false);
-        checkbox.triggerEventHandler('click', null);
+        checkbox.nativeElement.checked = true;
+        checkbox.triggerEventHandler('change', null);
     });
 
     it('should emit putDays event when the checkbox status changes', () => {
@@ -47,7 +48,7 @@ describe('HatchingTimeManager component', () => {
         });
 
         expect(checkbox.nativeElement.checked).toBe(false);
-        checkbox.triggerEventHandler('click', null);
-
+        checkbox.nativeElement.checked = true;
+        checkbox.triggerEventHandler('change', null);
     });
 });

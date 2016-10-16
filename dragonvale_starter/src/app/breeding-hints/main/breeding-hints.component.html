@@ -7,7 +7,7 @@
         <label for="name">Nome:</label>
         <ng-select id="name"
                    [options]="names"
-                   [placeholder]="Seleziona un drago"
+                   [placeholder]="'Seleziona un drago'"
                    (selected)="addHint($event.value)"
         ></ng-select>
         <hatching-time-manager (reduced)="reduced = $event"

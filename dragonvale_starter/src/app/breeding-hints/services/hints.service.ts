@@ -3,7 +3,9 @@
  */
 
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
+import { Http, Response } from '@angular/http';
+import { Observable } from 'rxjs';
+import BreedingHint from '../models/breeding-hint';
 
 @Injectable()
 export default class HintsService {
@@ -11,8 +13,8 @@ export default class HintsService {
     public constructor(
             private http: Http) { }
 
-    public getHint(id: number) {
-        this.http.get(`breeding-hint/${ id }`);
+    public getHint(id: number): Observable<BreedingHint> {
+        return this.http.get(`breeding-hint/${ id }`)
+            .map((res: Response) => { return res.json(); });
     }
-
 }

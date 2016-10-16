@@ -12,16 +12,20 @@ import AlterDurationPipe from './pipes/alter-duration.pipe';
 import FormatDurationPipe from './pipes/format-duration.pipe';
 import HatchingTimePipe from './pipes/hatching-time.pipe';
 import ImgUrlPipe from './pipes/img-url.pipe';
+import SimpleDataService from './services/simple-data.service';
 
 @NgModule({
     declarations: [
         DragonBoxComponent,
         HatchingTimeManagerComponent,
+
         HatchingTimePipe,
         ImgUrlPipe
     ],
 
     providers: [
+        SimpleDataService,
+
         AlterDurationPipe,
         FormatDurationPipe
     ],
@@ -31,8 +35,11 @@ import ImgUrlPipe from './pipes/img-url.pipe';
     ],
 
     exports: [
+        CommonModule,
+
         DragonBoxComponent,
         HatchingTimeManagerComponent,
+
         ImgUrlPipe,
         HatchingTimePipe
     ]
