@@ -1,7 +1,0 @@
-<div class="dragon-box" (click)="onClick()">
-  <img class="dragon" [src]="dragon.name | imgUrl : 'dragon'" />
-  <img class="egg" [src]="dragon.name | imgUrl : 'egg'" />
-  <div class="name">{{ dragon.name }}</div>
-  <div class="hatching-time">{{ dragon.time }}</div>
-  <img class="elem" *ngFor="let elem of dragon.elems" [src]="elem | imgUrl : 'elemFlag'" />
-</div>

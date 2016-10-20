@@ -2,6 +2,7 @@
  * Created by maze on 10/9/16.
  */
 
+import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import BreedingHint from '../models/breeding-hint';
 import HintsService from '../services/hints.service';
@@ -17,16 +18,22 @@ type NgSelectOption = {value: number, text: string};
 export default class BreedingHintsComponent implements OnInit {
     private reduced: boolean;
     private putDays: boolean;
+    private title: string;
 
     public names: NgSelectOption[];
 
     public hints: BreedingHint[] = [];
 
     public constructor(
+            private route: ActivatedRoute,
             private hintsSource: HintsService,
             private data: SimpleDataService) { }
 
     public ngOnInit(): void {
+        this.route.data.subscribe((data: {title: string}) => {
+            this.title = data.title;
+        });
+
         this.data.getNames().subscribe((names: string[]) => {
             this.names = names.map((name: string, id: number) => {
                 return {value: id, text: name};

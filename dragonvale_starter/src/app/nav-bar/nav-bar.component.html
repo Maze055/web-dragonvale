@@ -1,0 +1,9 @@
+<nav>
+    <ul>
+        <li *ngFor="let route of routes">
+            <a [routerLink]="route.path" routerLinkActive="active-breadcrumb">
+                {{ route.data.title }}
+            </a>
+        </li>
+    </ul>
+</nav>

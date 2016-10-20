@@ -1,36 +1,39 @@
 <!DOCTYPE html>
+
 <html lang="">
+
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <meta name="application-name" content="DragonVale utility site" />
+    <meta name="author" content="Davide Laezza" />
+    <meta name="creator" content="Davide Laezza" />
+    <meta name="description" content="<%= webpackConfig.metadata.title %>" />
+    <meta name="generator" content="Angular 2" />
+    <meta name="keywords" content="dragonvale,utility,breeding hint,database" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title><%= webpackConfig.metadata.title %></title>
+    <base href="<%= webpackConfig.metadata.baseUrl %>">
 
-  <meta name="description" content="<%= webpackConfig.metadata.title %>">
+    <title><%= webpackConfig.metadata.title %></title>
 
-  <% if (webpackConfig.htmlElements.headTags) { %>
-  <!-- Configured Head Tags  -->
-  <%= webpackConfig.htmlElements.headTags %>
-  <% } %>
 
-  <!-- base url -->
-  <base href="<%= webpackConfig.metadata.baseUrl %>">
-
+    <% if (webpackConfig.htmlElements.headTags) { %>
+        <!-- Configured Head Tags  -->
+        <%= webpackConfig.htmlElements.headTags %>
+    <% } %>
 
 </head>
 
 <body>
 
-  <app-component>
-    Loading...
-  </app-component>
+  <app-component>Loading...</app-component>
 
   <% if (webpackConfig.metadata.isDevServer && webpackConfig.metadata.HMR !== true) { %>
-  <!-- Webpack Dev Server reload -->
-  <script src="/webpack-dev-server.js"></script>
+      <!-- Webpack Dev Server reload -->
+      <script src="/webpack-dev-server.js"></script>
   <% } %>
 
-
 </body>
+
 </html>
