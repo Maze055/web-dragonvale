@@ -360,10 +360,10 @@ INSERT INTO `dragons` (`id`, `en`, `time`, `elem1`, `elem2`, `elem3`, `elem4`, `
 (259, 'Regift', '12:00:00', 1, 2, 4, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 (260, 'Neoteric', '31:00:00', 9, 1, 5, 10, 67, 92, NULL, NULL, NULL, NULL),
 (261, 'Barite', '35:00:00', 23, NULL, NULL, NULL, 30, 46, NULL, NULL, NULL, NULL),
-(262, 'Serenity', '18:00:00', 25, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(263, 'Ire', '12:00:00', 25, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(264, 'Delight', '36:00:00', 25, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(265, 'Melancholy', '24:00:00', 25, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(262, 'Serenity', '18:00:00', 25, NULL, NULL, NULL, NULL, NULL, 2, 3, 4, NULL),
+(263, 'Ire', '12:00:00', 25, NULL, NULL, NULL, NULL, NULL, 1, 2, 3, NULL),
+(264, 'Delight', '36:00:00', 25, NULL, NULL, NULL, NULL, NULL, 1, 2, 4, NULL),
+(265, 'Melancholy', '24:00:00', 25, NULL, NULL, NULL, NULL, NULL, 1, 3, 4, NULL),
 (266, 'Surprise', '24:00:00', 25, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 (267, 'Okenite', '31:00:00', 23, NULL, NULL, NULL, 42, 48, NULL, NULL, NULL, NULL),
 (268, 'Double Leap Year', '29:00:00', 13, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
@@ -386,18 +386,18 @@ INSERT INTO `dragons` (`id`, `en`, `time`, `elem1`, `elem2`, `elem3`, `elem4`, `
 (285, 'Azurite', '35:00:00', 23, NULL, NULL, NULL, 22, 66, NULL, NULL, NULL, NULL),
 (286, 'Plains', '12:00:00', 3, 9, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 (287, 'Nether', '12:00:00', 2, 8, 3, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(288, 'Labradorite', '36:00:00', 23, NULL, NULL, NULL, 65, 20, NULL, NULL, NULL, NULL)
+(288, 'Labradorite', '36:00:00', 23, NULL, NULL, NULL, 65, 20, NULL, NULL, NULL, NULL),
 (289, 'Fates', '20:00:00', 16, NULL, NULL, NULL, NULL, NULL, 1, 2, 6, NULL),
 (290, 'Blazing Gale', '22:00:00', 2, 7, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 (291, 'Hidden Bolt', '22:00:00', 10, 5, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 (292, 'Icy Torrent', '22:00:00', 4, 6, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 (293, 'Iron Blossom', '22:00:00', 1, 8, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 (294, 'Mountain Sun', '22:00:00', 3, 9, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(295, 'Herald', '34:00:00', 16, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(296, 'Stygian', '34:00:00', 16, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(297, 'Squall', '34:00:00', 16, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(298, 'Valor', '34:00:00', 16, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(299, 'Thunderbolt', '34:00:00', 16, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(295, 'Herald', '34:00:00', 16, NULL, NULL, NULL, NULL, NULL, 4, 5, 9, NULL),
+(296, 'Stygian', '34:00:00', 16, NULL, NULL, NULL, NULL, NULL, 2, 8, 10, NULL),
+(297, 'Squall', '34:00:00', 16, NULL, NULL, NULL, NULL, NULL, 1, 6, 7, NULL),
+(298, 'Valor', '34:00:00', 16, NULL, NULL, NULL, NULL, NULL, 1, 7, 8, NULL),
+(299, 'Thunderbolt', '34:00:00', 16, NULL, NULL, NULL, NULL, NULL, 3, 5, 7, NULL),
 (300, 'Trimera', '19:26:40', 16, NULL, NULL, NULL, NULL, NULL, 1, 2, 7, NULL),
 (301, 'Cerberus', '33:00:00', 16, NULL, NULL, NULL, 15, 174, NULL, NULL, NULL, NULL),
 (302, 'Dawnbringer', '35:00:00', 16, NULL, NULL, NULL, NULL, NULL, 2, 7, 10, NULL),
@@ -419,7 +419,11 @@ INSERT INTO `dragons` (`id`, `en`, `time`, `elem1`, `elem2`, `elem3`, `elem4`, `
 (318, 'Smolder', '11:00:00', 2, 7, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
 (319, 'Harvest Moon', '18:00:00', 1, 3, 6, 11, 150, 157, NULL, NULL, NULL, NULL),
 (320, 'Thistle', '03:00:00', 1, 5, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
-(321, 'Verdigris', '07:30:00', 7, 8, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL);
+(321, 'Verdigris', '07:30:00', 7, 8, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(322, 'Twinkle', '55:00:00', 24, NULL, NULL, NULL, 202, NULL, 7, NULL, NULL, NULL),
+(323, 'Trinket', '12:00:00', 1, 2, 4, NULL, NULL, NULL, NULL, NULL, NULL, NULL),
+(324, 'Snowpocalypse', '20:00:00', 18, NULL, NULL, NULL, 202, 194, NULL, NULL, NULL, NULL),
+(325, 'Epoch', '31:00:00', 3, 1, 5, 4, 117, 129, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -510,7 +514,7 @@ ALTER TABLE `coins`
 -- AUTO_INCREMENT for table `dragons`
 --
 ALTER TABLE `dragons`
-  MODIFY `id` smallint(5) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=322;
+  MODIFY `id` smallint(5) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=326;
 --
 -- AUTO_INCREMENT for table `elements`
 --

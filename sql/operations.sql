@@ -312,8 +312,8 @@ begin
 				replace((select n.it from breedingHintsNotes n where n.id = 'SNMO'),
 					'$ELEM', e1.en)
 
-			when -- Still unknown: Ornamental, Aura, Arcane Pentournament, Whitsbee Candy Bash 3 exclusives
-				d.elem1 in (24, 25) or d.id between 290 and 299 or d.id between 311 and 314
+			when -- Still unknown
+				(d.elem1 = 24 and d.id <> 322) or (d.id between 336 and 344)
 			then
 				(select n.it from breedingHintsNotes n where n.id = 'UNKN')
 
