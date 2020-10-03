@@ -1,5 +1,8 @@
 # web-dragonvale
 
+:skull::skull::skull: ***This repository is archived :sob: I'm neither maintaining it, nor playing DragonVale anymore*** :skull::skull::skull:
+
+
 This repository hosts my tiny dragonvale utility home website.
 
 # License
